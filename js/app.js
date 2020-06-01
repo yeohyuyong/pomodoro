@@ -152,6 +152,7 @@ saveButton.addEventListener('click',function(){
     longBreakTabDisplay();
     contentDisplay();
   }
+  progressBar.setAttribute("style", "width: 0%");
 });
 
 // Make tabs active when clicked
