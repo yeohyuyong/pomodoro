@@ -1,3 +1,3 @@
 # Pomodoro Timer
 - Minimalist Pomodoro Timer
-- Timer at http://yeohyuyong.me/pomodoro/
+- Timer at https://pomodorotimers.com
