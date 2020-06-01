@@ -1,0 +1,17 @@
+#timeLeft{
+  font-weight: bold;
+  font-size: 7rem;
+}
+
+.btn-group-lg>.btn, .btn-lg{
+  padding: 1rem 2rem;
+}
+
+#brandName{
+  font-size: 2rem;
+}
+
+#settingsText{
+  font-size: 4rem;
+  font-weight: bold;
+}
