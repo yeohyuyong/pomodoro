@@ -105,6 +105,7 @@ var allPossibleModes = {
 
 function resetTimer(){
   clearInterval(updateSeconds);
+  timerRunning = false;
   //If user entered some input
   if(allPossibleModes[currentTab].input.value){
     //Then use the input the user enters
@@ -121,9 +122,16 @@ function resetTimer(){
 
 function stopTimer(){
   clearInterval(updateSeconds);
+  timerRunning = false;
 }
 //Buttons
-startButton.addEventListener('click',countDown);
+var timerRunning = false;
+startButton.addEventListener('click',function(){
+  if (timerRunning===false){
+    timerRunning = true;
+    countDown();
+  }
+});
 resetButton.addEventListener('click',resetTimer);
 stopButton.addEventListener('click',stopTimer)
 saveButton.addEventListener('click',function(){
