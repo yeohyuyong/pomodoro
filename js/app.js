@@ -25,7 +25,7 @@ var shortBreakInput = document.getElementById("shortBreakInput");
 var longBreakInput = document.getElementById("longBreakInput");
 
 var timerCompleteAlert = document.getElementById('timerCompleteAlert');
-
+var progressBar = document.getElementById("progressBar");
 var currentTab = "pomodoro";
 
 //All Sounds
@@ -81,6 +81,7 @@ function countDown(){
       clearInterval(updateSeconds);
       allPossibleModes[currentTab].sound.play();
     }
+
   },1000);
 }
 
