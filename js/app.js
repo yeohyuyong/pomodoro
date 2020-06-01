@@ -73,6 +73,8 @@ function countDown(){
     if(timeLeft>=1){
       timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
       document.title = " (" +secondsToMinutes(timeLeft) + ") Pomodoro Timer";
+      progressDisplay();
+      progressBar.setAttribute("style", "width: " + percentageComplete.toString() + "%");
     }
     else{
       timeLeft=0;
@@ -80,6 +82,7 @@ function countDown(){
       document.title = " (" +secondsToMinutes(timeLeft) + ") Pomodoro Timer";
       clearInterval(updateSeconds);
       allPossibleModes[currentTab].sound.play();
+      progressBar.setAttribute("style", "width: 100%");
     }
 
   },1000);
@@ -106,6 +109,7 @@ var allPossibleModes = {
 
 function resetTimer(){
   clearInterval(updateSeconds);
+  progressBar.setAttribute("style", "width: 0%");
   timerRunning = false;
   //If user entered some input
   if(allPossibleModes[currentTab].input.value){
@@ -179,6 +183,16 @@ function contentDisplay(){
   }
   timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
 }
+
+var percentageComplete;
+function progressDisplay(){
+  //Get total time in seconds
+  var totalMinutes = allPossibleModes[currentTab].input.value*60;
+  //Find percetage complete
+  percentageComplete = (totalMinutes-timeLeft)/totalMinutes * 100;
+}
+
+
 //Minutes and Seconds converter
 function secondsToMinutes(s){
   var minutes = Math.floor(s/60);
