@@ -20,3 +20,13 @@ html, body {
   font-size: 4rem;
   font-weight: bold;
 }
+
+#heartIcon{
+  color: #dc3545;
+}
+#codeIcon{
+  color: #ffc107;
+}
+#websiteLink{
+  color: #007bff;
+}
