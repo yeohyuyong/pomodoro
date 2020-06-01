@@ -89,12 +89,9 @@ var allPossibleModes = {
   }
 };
 
-function sayHello(){
-  console.log("hello");
-}
-
 function resetTimer(){
   clearInterval(updateSeconds);
+  //If user entered some input
   if(allPossibleModes[currentTab].input.value){
     //Then use the input the user enters
     timeLeft = minutesToSeconds(allPossibleModes[currentTab].input.value);
@@ -110,7 +107,6 @@ function resetTimer(){
 
 function stopTimer(){
   clearInterval(updateSeconds);
-  timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
 }
 //Buttons
 startButton.addEventListener('click',countDown);
@@ -172,12 +168,4 @@ function secondsToMinutes(s){
 function minutesToSeconds(m){
   var seconds = m*60;
   return seconds;
-}
-
-var person = {
-  firstName:"John",
-  lastName: "Doe",
-  fullName: function () {
-    return this.firstName + " " + this.lastName;
-  }
 }
