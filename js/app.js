@@ -194,3 +194,5 @@ function minutesToSeconds(m){
   var seconds = m*60;
   return seconds;
 }
+
+localStorage.setItem("lunch","eegs");
