@@ -4,7 +4,6 @@ var shortBreak = document.getElementById('shortBreak');
 var longBreak = document.getElementById('longBreak');
 var settings = document.getElementById('settings');
 
-
 //Buttons
 var startButton = document.getElementById('startButton');
 var resetButton = document.getElementById('resetButton');
@@ -28,9 +27,20 @@ var timerCompleteAlert = document.getElementById('timerCompleteAlert');
 
 var currentTab = "pomodoro";
 
-var alertSound = new Howl({
+//All Sounds
+var alertPomodoro = new Howl({
   src: ['assets/sounds/alert-work.mp3']
 });
+
+var alertShortBreak = new Howl({
+  src: ['assets/sounds/alert-short-break.mp3']
+});
+
+var alertLongBreak = new Howl({
+  src: ['assets/sounds/alert-long-break.mp3']
+});
+
+
 
 pomodoros.addEventListener("click",function(){
   currentTab = "pomodoro";
@@ -68,7 +78,7 @@ function countDown(){
       timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
       document.title = " (" +secondsToMinutes(timeLeft) + ") Pomodoro Timer";
       clearInterval(updateSeconds);
-      alertSound.play();
+      allPossibleModes[currentTab].sound.play();
     }
   },1000);
 }
@@ -77,15 +87,18 @@ var allPossibleModes = {
   "pomodoro": {
     input: pomodoroInput,
     defaultTime: 25,
+    sound: alertPomodoro
   },
 
   "long break": {
     input: longBreakInput,
     defaultTime: 20,
+    sound: alertLongBreak
   },
   "short break": {
     input: shortBreakInput,
     defaultTime: 5,
+    sound: alertShortBreak
   }
 };
 
