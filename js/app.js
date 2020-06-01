@@ -1,3 +1,4 @@
+
 //Tabs
 var pomodoros = document.getElementById('pomodoros');
 var shortBreak = document.getElementById('shortBreak');
