@@ -185,6 +185,9 @@ function secondsToMinutes(s){
   if (seconds.toString().length===1){
     seconds = "0" + seconds.toString();
   }
+  if (minutes.toString().length===1){
+    minutes = "0" + minutes.toString();
+  }
   return minutes + ":" + seconds.toString();
 }
 function minutesToSeconds(m){
