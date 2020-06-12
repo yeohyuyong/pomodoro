@@ -48,6 +48,9 @@ pomodoros.addEventListener("click",function(){
   pomodoroTabDisplay();
   contentDisplay();
   resetTimer();
+  startButton.classList.remove("active");
+  stopButton.classList.remove("active");
+  resetButton.classList.remove("active");
 });
 
 shortBreak.addEventListener("click",function(){
@@ -55,6 +58,9 @@ shortBreak.addEventListener("click",function(){
   shortBreakTabDisplay();
   contentDisplay();
   resetTimer();
+  startButton.classList.remove("active");
+  stopButton.classList.remove("active");
+  resetButton.classList.remove("active");
 });
 
 longBreak.addEventListener("click",function(){
@@ -62,6 +68,9 @@ longBreak.addEventListener("click",function(){
   longBreakTabDisplay();
   contentDisplay();
   resetTimer();
+  startButton.classList.remove("active");
+  stopButton.classList.remove("active");
+  resetButton.classList.remove("active");
 });
 
 
@@ -123,11 +132,17 @@ function resetTimer(){
   //Display input
   timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
   document.title = " (" +secondsToMinutes(timeLeft) + ") Pomodoro Timer";
+  startButton.classList.remove("active");
+  stopButton.classList.remove("active");
+  resetButton.classList.add("active");
 }
 
 function stopTimer(){
   clearInterval(updateSeconds);
   timerRunning = false;
+  startButton.classList.remove("active");
+  stopButton.classList.add("active");
+  resetButton.classList.remove("active");
 }
 //Buttons
 var timerRunning = false;
@@ -135,6 +150,9 @@ startButton.addEventListener('click',function(){
   if (timerRunning===false){
     timerRunning = true;
     countDown();
+    startButton.classList.add("active");
+    stopButton.classList.remove("active");
+    resetButton.classList.remove("active");
   }
 });
 resetButton.addEventListener('click',resetTimer);
