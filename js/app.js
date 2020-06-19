@@ -30,6 +30,7 @@ var notificationTextInput = document.getElementById("notificationTextInput");
 var timerCompleteAlert = document.getElementById('timerCompleteAlert');
 var progressBar = document.getElementById("progressBar");
 var notificationTime;
+var titleDisplayText;
 var currentTab;
 var allPossibleModes = {
   "pomodoro": {
@@ -111,7 +112,8 @@ function countDown(){
     timeLeft-=1;
     if(timeLeft>=1){
       timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
-      document.title = " (" +secondsToMinutes(timeLeft) + ") Pomodoro Timer";
+      titleTimeDisplay();
+      document.title = secondsToMinutes(timeLeft) + " - " + titleDisplayText;
       progressDisplay();
       progressBar.setAttribute("style", "width: " + percentageComplete.toString() + "%");
       playTickSound();
@@ -120,7 +122,8 @@ function countDown(){
     else{
       timeLeft=0;
       timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
-      document.title = " (" +secondsToMinutes(timeLeft) + ") Pomodoro Timer";
+      titleTimeDisplay();
+      document.title = secondsToMinutes(timeLeft) + " - " + titleDisplayText;
       clearInterval(updateSeconds);
       allPossibleModes[currentTab].sound.play();
       progressBar.setAttribute("style", "width: 100%");
@@ -230,6 +233,15 @@ function contentDisplay(){
     timeLeft = minutesToSeconds(allPossibleModes[currentTab].defaultTime);
   }
   timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
+}
+
+function titleTimeDisplay(){
+  if (currentTab==="pomodoro"){
+    titleDisplayText = "Time to Work!";
+  }
+  else{
+    titleDisplayText = "Time for a Break";
+  }
 }
 
 function makeButtonsInactive(){
