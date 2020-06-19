@@ -7,14 +7,18 @@ html, body {
 .timerLinks{
   font-size: 1.1rem;
   font-weight: 500;
+  border-radius: 2rem;
+  /* border: 2px solid red; */
 }
 
 #saveButton{
   font-size: 1.1rem;
+  padding: 0.8rem 1.6rem;
 }
 
 #startButton, #stopButton, #resetButton, #saveButton{
   font-weight: 500;
+  border-radius: 2rem;
 }
 
 #timeLeft{
@@ -23,7 +27,7 @@ html, body {
 }
 
 .btn-group-lg>.btn, .btn-lg{
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
 }
 
 #brandName{
