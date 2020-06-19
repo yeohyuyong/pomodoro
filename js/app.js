@@ -65,6 +65,7 @@ function init(){
   pomodoroTabDisplay();
   makeButtonsInactive();
   pomodoros.style.fontSize = "1.2rem";
+  tickSoundInput.checked = true;
 }
 
 
@@ -167,14 +168,17 @@ saveButton.addEventListener('click',function(){
   if(currentTab==="pomodoro"){
     pomodoroTabDisplay();
     contentDisplay();
+    resetTimer();
   }
   else if(currentTab==="short break"){
     shortBreakTabDisplay();
     contentDisplay();
+    resetTimer();
   }
   else if(currentTab==="long break"){
     longBreakTabDisplay();
     contentDisplay();
+    resetTimer();
   }
   progressBar.setAttribute("style", "width: 0%");
 });
