@@ -68,6 +68,7 @@ pomodoros.addEventListener("click",function(){
   contentDisplay();
   resetTimer();
   makeButtonsInactive();
+  // this.style.fontSize = "1.1rem";
 
 });
 
@@ -77,6 +78,7 @@ shortBreak.addEventListener("click",function(){
   contentDisplay();
   resetTimer();
   makeButtonsInactive();
+  // this.style.fontSize = "1.1rem";
 });
 
 longBreak.addEventListener("click",function(){
@@ -85,6 +87,7 @@ longBreak.addEventListener("click",function(){
   contentDisplay();
   resetTimer();
   makeButtonsInactive();
+  // this.style.fontSize = "1.1rem";
 });
 
 

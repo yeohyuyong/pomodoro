@@ -4,9 +4,10 @@ html, body {
 
 }
 
-/* #jumbotronDisplay{
-  opacity: 0.5;
-} */
+.timerLinks{
+  font-size: 1.1rem;
+}
+
 #timeLeft{
   font-weight: bold;
   font-size: 7rem;
