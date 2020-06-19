@@ -13,7 +13,7 @@ html, body {
   font-size: 1.1rem;
 }
 
-#startButton, #stopButton, #resetButton{
+#startButton, #stopButton, #resetButton, #saveButton{
   font-weight: 500;
 }
 
