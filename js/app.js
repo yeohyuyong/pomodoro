@@ -32,42 +32,46 @@ var allPossibleModes = {
   "pomodoro": {
     input: pomodoroInput,
     defaultTime: 25,
-    sound: alertPomodoro
+    sound: new Howl({
+      src: ['assets/sounds/alert-work.mp3']
+    })
   },
 
   "long break": {
     input: longBreakInput,
     defaultTime: 20,
-    sound: alertLongBreak
+    sound: new Howl({
+      src: ['assets/sounds/alert-long-break.mp3']
+    })
   },
   "short break": {
     input: shortBreakInput,
     defaultTime: 5,
-    sound: alertShortBreak
+    sound: new Howl({
+      src: ['assets/sounds/alert-short-break.mp3']
+    })
   }
 };
 
-//All Sounds
-var alertPomodoro = new Howl({
-  src: ['assets/sounds/alert-work.mp3']
-});
+// //All Sounds
+// var alertPomodoro = new Howl({
+//   src: ['assets/sounds/alert-work.mp3']
+// });
+//
+// var alertShortBreak = new Howl({
+//   src: ['assets/sounds/alert-short-break.mp3']
+// });
+//
+// var alertLongBreak = new Howl({
+//   src: ['assets/sounds/alert-long-break.mp3']
+// });
 
-var alertShortBreak = new Howl({
-  src: ['assets/sounds/alert-short-break.mp3']
-});
 
-var alertLongBreak = new Howl({
-  src: ['assets/sounds/alert-long-break.mp3']
-});
+currentTab = "pomodoro";
+pomodoroTabDisplay();
+makeButtonsInactive();
+pomodoros.style.fontSize = "1.2rem";
 
-init()
-
-function init(){
-  currentTab = "pomodoro";
-  pomodoroTabDisplay();
-  makeButtonsInactive();
-  pomodoros.style.fontSize = "1.2rem";
-}
 pomodoros.addEventListener("click",function(){
   currentTab = "pomodoro";
   pomodoroTabDisplay();
