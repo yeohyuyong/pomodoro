@@ -71,7 +71,7 @@ function init(){
   currentTab = "pomodoro";
   pomodoroTabDisplay();
   makeButtonsInactive();
-  pomodoros.style.fontSize = "1.2rem";
+  pomodoros.style.fontSize = "1.15rem";
   tickSoundInput.checked = true;
 }
 
