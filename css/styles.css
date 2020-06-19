@@ -12,6 +12,11 @@ html, body {
 #saveButton{
   font-size: 1.1rem;
 }
+
+#startButton, #stopButton, #resetButton{
+  font-weight: 500;
+}
+
 #timeLeft{
   font-weight: bold;
   font-size: 7rem;

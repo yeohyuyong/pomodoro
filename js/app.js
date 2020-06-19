@@ -172,7 +172,7 @@ startButton.addEventListener('click',function(){
   }
 });
 resetButton.addEventListener('click',resetTimer);
-stopButton.addEventListener('click',stopTimer)
+stopButton.addEventListener('click',stopTimer);
 saveButton.addEventListener('click',function(){
   if(currentTab==="pomodoro"){
     pomodoroTabDisplay();
