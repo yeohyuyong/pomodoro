@@ -192,6 +192,10 @@ saveButton.addEventListener('click',function(){
   progressBar.setAttribute("style", "width: 0%");
 });
 
+
+
+
+
 function pomodoroTabDisplay(){
   // Make tabs active
   pomodoros.classList.add("active");
@@ -279,7 +283,6 @@ function progressDisplay(){
   //Find percetage complete
   percentageComplete = (totalMinutes-timeLeft)/totalMinutes * 100;
 }
-
 
 //Minutes and Seconds converter
 function secondsToMinutes(s){
