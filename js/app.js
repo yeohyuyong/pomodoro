@@ -26,7 +26,7 @@ var longBreakInput = document.getElementById("longBreakInput");
 
 var timerCompleteAlert = document.getElementById('timerCompleteAlert');
 var progressBar = document.getElementById("progressBar");
-var currentTab = "pomodoro";
+
 
 var allPossibleModes = {
   "pomodoro": {
@@ -60,8 +60,13 @@ var alertLongBreak = new Howl({
   src: ['assets/sounds/alert-long-break.mp3']
 });
 
-makeButtonsInactive();
+init();
 
+function init(){
+  var currentTab = "pomodoro";
+  makeButtonsInactive();
+  pomodoros.style.fontSize = "1.2rem";
+}
 pomodoros.addEventListener("click",function(){
   currentTab = "pomodoro";
   pomodoroTabDisplay();
@@ -174,22 +179,37 @@ saveButton.addEventListener('click',function(){
 
 // Make tabs active when clicked
 function pomodoroTabDisplay(){
+  // Make tabs active
   pomodoros.classList.add("active");
   shortBreak.classList.remove("active");
   longBreak.classList.remove("active");
-  settings.classList.remove("active");
+
+  //Make tabs text larger
+  pomodoros.style.fontSize = "1.2rem";
+  shortBreak.style.fontSize = "1.1rem";
+  longBreak.style.fontSize = "1.1rem";
 }
 function shortBreakTabDisplay(){
+  // Make tabs active
   pomodoros.classList.remove("active");
   shortBreak.classList.add("active");
   longBreak.classList.remove("active");
-  settings.classList.remove("active");
+  shortBreak.style.fontSize = "1.2rem";
+  //Make tabs text larger
+  pomodoros.style.fontSize = "1.1rem";
+  shortBreak.style.fontSize = "1.2rem";
+  longBreak.style.fontSize = "1.1rem";
 }
 function longBreakTabDisplay(){
+  // Make tabs active
   pomodoros.classList.remove("active");
   shortBreak.classList.remove("active");
   longBreak.classList.add("active");
-  settings.classList.remove("active");
+  longBreak.style.fontSize = "1.2rem";
+  //Make tabs text larger
+  pomodoros.style.fontSize = "1.1rem";
+  shortBreak.style.fontSize = "1.1rem";
+  longBreak.style.fontSize = "1.2rem";
 }
 //Content Display
 function contentDisplay(){
