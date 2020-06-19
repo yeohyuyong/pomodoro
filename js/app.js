@@ -24,10 +24,12 @@ var pomodoroInput = document.getElementById("pomodoroInput");
 var shortBreakInput = document.getElementById("shortBreakInput");
 var longBreakInput = document.getElementById("longBreakInput");
 var tickSoundInput = document.getElementById("tickSoundInput");
+var notificationSoundInput = document.getElementById("notificationSoundInput");
+var notificationTextInput = document.getElementById("notificationTextInput");
 
 var timerCompleteAlert = document.getElementById('timerCompleteAlert');
 var progressBar = document.getElementById("progressBar");
-
+var notificationTime;
 var currentTab;
 var allPossibleModes = {
   "pomodoro": {
@@ -57,6 +59,10 @@ var allPossibleModes = {
 // Ticking Sound
 tick = new Howl({
   src: ['assets/sounds/tick.mp3']
+});
+
+notification = new Howl({
+  src: ['assets/sounds/notification-bell.mp3']
 });
 
 init();
@@ -110,6 +116,7 @@ function countDown(){
       progressBar.setAttribute("style", "width: " + percentageComplete.toString() + "%");
       console.log(percentageComplete);
       playTickSound();
+      playEndingNotification();
     }
     else{
       timeLeft=0;
@@ -200,7 +207,6 @@ function shortBreakTabDisplay(){
   pomodoros.classList.remove("active");
   shortBreak.classList.add("active");
   longBreak.classList.remove("active");
-  shortBreak.style.fontSize = "1.2rem";
   //Make tabs text larger
   pomodoros.style.fontSize = "1.1rem";
   shortBreak.style.fontSize = "1.2rem";
@@ -211,7 +217,6 @@ function longBreakTabDisplay(){
   pomodoros.classList.remove("active");
   shortBreak.classList.remove("active");
   longBreak.classList.add("active");
-  longBreak.style.fontSize = "1.2rem";
   //Make tabs text larger
   pomodoros.style.fontSize = "1.1rem";
   shortBreak.style.fontSize = "1.1rem";
@@ -234,11 +239,28 @@ function makeButtonsInactive(){
   resetButton.classList.remove("active");
 }
 
+notificationSoundInput.addEventListener("change", function(){
+  if (notificationSoundInput.checked === true){
+    notificationTextInput.disabled = false;
+  }
+  if (notificationSoundInput.checked === false){
+    notificationTextInput.disabled = true;
+  }
+})
 
 function playTickSound(){
   if (tickSoundInput.checked){
     tick.play();
   }
+}
+
+function playEndingNotification(){
+  notificationTime = notificationTextInput.value;
+  if (notificationSoundInput.checked){
+      if (timeLeft === Number(minutesToSeconds(notificationTime))){
+        notification.play();
+      }
+    }
 }
 var percentageComplete;
 function progressDisplay(){
