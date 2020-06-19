@@ -27,7 +27,7 @@ var longBreakInput = document.getElementById("longBreakInput");
 var timerCompleteAlert = document.getElementById('timerCompleteAlert');
 var progressBar = document.getElementById("progressBar");
 
-
+var currentTab;
 var allPossibleModes = {
   "pomodoro": {
     input: pomodoroInput,
@@ -60,10 +60,11 @@ var alertLongBreak = new Howl({
   src: ['assets/sounds/alert-long-break.mp3']
 });
 
-init();
+init()
 
 function init(){
-  var currentTab = "pomodoro";
+  currentTab = "pomodoro";
+  pomodoroTabDisplay();
   makeButtonsInactive();
   pomodoros.style.fontSize = "1.2rem";
 }
@@ -106,6 +107,7 @@ function countDown(){
       document.title = " (" +secondsToMinutes(timeLeft) + ") Pomodoro Timer";
       progressDisplay();
       progressBar.setAttribute("style", "width: " + percentageComplete.toString() + "%");
+      console.log(percentageComplete);
     }
     else{
       timeLeft=0;
@@ -115,7 +117,6 @@ function countDown(){
       allPossibleModes[currentTab].sound.play();
       progressBar.setAttribute("style", "width: 100%");
     }
-
   },1000);
 }
 
