@@ -6,6 +6,7 @@ html, body {
 
 .timerLinks{
   font-size: 1.1rem;
+  font-weight: 500;
 }
 
 #saveButton{

@@ -192,7 +192,6 @@ saveButton.addEventListener('click',function(){
   progressBar.setAttribute("style", "width: 0%");
 });
 
-// Make tabs active when clicked
 function pomodoroTabDisplay(){
   // Make tabs active
   pomodoros.classList.add("active");
@@ -200,7 +199,7 @@ function pomodoroTabDisplay(){
   longBreak.classList.remove("active");
 
   //Make tabs text larger
-  pomodoros.style.fontSize = "1.2rem";
+  pomodoros.style.fontSize = "1.15rem";
   shortBreak.style.fontSize = "1.1rem";
   longBreak.style.fontSize = "1.1rem";
 }
@@ -211,7 +210,7 @@ function shortBreakTabDisplay(){
   longBreak.classList.remove("active");
   //Make tabs text larger
   pomodoros.style.fontSize = "1.1rem";
-  shortBreak.style.fontSize = "1.2rem";
+  shortBreak.style.fontSize = "1.15rem";
   longBreak.style.fontSize = "1.1rem";
 }
 function longBreakTabDisplay(){
@@ -222,7 +221,7 @@ function longBreakTabDisplay(){
   //Make tabs text larger
   pomodoros.style.fontSize = "1.1rem";
   shortBreak.style.fontSize = "1.1rem";
-  longBreak.style.fontSize = "1.2rem";
+  longBreak.style.fontSize = "1.15rem";
 }
 //Content Display
 function contentDisplay(){
@@ -294,6 +293,7 @@ function secondsToMinutes(s){
   }
   return minutes + ":" + seconds.toString();
 }
+
 function minutesToSeconds(m){
   var seconds = m*60;
   return seconds;
