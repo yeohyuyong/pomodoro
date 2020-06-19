@@ -66,9 +66,9 @@ notification = new Howl({
   src: ['assets/sounds/notification-bell.mp3']
 });
 
-buttonClick = new Howl({
-  src: ['assets/sounds/button-click.mp3']
-});
+// buttonClick = new Howl({
+//   src: ['assets/sounds/button-click.mp3']
+// });
 
 init();
 function init(){
