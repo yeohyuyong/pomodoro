@@ -8,6 +8,9 @@ html, body {
   font-size: 1.1rem;
 }
 
+#saveButton{
+  font-size: 1.1rem;
+}
 #timeLeft{
   font-weight: bold;
   font-size: 7rem;
