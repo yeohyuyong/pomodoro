@@ -77,6 +77,7 @@ function init(){
   makeButtonsInactive();
   pomodoros.style.fontSize = "1.15rem";
   tickSoundInput.checked = true;
+  resetButtonSize();
 }
 
 
@@ -86,7 +87,7 @@ pomodoros.addEventListener("click",function(){
   contentDisplay();
   resetTimer();
   makeButtonsInactive();
-  // this.style.fontSize = "1.1rem";
+  resetButtonSize();
 
 });
 
@@ -96,7 +97,7 @@ shortBreak.addEventListener("click",function(){
   contentDisplay();
   resetTimer();
   makeButtonsInactive();
-  // this.style.fontSize = "1.1rem";
+  resetButtonSize();
 });
 
 longBreak.addEventListener("click",function(){
@@ -105,7 +106,7 @@ longBreak.addEventListener("click",function(){
   contentDisplay();
   resetTimer();
   makeButtonsInactive();
-  // this.style.fontSize = "1.1rem";
+  resetButtonSize();
 });
 
 
@@ -174,14 +175,23 @@ startButton.addEventListener('click',function(){
     stopButton.classList.remove("active");
     resetButton.classList.remove("active");
   }
+  startButton.style.fontSize = "1.3rem";
+  stopButton.style.fontSize = "1.25rem";
+  resetButton.style.fontSize = "1.25rem";
   // buttonClickSound();
 });
 resetButton.addEventListener('click',function(){
   resetTimer();
+  startButton.style.fontSize = "1.25rem";
+  stopButton.style.fontSize = "1.25rem";
+  resetButton.style.fontSize = "1.3rem";
   // buttonClickSound();
 });
 stopButton.addEventListener('click',function(){
   stopTimer();
+  startButton.style.fontSize = "1.25rem";
+  stopButton.style.fontSize = "1.3rem";
+  resetButton.style.fontSize = "1.25rem";
   // buttonClickSound();
 });
 saveButton.addEventListener('click',function(){
@@ -209,6 +219,11 @@ saveButton.addEventListener('click',function(){
 // }
 
 
+function resetButtonSize(){
+  startButton.style.fontSize = "1.25rem";
+  stopButton.style.fontSize = "1.25rem";
+  resetButton.style.fontSize = "1.25rem";
+}
 function pomodoroTabDisplay(){
   // Make tabs active
   pomodoros.classList.add("active");

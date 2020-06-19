@@ -24,6 +24,7 @@ html, body {
 #startButton, #stopButton, #resetButton, #saveButton{
   font-weight: 500;
   border-radius: 2rem;
+  line-height: 2rem;
 }
 .modal-content{
   border-radius: 1rem;
@@ -37,10 +38,6 @@ html, body {
   padding: 1rem 3rem;
 }
 
-input[type=text]{
-  border-radius: 5rem;
-
-}
 #brandName{
   font-size: 2rem;
   font-weight: 600;
