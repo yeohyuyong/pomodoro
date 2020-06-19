@@ -21,28 +21,37 @@
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/check-circle-solid.svg" />
 </head>
 <body>
-  <div class="">
-    <nav class="navbar navbar-light bg-light justify-content-center border ">
-      <a id="brandName" class="navbar-brand" href="http://127.0.0.1:3000/"><i class="fas fa-check-circle"></i> Pomodoro Timers</a>
-    </nav>
+  <div class="d-flex justify-content-center border">
+    <div class="col-4"></div>
+    <div class="col-4 d-flex justify-content-center">
+      <nav class="navbar navbar-light bg-light d-flex justify-content-center ">
+        <a id="brandName" class="navbar-brand" href="http://127.0.0.1:3000/"><i class="fas fa-check-circle"></i> Pomodoro Timers</a>
+      </nav>
+    </div>
+    <div class="col-4"></div>
   </div>
-
   <div class="container mt-4 mt-0">
     <!-- NAVBAR -->
     <div class="container mb-3 pl-5">
-      <div class="row row-cols-4 ">
+      <div class="row row-cols-4">
         <div class="col"></div>
-        <div class="col">
+        <div class="col-6">
           <ul class="nav nav-pills justify-content-center">
-            <li class="nav-item">
-              <a class="nav-link timerLinks active" id="pomodoros" data-toggle="tab" role="tab" aria-selected="false" href="#">Focus</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link timerLinks" id="shortBreak" data-toggle="tab" role="tab" aria-selected="false" href="#">Short Break</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link timerLinks" id="longBreak" data-toggle="tab" role="tab" aria-selected="false" href="#" >Long Break</a>
-            </li>
+            <div class="col mx-0 px-0">
+              <li class="nav-item">
+                <a class="nav-link timerLinks active" id="pomodoros" data-toggle="tab" role="tab" aria-selected="false" href="#">Focus</a>
+              </li>
+            </div>
+            <div class="col mx-0 px-0">
+              <li class="nav-item">
+                <a class="nav-link timerLinks" id="shortBreak" data-toggle="tab" role="tab" aria-selected="false" href="#">Short Break</a>
+              </li>
+            </div>
+            <div class="col mx-0 px-0">
+              <li class="nav-item">
+                <a class="nav-link timerLinks" id="longBreak" data-toggle="tab" role="tab" aria-selected="false" href="#" >Long Break</a>
+              </li>
+            </div>
           </ul>
         </div>
         <div class="col">

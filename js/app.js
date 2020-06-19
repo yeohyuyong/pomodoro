@@ -66,6 +66,10 @@ notification = new Howl({
   src: ['assets/sounds/notification-bell.mp3']
 });
 
+buttonClick = new Howl({
+  src: ['assets/sounds/button-click.mp3']
+});
+
 init();
 function init(){
   currentTab = "pomodoro";
@@ -170,9 +174,16 @@ startButton.addEventListener('click',function(){
     stopButton.classList.remove("active");
     resetButton.classList.remove("active");
   }
+  buttonClickSound();
 });
-resetButton.addEventListener('click',resetTimer);
-stopButton.addEventListener('click',stopTimer);
+resetButton.addEventListener('click',function(){
+  resetTimer();
+  buttonClickSound();
+});
+stopButton.addEventListener('click',function(){
+  stopTimer();
+  buttonClickSound();
+});
 saveButton.addEventListener('click',function(){
   if(currentTab==="pomodoro"){
     pomodoroTabDisplay();
@@ -193,7 +204,9 @@ saveButton.addEventListener('click',function(){
 });
 
 
-
+function buttonClickSound(){
+   buttonClick.play()
+}
 
 
 function pomodoroTabDisplay(){

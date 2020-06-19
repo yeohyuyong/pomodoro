@@ -7,14 +7,14 @@ html, body {
 .timerLinks{
   font-size: 1.1rem;
   font-weight: 500;
-  border-radius: 2rem;
-  /* border: 2px solid red; */
+  text-align: center;
 
 }
 
 
 #pomodoros, #shortBreak, #longBreak{
   border-radius: 2rem;
+  padding: 0.4rem 1.5rem;
 }
 #saveButton{
   font-size: 1.1rem;
