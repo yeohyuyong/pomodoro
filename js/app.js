@@ -23,6 +23,7 @@ var settingsDisplay = document.getElementById('settingsDisplay');
 var pomodoroInput = document.getElementById("pomodoroInput");
 var shortBreakInput = document.getElementById("shortBreakInput");
 var longBreakInput = document.getElementById("longBreakInput");
+var tickSoundInput = document.getElementById("tickSoundInput");
 
 var timerCompleteAlert = document.getElementById('timerCompleteAlert');
 var progressBar = document.getElementById("progressBar");
@@ -53,24 +54,19 @@ var allPossibleModes = {
   }
 };
 
-// //All Sounds
-// var alertPomodoro = new Howl({
-//   src: ['assets/sounds/alert-work.mp3']
-// });
-//
-// var alertShortBreak = new Howl({
-//   src: ['assets/sounds/alert-short-break.mp3']
-// });
-//
-// var alertLongBreak = new Howl({
-//   src: ['assets/sounds/alert-long-break.mp3']
-// });
+// Ticking Sound
+tick = new Howl({
+  src: ['assets/sounds/tick.mp3']
+});
 
+init();
+function init(){
+  currentTab = "pomodoro";
+  pomodoroTabDisplay();
+  makeButtonsInactive();
+  pomodoros.style.fontSize = "1.2rem";
+}
 
-currentTab = "pomodoro";
-pomodoroTabDisplay();
-makeButtonsInactive();
-pomodoros.style.fontSize = "1.2rem";
 
 pomodoros.addEventListener("click",function(){
   currentTab = "pomodoro";
@@ -112,6 +108,7 @@ function countDown(){
       progressDisplay();
       progressBar.setAttribute("style", "width: " + percentageComplete.toString() + "%");
       console.log(percentageComplete);
+      playTickSound();
     }
     else{
       timeLeft=0;
@@ -233,6 +230,12 @@ function makeButtonsInactive(){
   resetButton.classList.remove("active");
 }
 
+
+function playTickSound(){
+  if (tickSoundInput.checked){
+    tick.play();
+  }
+}
 var percentageComplete;
 function progressDisplay(){
   //Get total time in seconds
