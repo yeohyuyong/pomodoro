@@ -1,8 +1,13 @@
 html, body {
   width: 100%;
   height: 100%;
+
+
 }
 
+/* #jumbotronDisplay{
+  opacity: 0.5;
+} */
 #timeLeft{
   font-weight: bold;
   font-size: 7rem;
