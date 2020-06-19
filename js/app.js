@@ -114,7 +114,6 @@ function countDown(){
       document.title = " (" +secondsToMinutes(timeLeft) + ") Pomodoro Timer";
       progressDisplay();
       progressBar.setAttribute("style", "width: " + percentageComplete.toString() + "%");
-      console.log(percentageComplete);
       playTickSound();
       playEndingNotification();
     }
