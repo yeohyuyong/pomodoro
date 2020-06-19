@@ -28,6 +28,25 @@ var timerCompleteAlert = document.getElementById('timerCompleteAlert');
 var progressBar = document.getElementById("progressBar");
 var currentTab = "pomodoro";
 
+var allPossibleModes = {
+  "pomodoro": {
+    input: pomodoroInput,
+    defaultTime: 25,
+    sound: alertPomodoro
+  },
+
+  "long break": {
+    input: longBreakInput,
+    defaultTime: 20,
+    sound: alertLongBreak
+  },
+  "short break": {
+    input: shortBreakInput,
+    defaultTime: 5,
+    sound: alertShortBreak
+  }
+};
+
 //All Sounds
 var alertPomodoro = new Howl({
   src: ['assets/sounds/alert-work.mp3']
@@ -41,16 +60,15 @@ var alertLongBreak = new Howl({
   src: ['assets/sounds/alert-long-break.mp3']
 });
 
-
+makeButtonsInactive();
 
 pomodoros.addEventListener("click",function(){
   currentTab = "pomodoro";
   pomodoroTabDisplay();
   contentDisplay();
   resetTimer();
-  startButton.classList.remove("active");
-  stopButton.classList.remove("active");
-  resetButton.classList.remove("active");
+  makeButtonsInactive();
+
 });
 
 shortBreak.addEventListener("click",function(){
@@ -58,9 +76,7 @@ shortBreak.addEventListener("click",function(){
   shortBreakTabDisplay();
   contentDisplay();
   resetTimer();
-  startButton.classList.remove("active");
-  stopButton.classList.remove("active");
-  resetButton.classList.remove("active");
+  makeButtonsInactive();
 });
 
 longBreak.addEventListener("click",function(){
@@ -68,9 +84,7 @@ longBreak.addEventListener("click",function(){
   longBreakTabDisplay();
   contentDisplay();
   resetTimer();
-  startButton.classList.remove("active");
-  stopButton.classList.remove("active");
-  resetButton.classList.remove("active");
+  makeButtonsInactive();
 });
 
 
@@ -97,24 +111,6 @@ function countDown(){
   },1000);
 }
 
-var allPossibleModes = {
-  "pomodoro": {
-    input: pomodoroInput,
-    defaultTime: 25,
-    sound: alertPomodoro
-  },
-
-  "long break": {
-    input: longBreakInput,
-    defaultTime: 20,
-    sound: alertLongBreak
-  },
-  "short break": {
-    input: shortBreakInput,
-    defaultTime: 5,
-    sound: alertShortBreak
-  }
-};
 
 function resetTimer(){
   clearInterval(updateSeconds);
@@ -201,6 +197,12 @@ function contentDisplay(){
     timeLeft = minutesToSeconds(allPossibleModes[currentTab].defaultTime);
   }
   timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
+}
+
+function makeButtonsInactive(){
+  startButton.classList.remove("active");
+  stopButton.classList.remove("active");
+  resetButton.classList.remove("active");
 }
 
 var percentageComplete;
