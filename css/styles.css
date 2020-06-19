@@ -9,8 +9,13 @@ html, body {
   font-weight: 500;
   border-radius: 2rem;
   /* border: 2px solid red; */
+
 }
 
+
+#pomodoros, #shortBreak, #longBreak{
+  border-radius: 2rem;
+}
 #saveButton{
   font-size: 1.1rem;
   padding: 0.8rem 1.6rem;
@@ -20,7 +25,9 @@ html, body {
   font-weight: 500;
   border-radius: 2rem;
 }
-
+.modal-content{
+  border-radius: 1rem;
+}
 #timeLeft{
   font-weight: bold;
   font-size: 7rem;
