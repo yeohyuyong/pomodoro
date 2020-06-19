@@ -174,15 +174,15 @@ startButton.addEventListener('click',function(){
     stopButton.classList.remove("active");
     resetButton.classList.remove("active");
   }
-  buttonClickSound();
+  // buttonClickSound();
 });
 resetButton.addEventListener('click',function(){
   resetTimer();
-  buttonClickSound();
+  // buttonClickSound();
 });
 stopButton.addEventListener('click',function(){
   stopTimer();
-  buttonClickSound();
+  // buttonClickSound();
 });
 saveButton.addEventListener('click',function(){
   if(currentTab==="pomodoro"){
@@ -204,9 +204,9 @@ saveButton.addEventListener('click',function(){
 });
 
 
-function buttonClickSound(){
-   buttonClick.play()
-}
+// function buttonClickSound(){
+//    buttonClick.play()
+// }
 
 
 function pomodoroTabDisplay(){

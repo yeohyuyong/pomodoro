@@ -37,6 +37,10 @@ html, body {
   padding: 1rem 3rem;
 }
 
+input[type=text]{
+  border-radius: 5rem;
+
+}
 #brandName{
   font-size: 2rem;
   font-weight: 600;
