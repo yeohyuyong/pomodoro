@@ -2,17 +2,18 @@
 <a href="https://pomodorotimers.com"><img src="assets\img\site_content.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
 <a href="https://pomodorotimers.com"><img src="assets\img\site_settings.PNG" title="PomodoroTimers" alt="PomodoroTimers" width="600px"></a>
 
+---
 
-
-# Pomodoro Timer
-
-> Pomotroid is a simple and configurable Pomodoro timer. It aims to provide a visually-pleasing and reliable way to track productivity using the Pomodoro Technique.
 
 ## Table of Contents
-
+- [Overview](#overview)
 - [Features](#features)
 - [Roadmap](#roadmap)
 - [License](#license)
+
+# Overview
+
+> Pomotroid is a simple and configurable Pomodoro timer. It aims to provide a visually-pleasing and reliable way to track productivity using the Pomodoro Technique.
 
 ## Features
 - Customize times for Focus, Short Breaks and Long Breaks
