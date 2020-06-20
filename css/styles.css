@@ -1,6 +1,8 @@
 html, body {
   width: 100%;
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 
@@ -46,10 +48,14 @@ html, body {
 }
 
 #brandName{
-  font-size: 2rem;
   font-weight: 600;
 }
-
+#timerName{
+  margin-top: 100px;
+}
+#navText{
+  font-size: 2rem;
+}
 #settingsText{
   font-size: 4rem;
   font-weight: bold;

@@ -405,16 +405,16 @@ darkModeToggle.addEventListener("change", function(){
 
 
 function darkMode(){
-  document.body.style.backgroundColor = "black";
+  document.body.style.backgroundColor = "#171717";
   jumbotron.style.background = "none";
   document.getElementById("timeLeft").style.color = "white";
-  document.querySelector(".modal-content").style.backgroundColor = "black";
-  document.querySelector(".h6").style.color = "white";
-  document.getElementById("exampleModalLabel").style.color = "white";
-  document.getElementById("progressBar").style.backgroundColor = "#5a6268";
+  document.querySelector(".modal-content").style.backgroundColor = "#171717";
+  document.querySelector(".h6").style.color = "hsla(0,0%,100%,.87)";
+  document.getElementById("exampleModalLabel").style.color = "hsla(0,0%,100%,.87)";
+  document.getElementById("progress-bar").style.backgroundColor = "#5a6268";
   var socialIcons = document.querySelectorAll(".social-icon");
-  for (var i;i<socialIcons.length;i++){
-    socialIcons[i].style.color = "white";
+  for (var i=0;i<socialIcons.length;i++){
+    socialIcons[i].style.color = "hsla(0,0%,100%,.87)";
   }
 }
 
@@ -427,8 +427,7 @@ function lightMode(){
   document.getElementById("exampleModalLabel").style.color = "black";
   document.getElementById("progressBar").style.backgroundColor = "#007bff";
   var socialIcons = document.querySelectorAll(".social-icon");
-  for (var i;i<socialIcons.length;i++){
+  for (var i=0;i<socialIcons.length;i++){
     socialIcons[i].style.color = "black";
   }
-
 }
