@@ -411,7 +411,11 @@ function darkMode(){
   document.querySelector(".modal-content").style.backgroundColor = "black";
   document.querySelector(".h6").style.color = "white";
   document.getElementById("exampleModalLabel").style.color = "white";
-  document.getElementById("progressBar").style.background = "#5a6268";
+  document.getElementById("progressBar").style.backgroundColor = "#5a6268";
+  var socialIcons = document.querySelectorAll(".social-icon");
+  for (var i;i<socialIcons.length;i++){
+    socialIcons[i].style.color = "white";
+  }
 }
 
 function lightMode(){
@@ -421,6 +425,10 @@ function lightMode(){
   document.querySelector(".modal-content").style.backgroundColor = "white";
   document.querySelector(".text-muted").style.color = "white";
   document.getElementById("exampleModalLabel").style.color = "black";
-  document.getElementById("progressBar").style.background = "#007bff";
+  document.getElementById("progressBar").style.backgroundColor = "#007bff";
+  var socialIcons = document.querySelectorAll(".social-icon");
+  for (var i;i<socialIcons.length;i++){
+    socialIcons[i].style.color = "black";
+  }
 
 }
