@@ -29,7 +29,7 @@ var notificationSoundInput = document.getElementById("notificationSoundInput");
 var notificationTextInput = document.getElementById("notificationTextInput");
 var backgroundMusicToggleButton = document.getElementById("backgroundMusicToggleButton");
 var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
-jumbotron = document.querySelector(".jumbotron");
+var jumbotron = document.querySelector(".jumbotron");
 
 var progressBar = document.getElementById("progressBar");
 var notificationTime;
