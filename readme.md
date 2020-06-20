@@ -1,4 +1,4 @@
-<a href="http://fvcproductions.com"><img src="https://avatars1.githubusercontent.com/u/4284691?v=3&s=200" title="FVCproductions" alt="FVCproductions"></a>
+<a href="https://pomodorotimers.com"><img src="assets/img/docs.img" title="PomodoroTimers" alt="PomodoroTimers"></a>
 
 <!-- [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com) -->
 
@@ -11,7 +11,6 @@
 ## Table of Contents
 
 - [Features](#features)
-- [Support](#support)
 - [License](#license)
 
 ## Features
