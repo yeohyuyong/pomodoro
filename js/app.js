@@ -68,6 +68,29 @@ notification = new Howl({
   src: ['assets/sounds/notification-bell.mp3']
 });
 
+
+//Background Music
+campfire = new Howl({
+  src: ['assets/sounds/background_music/Campfire.mp3']
+});
+
+forest = new Howl({
+  src: ['assets/sounds/background_music/Forest.mp3']
+});
+
+ocean = new Howl({
+  src: ['assets/sounds/background_music/Campfire.mp3']
+});
+
+rain = new Howl({
+  src: ['assets/sounds/background_music/Rain.mp3']
+});
+
+desert = new Howl({
+  src: ['assets/sounds/background_music/Windy_Desert.mp3']
+});
+
+
 // buttonClick = new Howl({
 //   src: ['assets/sounds/button-click.mp3']
 // });
@@ -125,6 +148,7 @@ function countDown(){
       progressBar.setAttribute("style", "width: " + percentageComplete.toString() + "%");
       playTickSound();
       playEndingNotification();
+      playBackGroundMusic();
     }
     else{
       timeLeft=0;
@@ -318,6 +342,13 @@ function playEndingNotification(){
       }
     }
 }
+
+function playBackGroundMusic(){
+  if (timerRunning){
+    notification.play();
+  }
+}
+
 var percentageComplete;
 function progressDisplay(){
   //Get total time in seconds
