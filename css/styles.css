@@ -51,7 +51,15 @@ html, body {
   font-weight: bold;
 }
 
-#heartIcon{
+.social-icon{
+  color: black;
+}
+
+.social-icon:hover{
+  color: #007bff;
+}
+
+/* #heartIcon{
   color: #dc3545;
 }
 #codeIcon{
@@ -59,7 +67,7 @@ html, body {
 }
 #websiteLink{
   color: #007bff;
-}
+} */
 
 
 /* Styling for Tick Sound Slider */
