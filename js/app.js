@@ -244,9 +244,12 @@ saveButton.addEventListener('click',function(){
   }
   resetButtonSize();
   progressBar.setAttribute("style", "width: 0%");
+  stopBackGroundMusic();
 });
 
-
+settings.addEventListener("click", function(){
+  timerRunning = false;
+})
 
 function resetButtonSize(){
   startButton.style.fontSize = "1.25rem";

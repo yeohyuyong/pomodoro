@@ -22,11 +22,11 @@
 - Charming timer alert sounds
 - Timer ticking sounds (optional)
 - Customizable timer ending notification (optional)
+- Multiple background music (optional)
 
 ## Roadmap
 📝 Future plans for enhancements and development:
 - Dark Mode
-- Login System
 
 ## License
 
