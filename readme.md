@@ -1,6 +1,5 @@
-<a href="https://pomodorotimers.com"><img src="assets/img/docs.img" title="PomodoroTimers" alt="PomodoroTimers"></a>
-
-<!-- [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com) -->
+<a href="https://pomodorotimers.com"><img src="assets\img\site_title.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
+<a href="https://pomodorotimers.com"><img src="assets\img\site_content.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
 
 
 
@@ -11,11 +10,17 @@
 ## Table of Contents
 
 - [Features](#features)
+- [Roadmap](#roadmap)
 - [License](#license)
 
 ## Features
 - Customize times and number of rounds (persistent)
 - Charming timer alert sounds (optional)
+
+## Roadmap
+📝 Future plans for enhancements and development:
+- Dark Mode
+- Login System
 
 ## License
 
