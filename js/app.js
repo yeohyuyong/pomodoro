@@ -24,16 +24,18 @@ var pomodoroInput = document.getElementById("pomodoroInput");
 var shortBreakInput = document.getElementById("shortBreakInput");
 var longBreakInput = document.getElementById("longBreakInput");
 var tickSoundInput = document.getElementById("tickSoundInput");
+var darkModeToggle = document.getElementById("darkModeToggle");
 var notificationSoundInput = document.getElementById("notificationSoundInput");
 var notificationTextInput = document.getElementById("notificationTextInput");
 var backgroundMusicToggleButton = document.getElementById("backgroundMusicToggleButton");
 var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
+jumbotron = document.querySelector(".jumbotron");
 
-var timerCompleteAlert = document.getElementById('timerCompleteAlert');
 var progressBar = document.getElementById("progressBar");
 var notificationTime;
 var titleDisplayText;
 var currentTab;
+
 var allPossibleModes = {
   "pomodoro": {
     input: pomodoroInput,
@@ -388,4 +390,34 @@ function secondsToMinutes(s){
 function minutesToSeconds(m){
   var seconds = m*60;
   return seconds;
+}
+
+//Dark Mode
+
+darkModeToggle.addEventListener("change", function(){
+  if (darkModeToggle.checked){
+    darkMode();
+  }
+  else if (darkModeToggle.checked === false) {
+    lightMode();
+  }
+});
+
+
+function darkMode(){
+  document.body.style.backgroundColor = "black";
+  jumbotron.style.background = "none";
+  document.getElementById("timeLeft").style.color = "white";
+  document.querySelector(".modal-content").style.backgroundColor = "black";
+  document.querySelector(".h6").style.color = "white";
+  document.getElementById("exampleModalLabel").style.color = "white";
+}
+
+function lightMode(){
+  document.body.style.backgroundColor = "white";
+  jumbotron.style.background = "#e9ecef";
+  document.getElementById("timeLeft").style.color = "black";
+  document.querySelector(".modal-content").style.backgroundColor = "white";
+  document.querySelector(".text-muted").style.color = "white";
+  document.getElementById("exampleModalLabel").style.color = "black";
 }

@@ -21,10 +21,10 @@
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/check-circle-solid.svg" />
 </head>
 <body>
-  <div class="d-flex justify-content-center border navbar navbar-light bg-light">
+  <div class="d-flex justify-content-center border navbar navbar-light bg-light" id="main">
     <div class="col-4"></div>
-    <div class="col-4 d-flex justify-content-center">
-      <nav class=" d-flex justify-content-center ">
+    <div class="col-4 d-flex justify-content-center" >
+      <nav class="d-flex justify-content-center" >
         <a id="brandName" class="navbar-brand" href="http://127.0.0.1:3000/"><i class="fas fa-check-circle"></i> Pomodoro Timers</a>
       </nav>
     </div>
@@ -183,6 +183,23 @@
                         <option>Campfire</option>
                         <option>Windy Desert</option>
                       </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <!-- Dark Mode Option -->
+              <div class="row ml-1">
+                <p class="h6 text-muted">Dark Mode</p>
+              </div>
+              <div class="row pl-3 mb-0 pb-0">
+                <div class="form-group mb-0">
+                  <div class="row pr-5">
+                    <div class="col mr-0 pr-0 pb-0">
+                      <label class="switch mr-0">
+                        <input id="darkModeToggle" type="checkbox">
+                        <span class="slider round"></span>
+                      </label>
                     </div>
                   </div>
                 </div>
