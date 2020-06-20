@@ -411,6 +411,7 @@ function darkMode(){
   document.querySelector(".modal-content").style.backgroundColor = "black";
   document.querySelector(".h6").style.color = "white";
   document.getElementById("exampleModalLabel").style.color = "white";
+  document.getElementById("progressBar").style.background = "#5a6268";
 }
 
 function lightMode(){
@@ -420,4 +421,6 @@ function lightMode(){
   document.querySelector(".modal-content").style.backgroundColor = "white";
   document.querySelector(".text-muted").style.color = "white";
   document.getElementById("exampleModalLabel").style.color = "black";
+  document.getElementById("progressBar").style.background = "#007bff";
+
 }

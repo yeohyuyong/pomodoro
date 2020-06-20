@@ -32,6 +32,10 @@ html, body {
 .modal-content{
   border-radius: 1rem;
 }
+
+/* #progressBar{
+  background: #5a6268;
+} */
 #timeLeft{
   font-weight: bold;
   font-size: 7rem;
@@ -40,7 +44,6 @@ html, body {
 .btn-group-lg>.btn, .btn-lg{
   padding: 1rem 3rem;
 }
-
 
 #brandName{
   font-size: 2rem;
