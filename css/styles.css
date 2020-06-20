@@ -11,6 +11,9 @@ html, body {
 
 }
 
+#backgroundMusicOptions{
+  width: 8rem;
+}
 
 #pomodoros, #shortBreak, #longBreak{
   border-radius: 2rem;

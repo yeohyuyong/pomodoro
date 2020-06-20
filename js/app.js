@@ -26,6 +26,8 @@ var longBreakInput = document.getElementById("longBreakInput");
 var tickSoundInput = document.getElementById("tickSoundInput");
 var notificationSoundInput = document.getElementById("notificationSoundInput");
 var notificationTextInput = document.getElementById("notificationTextInput");
+var backgroundMusicToggleButton = document.getElementById("backgroundMusicToggleButton");
+var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
 
 var timerCompleteAlert = document.getElementById('timerCompleteAlert');
 var progressBar = document.getElementById("progressBar");
@@ -290,6 +292,17 @@ notificationSoundInput.addEventListener("change", function(){
     notificationTextInput.disabled = true;
   }
 })
+
+backgroundMusicToggleButton.addEventListener("change", function(){
+  if (backgroundMusicToggleButton.checked === true){
+    backgroundMusicOptions.disabled = false;
+  }
+  if (backgroundMusicToggleButton.checked === false){
+    backgroundMusicOptions.disabled = true;
+  }
+})
+
+
 
 function playTickSound(){
   if (tickSoundInput.checked){
