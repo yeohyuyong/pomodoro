@@ -1,11 +1,12 @@
 <a href="https://pomodorotimers.com"><img src="assets\img\site_title.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
 <a href="https://pomodorotimers.com"><img src="assets\img\site_content.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
-<a href="https://pomodorotimers.com"><img src="assets\img\site_settings.PNG" title="PomodoroTimers" alt="PomodoroTimers" width="600px"></a>
+<a href="https://pomodorotimers.com"><img src="assets\img\site_settings.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
+
 
 ---
 
 
-## Table of Contents
+
 - [Overview](#overview)
 - [Features](#features)
 - [Roadmap](#roadmap)
