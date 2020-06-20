@@ -1,6 +1,6 @@
 <a href="https://pomodorotimers.com"><img src="assets\img\site_title.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
 <a href="https://pomodorotimers.com"><img src="assets\img\site_content.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
-<a href="https://pomodorotimers.com"><img src="assets\img\site_settings.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
+<a href="https://pomodorotimers.com"><img src="assets\img\site_settings.PNG" title="PomodoroTimers" alt="PomodoroTimers" width="600px"></a>
 
 
 
@@ -15,8 +15,10 @@
 - [License](#license)
 
 ## Features
-- Customize times and number of rounds (persistent)
-- Charming timer alert sounds (optional)
+- Customize times for Focus, Short Breaks and Long Breaks
+- Charming timer alert sounds
+- Timer ticking sounds (optional)
+- Customizable timer ending notification (optional)
 
 ## Roadmap
 📝 Future plans for enhancements and development:
