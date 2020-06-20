@@ -210,6 +210,7 @@ saveButton.addEventListener('click',function(){
     contentDisplay();
     resetTimer();
   }
+  resetButtonSize();
   progressBar.setAttribute("style", "width: 0%");
 });
 
@@ -329,3 +330,9 @@ function minutesToSeconds(m){
   var seconds = m*60;
   return seconds;
 }
+
+
+function enableDarkMode(){
+  document.body = "black";
+}
+enableDarkMode();
