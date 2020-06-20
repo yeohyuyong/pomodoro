@@ -61,7 +61,8 @@ var allPossibleModes = {
 
 // Ticking Sound
 tick = new Howl({
-  src: ['assets/sounds/tick.mp3']
+  src: ['assets/sounds/tick.mp3'],
+  volume:2
 });
 
 notification = new Howl({
@@ -70,30 +71,29 @@ notification = new Howl({
 
 
 //Background Music
-campfire = new Howl({
-  src: ['assets/sounds/background_music/Campfire.mp3']
-});
 
-forest = new Howl({
-  src: ['assets/sounds/background_music/Forest.mp3']
-});
-
-ocean = new Howl({
-  src: ['assets/sounds/background_music/Campfire.mp3']
-});
-
-rain = new Howl({
-  src: ['assets/sounds/background_music/Rain.mp3']
-});
-
-desert = new Howl({
-  src: ['assets/sounds/background_music/Windy_Desert.mp3']
-});
-
-
-// buttonClick = new Howl({
-//   src: ['assets/sounds/button-click.mp3']
-// });
+allBackgroundMusic = {
+  "Campfire": new Howl({
+    src: ['assets/sounds/background_music/Campfire.mp3'],
+    volume:0.1
+  }),
+  "Forest":new Howl({
+    src: ['assets/sounds/background_music/Forest.mp3'],
+    volume:0.1
+  }),
+  "Ocean":new Howl({
+    src: ['assets/sounds/background_music/Campfire.mp3'],
+    volume:0.1
+  }),
+  "Rain":new Howl({
+    src: ['assets/sounds/background_music/Rain.mp3'],
+    volume:0.1
+  }),
+  "Windy Desert":new Howl({
+    src: ['assets/sounds/background_music/Windy_Desert.mp3'],
+    volume:0.1
+  })
+}
 
 init();
 function init(){
@@ -113,6 +113,7 @@ pomodoros.addEventListener("click",function(){
   resetTimer();
   makeButtonsInactive();
   resetButtonSize();
+  stopBackGroundMusic();
 
 });
 
@@ -123,6 +124,7 @@ shortBreak.addEventListener("click",function(){
   resetTimer();
   makeButtonsInactive();
   resetButtonSize();
+  stopBackGroundMusic();
 });
 
 longBreak.addEventListener("click",function(){
@@ -132,6 +134,7 @@ longBreak.addEventListener("click",function(){
   resetTimer();
   makeButtonsInactive();
   resetButtonSize();
+  stopBackGroundMusic();
 });
 
 
@@ -158,6 +161,7 @@ function countDown(){
       clearInterval(updateSeconds);
       allPossibleModes[currentTab].sound.play();
       progressBar.setAttribute("style", "width: 100%");
+      stopBackGroundMusic();
     }
   },1000);
 }
@@ -204,21 +208,23 @@ startButton.addEventListener('click',function(){
   startButton.style.fontSize = "1.3rem";
   stopButton.style.fontSize = "1.25rem";
   resetButton.style.fontSize = "1.25rem";
-  // buttonClickSound();
+  // playBackGroundMusic();
+    // buttonClickSound();
 });
 resetButton.addEventListener('click',function(){
   resetTimer();
   startButton.style.fontSize = "1.25rem";
   stopButton.style.fontSize = "1.25rem";
   resetButton.style.fontSize = "1.3rem";
-  // buttonClickSound();
+  stopBackGroundMusic();
+
 });
 stopButton.addEventListener('click',function(){
   stopTimer();
   startButton.style.fontSize = "1.25rem";
   stopButton.style.fontSize = "1.3rem";
   resetButton.style.fontSize = "1.25rem";
-  // buttonClickSound();
+  stopBackGroundMusic();
 });
 saveButton.addEventListener('click',function(){
   if(currentTab==="pomodoro"){
@@ -240,10 +246,6 @@ saveButton.addEventListener('click',function(){
   progressBar.setAttribute("style", "width: 0%");
 });
 
-
-// function buttonClickSound(){
-//    buttonClick.play()
-// }
 
 
 function resetButtonSize(){
@@ -323,6 +325,7 @@ backgroundMusicToggleButton.addEventListener("change", function(){
   }
   if (backgroundMusicToggleButton.checked === false){
     backgroundMusicOptions.disabled = true;
+    stopBackGroundMusic();
   }
 })
 
@@ -344,9 +347,15 @@ function playEndingNotification(){
 }
 
 function playBackGroundMusic(){
-  if (timerRunning){
-    notification.play();
+  if (backgroundMusicToggleButton.checked){
+    if (timerRunning){
+      allBackgroundMusic[backgroundMusicOptions.value].play();
+    }
   }
+}
+
+function stopBackGroundMusic(){
+  allBackgroundMusic[backgroundMusicOptions.value].stop();
 }
 
 var percentageComplete;
@@ -374,9 +383,3 @@ function minutesToSeconds(m){
   var seconds = m*60;
   return seconds;
 }
-
-
-function enableDarkMode(){
-  document.body = "black";
-}
-enableDarkMode();
