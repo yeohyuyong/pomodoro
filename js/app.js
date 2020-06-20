@@ -82,7 +82,7 @@ allBackgroundMusic = {
     volume:0.1
   }),
   "Ocean":new Howl({
-    src: ['assets/sounds/background_music/Campfire.mp3'],
+    src: ['assets/sounds/background_music/Ocean.mp3'],
     volume:0.1
   }),
   "Rain":new Howl({
