@@ -357,8 +357,11 @@ function playBackGroundMusic(){
   }
 }
 
+
 function stopBackGroundMusic(){
-  allBackgroundMusic[backgroundMusicOptions.value].stop();
+  for (var allSounds in allBackgroundMusic){
+    allBackgroundMusic[allSounds].stop();
+  }
 }
 
 var percentageComplete;
