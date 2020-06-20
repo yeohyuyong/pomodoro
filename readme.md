@@ -1,6 +1,7 @@
 <a href="https://pomodorotimers.com"><img src="assets\img\site_title.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
 <a href="https://pomodorotimers.com"><img src="assets\img\site_content.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
-<a href="https://pomodorotimers.com"><img src="assets\img\site_settings.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
+<a href="https://pomodorotimers.com"><img src="assets\img\site_settings.PNG" title="PomodoroTimers" alt="PomodoroTimers" style="width:600px;margin-left: auto;
+  margin-right: auto;"></a>
 
 
 ---
