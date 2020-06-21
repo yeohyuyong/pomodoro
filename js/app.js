@@ -134,6 +134,28 @@ function init(){
       allPossibleModes[modesList[i]].input.value = allPossibleModes[modesList[i]].defaultTime;
     }
   }
+
+  if(localStorage.notificationSoundInputValue === "true"){
+    notificationSoundInput.checked = localStorage.notificationSoundInputValue;
+  }
+  else{
+    notificationSoundInput.checked = false;
+  }
+
+  if(localStorage.notificationTextInputEnableDisable === "true"){
+    notificationTextInput.disabled = localStorage.notificationTextInputEnableDisable;
+  }
+  else{
+    notificationTextInput.disabled = false;
+  }
+
+  if(localStorage.notificationTextInputValue){
+    notificationTextInput.value = localStorage.notificationTextInputValue;
+  }
+  else{
+    notificationTextInput.value = 1;
+  }
+
 }
 
 pomodoros.addEventListener("click",function(){
@@ -376,6 +398,12 @@ notificationSoundInput.addEventListener("change", function(){
   if (notificationSoundInput.checked === false){
     notificationTextInput.disabled = true;
   }
+  localStorage.notificationSoundInputValue = notificationSoundInput.checked;
+  localStorage.notificationTextInputEnableDisable = notificationTextInput.disabled;
+})
+
+notificationTextInput.addEventListener("change", function(){
+  localStorage.notificationTextInputValue = notificationTextInput.value;
 })
 
 backgroundMusicToggleButton.addEventListener("change", function(){
