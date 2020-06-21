@@ -175,6 +175,14 @@ function init(){
   else{
     backgroundMusicOptions.value = "Rain";
   }
+  // ===============================Dark Mode====================================
+  if(localStorage.darkModeToggleValue === "true"){
+    darkModeToggle.checked = localStorage.darkModeToggleValue;
+    darkMode();
+  }
+  else{
+    darkModeToggle.checked = false;
+  }
 }
 
 pomodoros.addEventListener("click",function(){
@@ -501,6 +509,7 @@ darkModeToggle.addEventListener("change", function(){
   else if (darkModeToggle.checked === false) {
     lightMode();
   }
+  localStorage.darkModeToggleValue = darkModeToggle.checked;
 });
 function darkMode(){
   document.body.style.backgroundColor = "#171717";
