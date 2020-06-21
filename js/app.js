@@ -410,26 +410,44 @@ function darkMode(){
   document.body.style.backgroundColor = "#171717";
   jumbotron.style.background = "none";
   document.getElementById("timeLeft").style.color = "white";
-  document.querySelector(".modal-content").style.backgroundColor = "#171717";
-  document.querySelector(".h6").style.color = "hsla(0,0%,100%,.87)";
+  var modals = document.querySelectorAll(".modal-content");
+  for (var i=0;i<modals.length;i++){
+    modals[i].style.backgroundColor = "#171717";
+  }
   document.getElementById("exampleModalLabel").style.color = "hsla(0,0%,100%,.87)";
-  document.getElementById("progress-bar").style.backgroundColor = "#5a6268";
+  document.getElementById("loggingModalLabel").style.color = "hsla(0,0%,100%,.87)";
+  document.getElementById("logDataTable").classList.add("table-dark");
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
     socialIcons[i].style.color = "hsla(0,0%,100%,.87)";
+    socialIcons[i].addEventListener("mouseover", function(){
+      this.style.color = "007bff";
+    })
+    socialIcons[i].addEventListener("mouseleave", function(){
+      this.style.color = "white";
+    })
   }
 }
 function lightMode(){
   document.body.style.backgroundColor = "white";
   jumbotron.style.background = "#e9ecef";
   document.getElementById("timeLeft").style.color = "black";
-  document.querySelector(".modal-content").style.backgroundColor = "white";
-  document.querySelector(".text-muted").style.color = "white";
+  var modals = document.querySelectorAll(".modal-content");
+  for (var i=0;i<modals.length;i++){
+    modals[i].style.backgroundColor = "white";
+  }
   document.getElementById("exampleModalLabel").style.color = "black";
-  document.getElementById("progressBar").style.backgroundColor = "#007bff";
+  document.getElementById("loggingModalLabel").style.color = "black";
+  document.getElementById("logDataTable").classList.remove("table-dark");
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
     socialIcons[i].style.color = "black";
+    socialIcons[i].addEventListener("mouseover", function(){
+      this.style.color = "#007bff";
+    })
+    socialIcons[i].addEventListener("mouseleave", function(){
+      this.style.color = "black";
+    })
   }
 }
 // ================================Get Time and Date=================================================
