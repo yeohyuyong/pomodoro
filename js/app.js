@@ -312,29 +312,19 @@ stopButton.addEventListener('click',function(){
 saveButton.addEventListener('click',function(){
   if(currentTab==="pomodoro"){
     pomodoroTabDisplay();
-    contentDisplay();
-    contentDisplay();
-    resetTimer();
   }
   else if(currentTab==="short break"){
     shortBreakTabDisplay();
-    contentDisplay();
-    contentDisplay();
-    resetTimer();
   }
   else if(currentTab==="long break"){
     longBreakTabDisplay();
-    contentDisplay();
-    contentDisplay();
-    resetTimer();
   }
   resetButtonSize();
   progressBar.setAttribute("style", "width: 0%");
-  stopBackGroundMusic();
+  // stopBackGroundMusic();
 });
-
-settings.addEventListener("click", function(){
-  timerRunning = false;
+  settings.addEventListener("click", function(){
+  // timerRunning = false;
 })
 
 function resetButtonSize(){
@@ -388,16 +378,19 @@ pomodoroInput.addEventListener("change", function(){
   localStorage.currentPomodoroValue = pomodoroInput.value;
   allPossibleModes["pomodoro"].localStorage = localStorage.currentPomodoroValue;
   pomodoroInput.value = localStorage.currentPomodoroValue;
+  contentDisplay();
 })
 shortBreakInput.addEventListener("change", function(){
   localStorage.currentShortBreakValue = shortBreakInput.value;
   allPossibleModes["short break"].localStorage = localStorage.currentShortBreakValue;
   shortBreakInput.value = localStorage.currentShortBreakValue;
+  contentDisplay();
 })
 longBreakInput.addEventListener("change", function(){
   localStorage.currentLongBreakValue = longBreakInput.value;
   allPossibleModes["long break"].localStorage = localStorage.currentLongBreakValue;
   longBreakInput.value = localStorage.currentLongBreakValue;
+  contentDisplay();
 })
 
 
@@ -435,6 +428,7 @@ notificationTextInput.addEventListener("change", function(){
 backgroundMusicToggleButton.addEventListener("change", function(){
   if (backgroundMusicToggleButton.checked === true){
     backgroundMusicOptions.disabled = false;
+    playBackGroundMusic();
   }
   if (backgroundMusicToggleButton.checked === false){
     backgroundMusicOptions.disabled = true;
@@ -445,6 +439,8 @@ backgroundMusicToggleButton.addEventListener("change", function(){
 })
 backgroundMusicOptions.addEventListener("change", function(){
   localStorage.backgroundMusicOptionsValue = backgroundMusicOptions.value;
+  stopBackGroundMusic();
+  playBackGroundMusic();
 })
 
 function playTickSound(){
