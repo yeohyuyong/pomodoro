@@ -432,8 +432,6 @@ function lightMode(){
     socialIcons[i].style.color = "black";
   }
 }
-// =======================================================================================
-
 // ================================Get Time and Date=================================================
 function getDate(){
   monthList = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
