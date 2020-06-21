@@ -403,8 +403,6 @@ function makeButtonsInactive(){
   stopButton.classList.remove("active");
   resetButton.classList.remove("active");
 }
-
-
 //=================Notificiation, Ticking Sounds and Background Music=======================
 notificationSoundInput.addEventListener("change", function(){
   if (notificationSoundInput.checked === true){
