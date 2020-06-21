@@ -131,7 +131,6 @@ function init(){
   }
 }
 
-
 pomodoros.addEventListener("click",function(){
   currentTab = "pomodoro";
   pomodoroTabDisplay();
@@ -140,8 +139,6 @@ pomodoros.addEventListener("click",function(){
   makeButtonsInactive();
   resetButtonSize();
   stopBackGroundMusic();
-
-
 });
 
 shortBreak.addEventListener("click",function(){
