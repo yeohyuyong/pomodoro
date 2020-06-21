@@ -20,13 +20,15 @@
 ## Features
 - Customize times for Focus, Short Breaks and Long Breaks
 - Charming timer alert sounds
+- Logging system
+- Dark Mode (optional)
 - Timer ticking sounds (optional)
 - Customizable timer ending notification (optional)
 - Multiple background music (optional)
 
 ## Roadmap
 📝 Future plans for enhancements and development:
-- Dark Mode
+- Local storage
 
 ## License
 

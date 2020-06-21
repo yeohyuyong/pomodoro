@@ -493,7 +493,6 @@ function addDataToLog(){
   row.appendChild(endTimeCol);
   row.appendChild(timeCol);
   row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
-
   locationUpdateLog.appendChild(row);
 }
 // ================================Clear log===================================================
