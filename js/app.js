@@ -315,6 +315,8 @@ function makeButtonsInactive(){
   resetButton.classList.remove("active");
 }
 
+
+//=================Notificiation, Ticking Sounds and Background Music=======================
 notificationSoundInput.addEventListener("change", function(){
   if (notificationSoundInput.checked === true){
     notificationTextInput.disabled = false;
@@ -333,15 +335,11 @@ backgroundMusicToggleButton.addEventListener("change", function(){
     stopBackGroundMusic();
   }
 })
-
-
-
 function playTickSound(){
   if (tickSoundInput.checked){
     tick.play();
   }
 }
-
 function playEndingNotification(){
   notificationTime = notificationTextInput.value;
   if (notificationSoundInput.checked){
@@ -350,7 +348,6 @@ function playEndingNotification(){
       }
     }
 }
-
 function playBackGroundMusic(){
   if (backgroundMusicToggleButton.checked){
     if (timerRunning){
@@ -358,14 +355,12 @@ function playBackGroundMusic(){
     }
   }
 }
-
-
 function stopBackGroundMusic(){
   for (var allSounds in allBackgroundMusic){
     allBackgroundMusic[allSounds].stop();
   }
 }
-
+//===========Calculate percentage complete for progress bar================================
 var percentageComplete;
 function progressDisplay(){
   //Get total time in seconds
@@ -374,7 +369,7 @@ function progressDisplay(){
   percentageComplete = (totalMinutes-timeLeft)/totalMinutes * 100;
 }
 
-//Minutes and Seconds converter
+//=========================Minutes and Seconds converter==========================================
 function secondsToMinutes(s){
   var minutes = Math.floor(s/60);
   var seconds = s%60;
@@ -391,9 +386,7 @@ function minutesToSeconds(m){
   var seconds = m*60;
   return seconds;
 }
-
-//Dark Mode
-
+//====================================Dark and Light Modes======================================
 darkModeToggle.addEventListener("change", function(){
   if (darkModeToggle.checked){
     darkMode();
@@ -402,8 +395,6 @@ darkModeToggle.addEventListener("change", function(){
     lightMode();
   }
 });
-
-
 function darkMode(){
   document.body.style.backgroundColor = "#171717";
   jumbotron.style.background = "none";
@@ -417,7 +408,6 @@ function darkMode(){
     socialIcons[i].style.color = "hsla(0,0%,100%,.87)";
   }
 }
-
 function lightMode(){
   document.body.style.backgroundColor = "white";
   jumbotron.style.background = "#e9ecef";
@@ -431,3 +421,4 @@ function lightMode(){
     socialIcons[i].style.color = "black";
   }
 }
+// =======================================================================================
