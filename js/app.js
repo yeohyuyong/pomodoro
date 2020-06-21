@@ -10,6 +10,7 @@ var startButton = document.getElementById('startButton');
 var resetButton = document.getElementById('resetButton');
 var stopButton = document.getElementById('stopButton');
 var saveButton = document.getElementById('saveButton');
+var clearButton = document.getElementById('clearButton');
 
 var timeLeftDisplay = document.getElementById("timeLeft");
 //Default time for focus
@@ -29,12 +30,17 @@ var notificationSoundInput = document.getElementById("notificationSoundInput");
 var notificationTextInput = document.getElementById("notificationTextInput");
 var backgroundMusicToggleButton = document.getElementById("backgroundMusicToggleButton");
 var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
+
 var jumbotron = document.querySelector(".jumbotron");
+var locationUpdateLog = document.getElementById("locationUpdateLog");
 
 var progressBar = document.getElementById("progressBar");
 var notificationTime;
 var titleDisplayText;
 var currentTab;
+var currentStartTime;
+var currentEndTime;
+var currentDate;
 
 var allPossibleModes = {
   "pomodoro": {
@@ -143,6 +149,8 @@ longBreak.addEventListener("click",function(){
 //Function that takes 1 away from timeLeft every 1000ms/1s
 var updateSeconds = null;
 function countDown(){
+    currentStartTime = getTime();
+    currentDate = getDate();
     updateSeconds = setInterval(function(){
     timeLeft-=1;
     if(timeLeft>=1){
@@ -164,6 +172,8 @@ function countDown(){
       allPossibleModes[currentTab].sound.play();
       progressBar.setAttribute("style", "width: 100%");
       stopBackGroundMusic();
+      currentEndTime = getTime();
+      addDataToLog();
     }
   },1000);
 }
@@ -422,3 +432,69 @@ function lightMode(){
   }
 }
 // =======================================================================================
+
+// ================================Get Time and Date=================================================
+function getDate(){
+  monthList = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var today = new Date();
+  var date = today.getDate();
+  var month = monthList[today.getMonth()];
+  var year = today.getFullYear();
+  return date + " " + month + " " + year;
+}
+function getTime(){
+  var amOrPm = ' AM';
+  var today = new Date();
+  var hours = today.getHours();
+  if (Number(hours) > 12){
+    amOrPm = ' PM';
+    hours = Number(hours) % 12;
+  }
+  var minutes = today.getMinutes();
+  if (minutes.toString().length === 1){
+    minutes = "0" + minutes;
+  }
+  var time = hours + ":" + minutes + amOrPm;
+  return time;
+}
+// ================================Adding date and time to log=================================================
+function addDataToLog(){
+  var sessionsCol  = document.createElement("th");
+  sessionsCol.setAttribute("scope", "row");
+  var sessionData = document.createTextNode(currentTab);
+  sessionsCol.appendChild(sessionData);
+
+  var dateCol = document.createElement("td");
+  dateData = document.createTextNode(currentDate);
+  dateCol.appendChild(dateData);
+
+  var startTimeCol = document.createElement("td");
+  data = document.createTextNode(currentStartTime);
+  startTimeCol.appendChild(data);
+
+  var endTimeCol = document.createElement("td");
+  data = document.createTextNode(currentEndTime);
+  endTimeCol.appendChild(data);
+
+  var timeCol = document.createElement("td");
+  if (allPossibleModes[currentTab].input.value){
+    data = document.createTextNode(allPossibleModes[currentTab].input.value);
+    timeCol.appendChild(data);
+  }
+  else{
+    data = document.createTextNode(allPossibleModes[currentTab].defaultTime);
+    timeCol.appendChild(minutesToSeconds(data));
+  }
+  var row = document.createElement("tr");
+  row.appendChild(sessionsCol);
+  row.appendChild(dateCol);
+  row.appendChild(startTimeCol);
+  row.appendChild(endTimeCol);
+  row.appendChild(timeCol);
+  row.innerHTML += '<td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>'
+  locationUpdateLog.appendChild(row);
+}
+// ================================Clear log===================================================
+clearButton.addEventListener("click", function(){
+  locationUpdateLog.innerHTML = "";
+})

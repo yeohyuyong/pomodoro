@@ -225,45 +225,19 @@
                 <thead>
                   <tr>
                     <th scope="col">Session</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Start Time</th>
                     <th scope="col">End Time</th>
                     <th scope="col">Time (Minutes)</th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">pomodoro</th>
-                    <td>8:25</td>
-                    <td>8:50</td>
-                    <td>25</td>
-                    <td><button type="button" class="close" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">short break</th>
-                    <td>8:50</td>
-                    <td>8:55</td>
-                    <td>5</td>
-                    <td><button type="button" class="close" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">pomodoro</th>
-                    <td>8:55</td>
-                    <td>9:20</td>
-                    <td>25</td>
-                    <td><button type="button" class="close" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button></td>
-                  </tr>
+                <tbody id="locationUpdateLog">
                 </tbody>
               </table>
             <div class="modal-footer">
               <div class="container d-flex justify-content-center mt-1">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveButton">Clear Log</button>
+                <button type="button" class="btn btn-primary" id="clearButton">Clear Log</button>
               </div>
             </div>
           </div>
