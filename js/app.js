@@ -1,4 +1,3 @@
-
 //Tabs
 var pomodoros = document.getElementById('pomodoros');
 var shortBreak = document.getElementById('shortBreak');
@@ -135,6 +134,7 @@ function init(){
     }
   }
 
+  //=================Notification===================
   if(localStorage.notificationSoundInputValue === "true"){
     notificationSoundInput.checked = localStorage.notificationSoundInputValue;
   }
@@ -155,7 +155,26 @@ function init(){
   else{
     notificationTextInput.value = 1;
   }
+  // ===================================Background Music=========================
+  if(localStorage.backgroundMusicToggleButtonValue === "true"){
+    backgroundMusicToggleButton.checked = localStorage.backgroundMusicToggleButtonValue;
+  }
+  else{
+    backgroundMusicToggleButton.checked = false;
 
+  }
+  if(localStorage.backgroundMusicOptionsEnableDisable === "true"){
+    backgroundMusicOptions.disabled = localStorage.backgroundMusicOptionsEnableDisable;
+  }
+  else{
+    backgroundMusicOptions.disabled = false;
+  }
+  if(localStorage.backgroundMusicOptionsValue){
+    backgroundMusicOptions.value = localStorage.backgroundMusicOptionsValue;
+  }
+  else{
+    backgroundMusicOptions.value = "Rain";
+  }
 }
 
 pomodoros.addEventListener("click",function(){
@@ -401,7 +420,6 @@ notificationSoundInput.addEventListener("change", function(){
   localStorage.notificationSoundInputValue = notificationSoundInput.checked;
   localStorage.notificationTextInputEnableDisable = notificationTextInput.disabled;
 })
-
 notificationTextInput.addEventListener("change", function(){
   localStorage.notificationTextInputValue = notificationTextInput.value;
 })
@@ -414,7 +432,13 @@ backgroundMusicToggleButton.addEventListener("change", function(){
     backgroundMusicOptions.disabled = true;
     stopBackGroundMusic();
   }
+  localStorage.backgroundMusicToggleButtonValue = backgroundMusicToggleButton.checked;
+  localStorage.backgroundMusicOptionsEnableDisable = notificationTextInput.disabled;
 })
+backgroundMusicOptions.addEventListener("change", function(){
+  localStorage.backgroundMusicOptionsValue = backgroundMusicOptions.value;
+})
+
 function playTickSound(){
   if (tickSoundInput.checked){
     tick.play();
