@@ -12,6 +12,7 @@ var stopButton = document.getElementById('stopButton');
 var saveButton = document.getElementById('saveButton');
 var clearButton = document.getElementById('clearButton');
 
+
 var timeLeftDisplay = document.getElementById("timeLeft");
 //Default time for focus
 var timeLeft = minutesToSeconds(25);
@@ -491,10 +492,16 @@ function addDataToLog(){
   row.appendChild(startTimeCol);
   row.appendChild(endTimeCol);
   row.appendChild(timeCol);
-  row.innerHTML += '<td><button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>'
+  row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
+
   locationUpdateLog.appendChild(row);
 }
 // ================================Clear log===================================================
 clearButton.addEventListener("click", function(){
   locationUpdateLog.innerHTML = "";
 })
+
+// ===============================Delete log=================================================
+function deleteLog(item){
+  item.parentNode.parentNode.remove();
+}
