@@ -14,8 +14,6 @@ var clearButton = document.getElementById('clearButton');
 
 
 var timeLeftDisplay = document.getElementById("timeLeft");
-//Default time for focus
-var timeLeft = minutesToSeconds(25);
 
 //Timer/Setting Displays
 var timerDisplay = document.getElementById('timerDisplay');
@@ -48,6 +46,7 @@ var allPossibleModes = {
   "pomodoro": {
     input: pomodoroInput,
     defaultTime: 25,
+    localStorage: localStorage.currentPomodoroValue,
     sound: new Howl({
       src: ['assets/sounds/alert-work.mp3']
     })
@@ -56,6 +55,7 @@ var allPossibleModes = {
   "long break": {
     input: longBreakInput,
     defaultTime: 20,
+    localStorage: localStorage.currentLongBreakValue,
     sound: new Howl({
       src: ['assets/sounds/alert-long-break.mp3']
     })
@@ -63,6 +63,7 @@ var allPossibleModes = {
   "short break": {
     input: shortBreakInput,
     defaultTime: 5,
+    localStorage: localStorage.currentShortBreakValue,
     sound: new Howl({
       src: ['assets/sounds/alert-short-break.mp3']
     })
@@ -114,10 +115,20 @@ init();
 function init(){
   currentTab = "pomodoro";
   pomodoroTabDisplay();
+  contentDisplay();
   makeButtonsInactive();
   pomodoros.style.fontSize = "1.15rem";
   tickSoundInput.checked = true;
   resetButtonSize();
+  modesList = ["pomodoro", "short break", "long break"]
+  for(var i=0;i<modesList.length;i++){
+    if(allPossibleModes[modesList[i]].localStorage){
+      allPossibleModes[modesList[i]].input.value = allPossibleModes[modesList[i]].localStorage;
+    }
+    else{
+      allPossibleModes[modesList[i]].input.value = allPossibleModes[modesList[i]].defaultTime;
+    }
+  }
 }
 
 
@@ -129,6 +140,7 @@ pomodoros.addEventListener("click",function(){
   makeButtonsInactive();
   resetButtonSize();
   stopBackGroundMusic();
+
 
 });
 
@@ -192,9 +204,9 @@ function resetTimer(){
   progressBar.setAttribute("style", "width: 0%");
   timerRunning = false;
   //If user entered some input
-  if(allPossibleModes[currentTab].input.value){
+  if(allPossibleModes[currentTab].localStorage){
     //Then use the input the user enters
-    timeLeft = minutesToSeconds(allPossibleModes[currentTab].input.value);
+    timeLeft = minutesToSeconds(allPossibleModes[currentTab].localStorage);
   }
   else{
     //Else use default input
@@ -250,15 +262,18 @@ saveButton.addEventListener('click',function(){
   if(currentTab==="pomodoro"){
     pomodoroTabDisplay();
     contentDisplay();
+    contentDisplay();
     resetTimer();
   }
   else if(currentTab==="short break"){
     shortBreakTabDisplay();
     contentDisplay();
+    contentDisplay();
     resetTimer();
   }
   else if(currentTab==="long break"){
     longBreakTabDisplay();
+    contentDisplay();
     contentDisplay();
     resetTimer();
   }
@@ -309,14 +324,31 @@ function longBreakTabDisplay(){
 }
 //Content Display
 function contentDisplay(){
-  if(allPossibleModes[currentTab].input.value){
-    timeLeft = minutesToSeconds(allPossibleModes[currentTab].input.value);
+  if(allPossibleModes[currentTab].localStorage){
+    timeLeft = minutesToSeconds(allPossibleModes[currentTab].localStorage);
   }
   else{
     timeLeft = minutesToSeconds(allPossibleModes[currentTab].defaultTime);
   }
   timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
 }
+//When input is updated
+pomodoroInput.addEventListener("change", function(){
+  localStorage.currentPomodoroValue = pomodoroInput.value;
+  allPossibleModes["pomodoro"].localStorage = localStorage.currentPomodoroValue;
+  pomodoroInput.value = localStorage.currentPomodoroValue;
+})
+shortBreakInput.addEventListener("change", function(){
+  localStorage.currentShortBreakValue = shortBreakInput.value;
+  allPossibleModes["short break"].localStorage = localStorage.currentShortBreakValue;
+  shortBreakInput.value = localStorage.currentShortBreakValue;
+})
+longBreakInput.addEventListener("change", function(){
+  localStorage.currentLongBreakValue = longBreakInput.value;
+  allPossibleModes["long break"].localStorage = localStorage.currentLongBreakValue;
+  longBreakInput.value = localStorage.currentLongBreakValue;
+})
+
 
 function titleTimeDisplay(){
   if (currentTab==="pomodoro"){
@@ -382,7 +414,7 @@ function stopBackGroundMusic(){
 var percentageComplete;
 function progressDisplay(){
   //Get total time in seconds
-  var totalMinutes = allPossibleModes[currentTab].input.value*60;
+  var totalMinutes = allPossibleModes[currentTab].localStorage*60;
   //Find percetage complete
   percentageComplete = (totalMinutes-timeLeft)/totalMinutes * 100;
 }
@@ -504,8 +536,8 @@ function addDataToLog(){
   endTimeCol.appendChild(data);
 
   var timeCol = document.createElement("td");
-  if (allPossibleModes[currentTab].input.value){
-    data = document.createTextNode(allPossibleModes[currentTab].input.value);
+  if (allPossibleModes[currentTab].localStorage){
+    data = document.createTextNode(allPossibleModes[currentTab].localStorage);
     timeCol.appendChild(data);
   }
   else{
