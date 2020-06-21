@@ -42,6 +42,7 @@ var currentTab;
 var currentStartTime;
 var currentEndTime;
 var currentDate;
+var numberLoggedItems = 0;
 
 var allPossibleModes = {
   "pomodoro": {
@@ -481,7 +482,10 @@ function getTime(){
   return time;
 }
 // ================================Adding date and time to log=================================================
+
 function addDataToLog(){
+  numberLoggedItems += 1;
+  removeNoDataLoggedText();
   var sessionsCol  = document.createElement("th");
   sessionsCol.setAttribute("scope", "row");
   var sessionData = document.createTextNode(currentTab);
@@ -520,9 +524,22 @@ function addDataToLog(){
 // ================================Clear log===================================================
 clearButton.addEventListener("click", function(){
   locationUpdateLog.innerHTML = "";
+  numberLoggedItems = 0;
+  showNoDataLoggedText();
 })
-
 // ===============================Delete log=================================================
 function deleteLog(item){
   item.parentNode.parentNode.remove();
+  numberLoggedItems -= 1;
+  if (numberLoggedItems===0){
+    showNoDataLoggedText();
+  }
+}
+// ==========================Remove NoDataLoggedText=============================================
+function removeNoDataLoggedText(){
+  document.getElementById("NoDataLoggedText").style.display = "none";
+}
+// ==========================Show NoDataLoggedText==============================================
+function showNoDataLoggedText(){
+  document.getElementById("NoDataLoggedText").style.display = "block";
 }
