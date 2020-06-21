@@ -84,23 +84,28 @@ notification = new Howl({
 allBackgroundMusic = {
   "Campfire": new Howl({
     src: ['assets/sounds/background_music/Campfire.mp3'],
-    volume:0.1
+    volume:0.1,
+    loop:true
   }),
   "Forest":new Howl({
     src: ['assets/sounds/background_music/Forest.mp3'],
-    volume:0.1
+    volume:0.1,
+    loop:true
   }),
   "Ocean":new Howl({
     src: ['assets/sounds/background_music/Ocean.mp3'],
-    volume:0.1
+    volume:0.1,
+    loop:true
   }),
   "Rain":new Howl({
     src: ['assets/sounds/background_music/Rain.mp3'],
-    volume:0.1
+    volume:0.1,
+    loop:true
   }),
   "Windy Desert":new Howl({
     src: ['assets/sounds/background_music/Windy_Desert.mp3'],
-    volume:0.1
+    volume:0.1,
+    loop:true
   })
 }
 
@@ -150,6 +155,7 @@ longBreak.addEventListener("click",function(){
 //Function that takes 1 away from timeLeft every 1000ms/1s
 var updateSeconds = null;
 function countDown(){
+    playBackGroundMusic();
     currentStartTime = getTime();
     currentDate = getDate();
     updateSeconds = setInterval(function(){
@@ -162,7 +168,7 @@ function countDown(){
       progressBar.setAttribute("style", "width: " + percentageComplete.toString() + "%");
       playTickSound();
       playEndingNotification();
-      playBackGroundMusic();
+
     }
     else{
       timeLeft=0;
