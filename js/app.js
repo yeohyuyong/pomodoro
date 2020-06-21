@@ -118,7 +118,12 @@ function init(){
   contentDisplay();
   makeButtonsInactive();
   pomodoros.style.fontSize = "1.15rem";
-  tickSoundInput.checked = true;
+  if(localStorage.tickSoundInputValue === "true"){
+    tickSoundInput.checked = localStorage.tickSoundInputValue;
+  }
+  else{
+    tickSoundInput.checked = false;
+  }
   resetButtonSize();
   modesList = ["pomodoro", "short break", "long break"]
   for(var i=0;i<modesList.length;i++){
@@ -387,6 +392,9 @@ function playTickSound(){
     tick.play();
   }
 }
+tickSoundInput.addEventListener("change", function(){
+  localStorage.tickSoundInputValue = tickSoundInput.checked;
+})
 function playEndingNotification(){
   notificationTime = notificationTextInput.value;
   if (notificationSoundInput.checked){
