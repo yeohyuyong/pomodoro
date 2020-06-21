@@ -320,7 +320,6 @@ saveButton.addEventListener('click',function(){
     longBreakTabDisplay();
   }
   resetButtonSize();
-  progressBar.setAttribute("style", "width: 0%");
 });
 
 function resetButtonSize(){
