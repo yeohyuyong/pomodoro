@@ -576,7 +576,13 @@ function addDataToLog(){
   removeNoDataLoggedText();
   var sessionsCol  = document.createElement("th");
   sessionsCol.setAttribute("scope", "row");
-  var sessionData = document.createTextNode(currentTab);
+  if (currentTab==="pomodoro"){
+    var sessionData = document.createTextNode("focus");
+  }
+  else{
+    var sessionData = document.createTextNode(currentTab);
+  }
+
   sessionsCol.appendChild(sessionData);
 
   var dateCol = document.createElement("td");
