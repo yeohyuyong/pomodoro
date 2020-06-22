@@ -562,6 +562,9 @@ function getTime(){
     amOrPm = ' PM';
     hours = Number(hours) % 12;
   }
+  if (Number(hours) === 12){
+    amOrPm = ' PM';
+  }
   var minutes = today.getMinutes();
   if (minutes.toString().length === 1){
     minutes = "0" + minutes;
