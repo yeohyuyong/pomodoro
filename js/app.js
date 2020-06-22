@@ -197,9 +197,12 @@ function init(){
   // ============================Todo list===========================================
   if (localStorage.todoContents !== undefined){
     if (localStorage.todoContents.indexOf("li") === -1){
+      showNoTaskTodayText();
     }
     else{
+      //List is not empty
       listOfTasks.innerHTML = localStorage.todoContents;
+      removeNoTaskTodayText();
     }
   }
   else{
@@ -601,7 +604,6 @@ function getTime(){
 }
 // ================================Adding date and time to log=================================================
 function addDataToLog(){
-  localStorage.numberLoggedItems = Number(localStorage.numberLoggedItems)+1;
   var sessionsCol  = document.createElement("th");
   sessionsCol.setAttribute("scope", "row");
   if (currentTab==="pomodoro"){
@@ -666,7 +668,6 @@ function storeLogItems(){
 }
 //==========================Todo list============================================================
 var taskInput = document.getElementById('taskInput');
-
 taskInput.addEventListener("change", function(){
   displayTasks();
   taskInput.value = "";
@@ -684,7 +685,7 @@ function displayTasks(){
   listItem.innerHTML +='<td><button type="button" class="close" onclick = "deleteTasks(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
   listOfTasks.appendChild(listItem);
   storeTasks();
-  taskItem = document.querySelectorAll(".taskItem");
+  removeNoTaskTodayText();
 
 }
 
@@ -695,12 +696,26 @@ function checkedWhenclicked(item){
 function deleteTasks(item){
   item.parentNode.remove();
   storeTasks();
+  if(listIsEmpty()){
+    showNoTaskTodayText();
+  }
 }
 clearTasksButton.addEventListener("click", function(){
   listOfTasks.innerHTML = "";
   storeTasks();
+  showNoTaskTodayText();
 })
 // ================================Local storage for todo list==========================================
 function storeTasks(){
   localStorage.todoContents = listOfTasks.innerHTML;
+}
+// ====================================No task Today Text====================================================
+function showNoTaskTodayText(){
+  document.getElementById('NoTaskTodayText').style.display = "block";
+}
+function removeNoTaskTodayText(){
+  document.getElementById('NoTaskTodayText').style.display = "none";
+}
+function listIsEmpty(){
+  return localStorage.todoContents.indexOf("li") === -1;
 }
