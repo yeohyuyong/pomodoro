@@ -40,8 +40,6 @@ var currentTab;
 var currentStartTime;
 var currentEndTime;
 var currentDate;
-// localStorage.numberLoggedItems = 0;
-// localStorage.numberLoggedItems = Number(localStorage.numberLoggedItems = 0);
 
 var allPossibleModes = {
   "pomodoro": {
