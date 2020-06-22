@@ -20,7 +20,8 @@
 ## Features
 - Customize times for Focus, Short Breaks and Long Breaks
 - Charming timer alert sounds
-- Logging system
+- Logging system to keep track of sessions
+- To-do list to keep track of tasks
 - Dark Mode (optional)
 - Timer ticking sounds (optional)
 - Customizable timer ending notification (optional)
