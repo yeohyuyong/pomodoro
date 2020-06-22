@@ -666,11 +666,9 @@ function storeLogItems(){
 }
 //==========================Todo list============================================================
 var taskInput = document.getElementById('taskInput');
-var numberOfTasks = 0;
+
 taskInput.addEventListener("change", function(){
-  numberOfTasks+=1;
   displayTasks();
-  removeNotaskTodayText();
   taskInput.value = "";
   storeTasks();
 })
@@ -682,7 +680,6 @@ function displayTasks(){
   var todo = document.createTextNode(taskInput.value);
   listItem.setAttribute("class", "list-group-item");
   listItem.setAttribute("onclick", "checkedWhenclicked(this)");
-
   listItem.appendChild(todo);
   listItem.innerHTML +='<td><button type="button" class="close" onclick = "deleteTasks(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
   listOfTasks.appendChild(listItem);
@@ -697,16 +694,10 @@ function checkedWhenclicked(item){
 }
 function deleteTasks(item){
   item.parentNode.remove();
-  numberOfTasks-=1;
-  if (numberOfTasks===0){
-    showNotaskTodayText();
-  }
   storeTasks();
 }
 clearTasksButton.addEventListener("click", function(){
   listOfTasks.innerHTML = "";
-  showNotaskTodayText();
-  numberOfTasks = 0;
   storeTasks();
 })
 // ================================Local storage for todo list==========================================
