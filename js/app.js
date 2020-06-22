@@ -186,10 +186,12 @@ function init(){
   }
   // ===============================Logging=============================================
   if (localStorage.logContents !== undefined){
-    if (localStorage.logContents.indexOf("td") === -1){
+    if (localStorage.logContents.indexOf("tr") === -1){
+      showNoDataLoggedText();
     }
     else{
       locationUpdateLog.innerHTML = localStorage.logContents;
+      removeNoDataLoggedText();
     }
   }
   else{
@@ -645,26 +647,35 @@ function addDataToLog(){
   row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
   locationUpdateLog.appendChild(row);
   storeLogItems();
+  removeNoDataLoggedText();
 }
 // ================================Clear log===================================================
 clearButton.addEventListener("click", function(){
   locationUpdateLog.innerHTML = "";
-  localStorage.numberLoggedItems = 0;
-  showNoDataLoggedText();
   storeLogItems();
+  showNoDataLoggedText();
 })
 // ===============================Delete log=================================================
 function deleteLog(item){
   item.parentNode.parentNode.remove();
-  localStorage.numberLoggedItems = Number(localStorage.numberLoggedItems)-1;
-  if (Number(localStorage.numberLoggedItems)===0){
+  storeLogItems();
+  if (logIsEmpty()){
     showNoDataLoggedText();
   }
-  storeLogItems();
 }
 // ===========================Local Storage for Logging==============================================
 function storeLogItems(){
   localStorage.logContents = locationUpdateLog.innerHTML;
+}
+// =====================================No logging data text===============================================
+function showNoDataLoggedText(){
+  document.getElementById('NoDataLoggedText').style.display = "block";
+}
+function removeNoDataLoggedText(){
+  document.getElementById('NoDataLoggedText').style.display = "none";
+}
+function logIsEmpty(){
+  return (localStorage.logContents.indexOf("tr") === -1);
 }
 //==========================Todo list============================================================
 var taskInput = document.getElementById('taskInput');
@@ -673,7 +684,6 @@ taskInput.addEventListener("change", function(){
   taskInput.value = "";
   storeTasks();
 })
-
 var taskItem;
 var listOfTasks = document.getElementById('listOfTasks');
 function displayTasks(){
@@ -686,9 +696,7 @@ function displayTasks(){
   listOfTasks.appendChild(listItem);
   storeTasks();
   removeNoTaskTodayText();
-
 }
-
 function checkedWhenclicked(item){
   item.classList.toggle("done");
   storeTasks();
