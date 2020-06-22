@@ -509,8 +509,12 @@ function darkMode(){
   for (var i=0;i<modals.length;i++){
     modals[i].style.backgroundColor = "#171717";
   }
+  document.querySelectorAll(".notificationText")[0].style.color = "white";
+  document.querySelectorAll(".notificationText")[1].style.color = "white";
+
   document.getElementById("exampleModalLabel").style.color = "hsla(0,0%,100%,.87)";
   document.getElementById("loggingModalLabel").style.color = "hsla(0,0%,100%,.87)";
+  document.getElementById("todoModalLabel").style.color = "hsla(0,0%,100%,.87)";
   document.getElementById("logDataTable").classList.add("table-dark");
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
@@ -533,7 +537,10 @@ function lightMode(){
   }
   document.getElementById("exampleModalLabel").style.color = "black";
   document.getElementById("loggingModalLabel").style.color = "black";
+  document.getElementById("todoModalLabel").style.color = "black";
   document.getElementById("logDataTable").classList.remove("table-dark");
+  document.querySelectorAll(".notificationText")[0].style.color = "black";
+  document.querySelectorAll(".notificationText")[1].style.color = "black";
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
     socialIcons[i].style.color = "black";
