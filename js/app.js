@@ -663,8 +663,6 @@ function displayTasks(){
 function deleteTasks(item){
   item.parentNode.remove();
 }
-function taskCompleted(task){
-  task.addEventListener("click",function(){
-    task.classList.toggle('done');
-  });
-};
+clearTasksButton.addEventListener("click", function(){
+  listOfTasks.innerHTML = "";
+})

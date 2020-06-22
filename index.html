@@ -31,6 +31,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.png"/>
 </head>
 <body>
+  <!-- Brand Name -->
   <div class="d-flex justify-content-center navbar navbar-light bg-light border">
       <nav class="navbar navbar-light bg-light pb-0 pt-0 d-flex justify-content-center" id="brandName">
         <a class="navbar-brand" href="/">
@@ -66,13 +67,13 @@
         <div class="col">
           <ul class="nav nav-pills justify-content-end mr-0">
             <li class="nav-item p-0">
-              <a class="nav-link px-2" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-list-ul fa-lg"></i></a>
+              <a class="nav-link px-2 mx-1" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-list-ul fa-lg"></i></a>
             </li>
             <li class="nav-item pl-1 pr-0">
-              <a class="nav-link px-2" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
+              <a class="nav-link px-2 mx-1" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link pl-3 pr-0" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
+              <a class="nav-link pl-2 pr-0 ml-2" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
             </li>
           </ul>
         </div>
@@ -276,7 +277,7 @@
             <div class="input-group mb-3 ">
               <input id="taskInput" type="text" class="form-control" placeholder="Task Description" aria-label="Task name" aria-describedby="button-addon2">
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Add</button>
+                <button class="btn btn-outline-secondary" id="addTaskButton" type="button" id="button-addon2">Add</button>
               </div>
             </div>
             <!-- Task items -->

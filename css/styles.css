@@ -65,6 +65,14 @@ html, body {
   font-weight: bold;
 }
 
+#taskInput{
+  border-radius: 1rem;
+}
+#addTaskButton{
+  border-radius: 10rem;
+  margin-left: 0.5rem;
+}
+
 .social-icon{
   color: black;
 }
