@@ -1,9 +1,17 @@
-<a href="https://pomodorotimers.com"><img src="assets\img\site_title.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
-<a href="https://pomodorotimers.com"><img src="assets\img\site_content.PNG" title="PomodoroTimers" alt="PomodoroTimers"></a>
-<a href="https://pomodorotimers.com"><img src="assets\img\site_settings.PNG" title="PomodoroTimers" alt="PomodoroTimers" style="width:600px;margin-left: auto;
-  margin-right: auto;"></a>
 
 
+  <div align="center">
+    <img alt="Pomotroid" src="assets\img\site_title.PNG" title="PomodoroTimers" width="800px">
+  </div>
+  <div align="center">
+    <img alt="Pomotroid" src="assets\img\site_content.PNG" title="PomodoroTimers" width="800px">
+  </div>
+  <div align="center">
+    <img alt="Pomotroid" src="assets\img\site_settings.PNG" title="PomodoroTimers" width="800px">
+  </div>
+  <div align="center">
+    <img alt="Pomotroid in action" src=".github/images/pomotroid-screens.png" width="800px">
+  </div>
 ---
 
 
