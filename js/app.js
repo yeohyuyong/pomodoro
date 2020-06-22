@@ -609,10 +609,13 @@ function addDataToLog(){
   var sessionsCol  = document.createElement("th");
   sessionsCol.setAttribute("scope", "row");
   if (currentTab==="pomodoro"){
-    var sessionData = document.createTextNode("focus");
+    var sessionData = document.createTextNode("Focus");
   }
-  else{
-    var sessionData = document.createTextNode(currentTab);
+  else if(currentTab==="short break"){
+    var sessionData = document.createTextNode("Short Break");
+  }
+  else if(currentTab==="long break"){
+    var sessionData = document.createTextNode("Long Break");
   }
 
   sessionsCol.appendChild(sessionData);
