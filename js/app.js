@@ -607,6 +607,14 @@ function addDataToLog(){
   row.appendChild(timeCol);
   row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
   locationUpdateLog.appendChild(row);
+  var singleData = {
+    session: sessionsCol,
+    date: dateCol,
+    startTime: startTimeCol,
+    endTime: endTimeCol,
+    time: timeCol,
+  }
+  return singleData;
 }
 // ================================Clear log===================================================
 clearButton.addEventListener("click", function(){
