@@ -648,11 +648,13 @@ function removeNoDataLoggedText(){
 function showNoDataLoggedText(){
   document.getElementById("NoDataLoggedText").style.display = "block";
 }
-
 //==========================Todo list============================================================
 var taskInput = document.getElementById('taskInput');
+var numberOfTasks = 0;
 taskInput.addEventListener("change", function(){
+  numberOfTasks+=1;
   displayTasks();
+  removeNotaskTodayText();
   taskInput.value = "";
 })
 
@@ -671,7 +673,21 @@ function displayTasks(){
 }
 function deleteTasks(item){
   item.parentNode.remove();
+  numberOfTasks-=1;
+  if (numberOfTasks===0){
+    showNotaskTodayText();
+  }
 }
 clearTasksButton.addEventListener("click", function(){
   listOfTasks.innerHTML = "";
+  showNotaskTodayText();
+  numberOfTasks = 0;
 })
+// ==========================Remove NotaskTodayText=============================================
+function removeNotaskTodayText(){
+  document.getElementById("NotaskTodayText").style.display = "none";
+}
+// ==========================Show NoDataLoggedText==============================================
+function showNotaskTodayText(){
+  document.getElementById("NotaskTodayText").style.display = "block";
+}
