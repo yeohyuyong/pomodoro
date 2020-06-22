@@ -40,7 +40,8 @@ var currentTab;
 var currentStartTime;
 var currentEndTime;
 var currentDate;
-var numberLoggedItems = 0;
+// localStorage.numberLoggedItems = 0;
+// localStorage.numberLoggedItems = Number(localStorage.numberLoggedItems = 0);
 
 var allPossibleModes = {
   "pomodoro": {
@@ -118,6 +119,7 @@ function init(){
   contentDisplay();
   makeButtonsInactive();
   pomodoros.style.fontSize = "1.15rem";
+  // ===================Ticking Sound============================
   if(localStorage.tickSoundInputValue === "true"){
     tickSoundInput.checked = localStorage.tickSoundInputValue;
   }
@@ -183,6 +185,19 @@ function init(){
   }
   else{
     darkModeToggle.checked = false;
+  }
+  // ===============================Logging=============================================
+  if (localStorage.logContents !== undefined){
+    if (localStorage.logContents.indexOf("td") === -1){
+      showNoDataLoggedText();
+    }
+    else{
+      locationUpdateLog.innerHTML = localStorage.logContents;
+      removeNoDataLoggedText();
+    }
+  }
+  else{
+    showNoDataLoggedText();
   }
 }
 
@@ -580,9 +595,8 @@ function getTime(){
   return time;
 }
 // ================================Adding date and time to log=================================================
-
 function addDataToLog(){
-  numberLoggedItems += 1;
+  localStorage.numberLoggedItems = Number(localStorage.numberLoggedItems)+1;
   removeNoDataLoggedText();
   var sessionsCol  = document.createElement("th");
   sessionsCol.setAttribute("scope", "row");
@@ -624,28 +638,27 @@ function addDataToLog(){
   row.appendChild(timeCol);
   row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
   locationUpdateLog.appendChild(row);
-  var singleData = {
-    session: sessionsCol,
-    date: dateCol,
-    startTime: startTimeCol,
-    endTime: endTimeCol,
-    time: timeCol,
-  }
-  return singleData;
+  storeLogItems();
 }
 // ================================Clear log===================================================
 clearButton.addEventListener("click", function(){
   locationUpdateLog.innerHTML = "";
-  numberLoggedItems = 0;
+  localStorage.numberLoggedItems = 0;
   showNoDataLoggedText();
+  storeLogItems();
 })
 // ===============================Delete log=================================================
 function deleteLog(item){
   item.parentNode.parentNode.remove();
-  numberLoggedItems -= 1;
-  if (numberLoggedItems===0){
+  localStorage.numberLoggedItems = Number(localStorage.numberLoggedItems)-1;
+  if (Number(localStorage.numberLoggedItems)===0){
     showNoDataLoggedText();
   }
+  storeLogItems();
+}
+// ===========================Local Storage for Logging==============================================
+function storeLogItems(){
+  localStorage.logContents = locationUpdateLog.innerHTML;
 }
 // ==========================Remove NoDataLoggedText=============================================
 function removeNoDataLoggedText(){
