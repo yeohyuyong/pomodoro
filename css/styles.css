@@ -21,12 +21,12 @@ html, body {
   border-radius: 2rem;
   padding: 0.4rem 1.5rem;
 }
-#saveButton, #clearButton {
+#saveButton, #clearButton, #clearTasksButton {
   font-size: 1.1rem;
   padding: 0.8rem 1.6rem;
 }
 
-#startButton, #stopButton, #resetButton, #saveButton, #clearButton {
+#startButton, #stopButton, #resetButton, #saveButton, #clearButton, #clearTasksButton {
   font-weight: 500;
   border-radius: 2rem;
   line-height: 2rem;
@@ -73,7 +73,10 @@ html, body {
   color: #007bff;
 }
 
-
+.done{
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.2);
+}
 /* Styling for Tick Sound Slider */
 /* The switch - the box around the slider */
 .switch {

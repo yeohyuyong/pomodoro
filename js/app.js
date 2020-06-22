@@ -10,7 +10,7 @@ var resetButton = document.getElementById('resetButton');
 var stopButton = document.getElementById('stopButton');
 var saveButton = document.getElementById('saveButton');
 var clearButton = document.getElementById('clearButton');
-
+var clearTasksButton = document.getElementById('clearTasksButton');
 
 var timeLeftDisplay = document.getElementById("timeLeft");
 
@@ -31,6 +31,7 @@ var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
 
 var jumbotron = document.querySelector(".jumbotron");
 var locationUpdateLog = document.getElementById("locationUpdateLog");
+var listOfTasks = document.getElementById('listOfTasks');
 
 var progressBar = document.getElementById("progressBar");
 var notificationTime;
@@ -638,3 +639,32 @@ function removeNoDataLoggedText(){
 function showNoDataLoggedText(){
   document.getElementById("NoDataLoggedText").style.display = "block";
 }
+
+//==========================Todo list============================================================
+var taskInput = document.getElementById('taskInput');
+taskInput.addEventListener("change", function(){
+  displayTasks();
+  taskInput.value = "";
+})
+
+var listOfTasks = document.getElementById('listOfTasks');
+function displayTasks(){
+  var listItem = document.createElement("li");
+  var todo = document.createTextNode(taskInput.value);
+  listItem.setAttribute("class", "list-group-item");
+  listItem.appendChild(todo);
+  listItem.innerHTML +='<td><button type="button" class="close" onclick = "deleteTasks(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
+  listOfTasks.appendChild(listItem);
+  //Line through when task is complete
+  listItem.addEventListener("click",function(){
+    listItem.classList.toggle('done');
+  });
+}
+function deleteTasks(item){
+  item.parentNode.remove();
+}
+function taskCompleted(task){
+  task.addEventListener("click",function(){
+    task.classList.toggle('done');
+  });
+};
