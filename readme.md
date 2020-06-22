@@ -29,7 +29,6 @@
 
 ## Roadmap
 📝 Future plans for enhancements and development:
-- Local storage
 
 ## License
 
