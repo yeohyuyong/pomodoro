@@ -4,14 +4,18 @@
     <img alt="Pomotroid" src="assets\img\site_title.PNG" title="PomodoroTimers" width="800px">
   </div>
   <div align="center">
-    <img alt="Pomotroid" src="assets\img\site_content.PNG" title="PomodoroTimers" width="800px">
+    <img src="assets\img\site_content.PNG" width="800px">
   </div>
   <div align="center">
-    <img alt="Pomotroid" src="assets\img\site_settings.PNG" title="PomodoroTimers" width="800px">
+    <img src="assets\img\site_settings.PNG"" width="800px">
   </div>
   <div align="center">
-    <img alt="Pomotroid in action" src=".github/images/pomotroid-screens.png" width="800px">
+    <img src="assets\img\site_log.PNG"" width="800px">
   </div>
+  <div align="center">
+    <img src="assets\img\site_todo.PNG"" width="800px">
+  </div>
+
 ---
 
 
