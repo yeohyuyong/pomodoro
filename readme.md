@@ -40,7 +40,7 @@
 
 ## Roadmap
 📝 Future plans for enhancements and development:
-- Local storage
+- Auto start next session
 
 ## License
 
