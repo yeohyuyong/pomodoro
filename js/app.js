@@ -215,6 +215,13 @@ function init(){
   if (localStorage.longBreakInterval !== undefined){
     longBreakIntervalInput.value = localStorage.longBreakInterval;
   }
+  // ======================Auto Start Input===================================
+  if(localStorage.autoStartRoundsInputValue === "true"){
+    autoStartRoundsInput.checked = localStorage.autoStartRoundsInputValue;
+  }
+  else{
+    autoStartRoundsInput.checked = false;
+  }
 }
 
 pomodoros.addEventListener("click",function(){
@@ -324,8 +331,7 @@ startButton.addEventListener('click',function(){
   startButton.style.fontSize = "1.3rem";
   stopButton.style.fontSize = "1.25rem";
   resetButton.style.fontSize = "1.25rem";
-  // playBackGroundMusic();
-    // buttonClickSound();
+
 });
 resetButton.addEventListener('click',function(){
   resetTimer();
@@ -737,7 +743,7 @@ function removeNoTaskTodayText(){
 function listIsEmpty(){
   return localStorage.todoContents.indexOf("li") === -1;
 }
-// ======================================Auto Start Next Rounds===================================================
+// ======================================Start Next Rounds===================================================
 longBreakIntervalInput.addEventListener("change", function(){
    localStorage.longBreakInterval = Number(longBreakIntervalInput.value);
 })
@@ -754,6 +760,7 @@ function startNextRound(){
       makeButtonsInactive();
       resetButtonSize();
       stopBackGroundMusic();
+      countDown();
     }
     else if(currentTab==="pomodoro"){
       //play short break
@@ -765,6 +772,10 @@ function startNextRound(){
       makeButtonsInactive();
       resetButtonSize();
       stopBackGroundMusic();
+      if (autoStartRoundsInput.checked){
+        autoStartTimer();
+      }
+
     }
     else if (currentTab==="short break"){
       //play pomodoros
@@ -775,6 +786,9 @@ function startNextRound(){
       makeButtonsInactive();
       resetButtonSize();
       stopBackGroundMusic();
+      if (autoStartRoundsInput.checked){
+        autoStartTimer();
+      }
     }
     else if (currentTab==="long break"){
       //play pomodoros
@@ -785,5 +799,25 @@ function startNextRound(){
       makeButtonsInactive();
       resetButtonSize();
       stopBackGroundMusic();
-    }
+      if (autoStartRoundsInput.checked){
+        autoStartTimer();
+      }
+     }
 }
+// ==================================Auto Start Next Round=====================================
+function autoStartTimer(){
+  if (timerRunning===false){
+    timerRunning = true;
+    countDown();
+    startButton.classList.add("active");
+    stopButton.classList.remove("active");
+    resetButton.classList.remove("active");
+  }
+  startButton.style.fontSize = "1.3rem";
+  stopButton.style.fontSize = "1.25rem";
+  resetButton.style.fontSize = "1.25rem";
+}
+
+autoStartRoundsInput.addEventListener("change", function(){
+  localStorage.autoStartRoundsInputValue = autoStartRoundsInput.checked;
+})
