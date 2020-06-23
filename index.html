@@ -124,7 +124,7 @@
                 <p class="h6 text-muted">Time (Minutes)</p>
               </div>
               <div class="row">
-                <div class="col-sm">
+                <div class="col-lg-4">
                   <div class="input-group mb-2">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="inputGroup-sizing-default">Focus</span>
@@ -132,7 +132,7 @@
                     <input id="pomodoroInput" type="number" min="1" step="1" class="form-control">
                   </div>
                 </div>
-                <div class="col-sm">
+                <div class="col-lg-4">
                   <div class="input-group mb-2">
                     <div class="input-group-prepend ">
                       <span class="input-group-text" id="inputGroup-sizing-default">Short Break</span>
@@ -140,7 +140,7 @@
                     <input id="shortBreakInput" type="number" min="1" step="1" class="form-control">
                   </div>
                 </div>
-                <div class="col-sm">
+                <div class="col-lg-4">
                   <div class="input-group mb-2">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="inputGroup-sizing-default">Long Break</span>
@@ -190,17 +190,25 @@
               <div class="row ml-1">
                 <p class="h6 text-muted">Notification</p>
               </div>
-              <div class="row pl-3 pb-1">
-                <form class="form-inline">
-                  <div class="form-group">
-                    <label class="switch mr-3">
-                      <input id="notificationSoundInput" type="checkbox">
-                      <span class="slider round"></span>
-                    </label>
-                    <label for="notificationTextInput" class="mr-1 notificationText">Last</label>
-                    <input type="number" id="notificationTextInput"  min=1 class="form-control col-2" value=1 disabled>&nbsp;<span class="notificationText">Minutes</span>
-                  </div>
-                </form>
+              <div class="row pb-1">
+                <div class="col-sm-2 ">
+                  <form class="form-inline pr-0">
+                    <div class="form-group">
+                      <label class="switch mr-3">
+                        <input id="notificationSoundInput" type="checkbox">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-sm-2">
+                  <form class="form-inline">
+                    <div class="form-group">
+                      <label for="notificationTextInput" class="mr-1 notificationText">Last</label>
+                      <input type="number" id="notificationTextInput"  min=1 class="form-control col-2" value=1 disabled>&nbsp;<span class="notificationText">Minutes</span>
+                    </div>
+                  </form>
+                </div>
               </div>
               <hr>
               <!-- Background Music -->
