@@ -45,43 +45,36 @@
     <div class="container mb-3 pl-5">
       <div class="row">
         <div class="col"></div>
-        <div class="col-6">
-          <ul class="nav nav-pills justify-content-center">
+        <div class="col-6 px-0 mx-0">
+          <ul class="nav nav-pills w-100">
             <div class="col mx-0 px-0">
-              <li class="nav-item">
-                <a class="nav-link timerLinks active" id="pomodoros" data-toggle="tab" role="tab" aria-selected="false" href="#">Focus</a>
-              </li>
+              <a class="nav-link timerLinks active" id="pomodoros" data-toggle="tab" role="tab" aria-selected="false" href="#">Focus</a>
             </div>
             <div class="col mx-0 px-0">
-              <li class="nav-item">
-                <a class="nav-link timerLinks" id="shortBreak" data-toggle="tab" role="tab" aria-selected="false" href="#">Short Break</a>
-              </li>
+              <a class="nav-link timerLinks" id="shortBreak" data-toggle="tab" role="tab" aria-selected="false" href="#">Short Break</a>
             </div>
             <div class="col mx-0 px-0">
-              <li class="nav-item">
-                <a class="nav-link timerLinks" id="longBreak" data-toggle="tab" role="tab" aria-selected="false" href="#" >Long Break</a>
-              </li>
+              <a class="nav-link timerLinks" id="longBreak" data-toggle="tab" role="tab" aria-selected="false" href="#" >Long Break</a>
             </div>
           </ul>
         </div>
         <div class="col">
           <ul class="nav nav-pills justify-content-end mr-0">
             <li class="nav-item p-0">
-              <a class="nav-link px-2 mx-1" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-list-ul fa-lg"></i></a>
+              <a class="nav-link px-2 mx-1 d-none d-md-block" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-list-ul fa-lg"></i></a>
             </li>
             <li class="nav-item pl-1 pr-0">
-              <a class="nav-link px-2 mx-1" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
+              <a class="nav-link px-2 mx-1 d-none d-md-block" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link pl-2 pr-0 ml-2" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
+              <a class="nav-link pl-2 pr-0 ml-2 d-none d-md-block" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
             </li>
           </ul>
         </div>
       </div>
     </div>
     <!-- TIMER DISPLAY -->
-    <div id="timerDisplay">
-      <div class="jumbotron pb-5 mb-3">
+      <div id="timerDisplay" class="jumbotron pb-4 mb-3">
         <h1 class="display-4 mb-3 d-flex justify-content-center"><span id="timeLeft"></span></h1>
         <!-- Progress Bar -->
         <div class="progress">
@@ -89,21 +82,18 @@
         </div>
         <div class="d-flex mt-4 pt-0 mb-0 justify-content-around container">
           <div class="row">
-            <div class="col-sm">
-              <form class="form-signin">
-                <button type="button" class="btn btn-lg btn-success shadow-none" id="startButton">Start</button>
-              </form>
+            <div class="col-md-4 mb-1 d-flex justify-content-center">
+                <button type="button" class="btn btn-lg btn-success shadow-none w-100" id="startButton">Start</button>
             </div>
-            <div class="col-sm">
-              <button type="button" class="btn btn-danger btn-lg shadow-none" id="stopButton">Stop</button>
+            <div class="col-md-4 mb-1 d-flex justify-content-center">
+              <button type="button" class="btn btn-danger btn-lg shadow-none w-100" id="stopButton">Stop</button>
             </div>
-            <div class="col-sm">
-              <button type="button" class="btn btn-secondary btn-lg shadow-none" id="resetButton">Reset</button>
+            <div class="col-md-4 mb-1 d-flex justify-content-center">
+              <button type="button" class="btn btn-secondary btn-lg shadow-none w-100" id="resetButton">Reset</button>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
     <!-- Settings Modal -->
     <div class="modal fade" data-keyboard="true" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
