@@ -738,7 +738,7 @@ function listIsEmpty(){
   return localStorage.todoContents.indexOf("li") === -1;
 }
 // ======================================Auto Start Next Rounds===================================================
-longBreakIntervalInput.addEventListener("click", function(){
+longBreakIntervalInput.addEventListener("change", function(){
    localStorage.longBreakInterval = Number(longBreakIntervalInput.value);
 })
 var numberSessions = 0;
