@@ -22,12 +22,15 @@ var settingsDisplay = document.getElementById('settingsDisplay');
 var pomodoroInput = document.getElementById("pomodoroInput");
 var shortBreakInput = document.getElementById("shortBreakInput");
 var longBreakInput = document.getElementById("longBreakInput");
+var autoStartRoundsInput = document.getElementById("autoStartRoundsInput");
 var tickSoundInput = document.getElementById("tickSoundInput");
 var darkModeToggle = document.getElementById("darkModeToggle");
 var notificationSoundInput = document.getElementById("notificationSoundInput");
 var notificationTextInput = document.getElementById("notificationTextInput");
 var backgroundMusicToggleButton = document.getElementById("backgroundMusicToggleButton");
 var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
+var longBreakIntervalInput = document.getElementById('longBreakIntervalInput');
+
 
 var jumbotron = document.querySelector(".jumbotron");
 var locationUpdateLog = document.getElementById("locationUpdateLog");
@@ -81,7 +84,6 @@ notification = new Howl({
 
 
 //Background Music
-
 allBackgroundMusic = {
   "Campfire": new Howl({
     src: ['assets/sounds/background_music/Campfire.mp3'],
@@ -209,6 +211,10 @@ function init(){
   }
   else{
   }
+  // =====================Long Break Interval==========================================
+  if (localStorage.longBreakInterval !== undefined){
+    longBreakIntervalInput.value = localStorage.longBreakInterval;
+  }
 }
 
 pomodoros.addEventListener("click",function(){
@@ -271,6 +277,7 @@ function countDown(){
       stopBackGroundMusic();
       currentEndTime = getTime();
       addDataToLog();
+      startNextRound();
     }
   },1000);
 }
@@ -729,4 +736,54 @@ function removeNoTaskTodayText(){
 }
 function listIsEmpty(){
   return localStorage.todoContents.indexOf("li") === -1;
+}
+// ======================================Auto Start Next Rounds===================================================
+longBreakIntervalInput.addEventListener("click", function(){
+   localStorage.longBreakInterval = Number(longBreakIntervalInput.value);
+})
+var numberSessions = 0;
+function startNextRound(){
+  //if not time for long break play short break
+    if (currentTab==="pomodoro" && numberSessions === Number(localStorage.longBreakInterval)-1){
+      //play long break
+      numberSessions = 0;
+      currentTab = "long break";
+      longBreakTabDisplay();
+      contentDisplay();
+      resetTimer();
+      makeButtonsInactive();
+      resetButtonSize();
+      stopBackGroundMusic();
+    }
+    else if(currentTab==="pomodoro"){
+      //play short break
+      numberSessions += 1;
+      currentTab = "short break";
+      shortBreakTabDisplay();
+      contentDisplay();
+      resetTimer();
+      makeButtonsInactive();
+      resetButtonSize();
+      stopBackGroundMusic();
+    }
+    else if (currentTab==="short break"){
+      //play pomodoros
+      currentTab = "pomodoro";
+      pomodoroTabDisplay();
+      contentDisplay();
+      resetTimer();
+      makeButtonsInactive();
+      resetButtonSize();
+      stopBackGroundMusic();
+    }
+    else if (currentTab==="long break"){
+      //play pomodoros
+      currentTab = "pomodoro";
+      pomodoroTabDisplay();
+      contentDisplay();
+      resetTimer();
+      makeButtonsInactive();
+      resetButtonSize();
+      stopBackGroundMusic();
+    }
 }

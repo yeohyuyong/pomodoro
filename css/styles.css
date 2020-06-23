@@ -74,6 +74,10 @@ html, body {
   margin-left: 0.5rem;
 }
 
+#longBreakIntervalInput{
+  margin-right: 10rem;
+}
+
 .social-icon{
   color: black;
 }
