@@ -33,14 +33,14 @@
 - Customize times for Focus, Short Breaks and Long Breaks
 - Charming timer alert sounds
 - Logging system to keep track of sessions
-- Dark Mode (optional)
 - Timer ticking sounds (optional)
+- Long break intervals (optional)
 - Customizable timer ending notification (optional)
 - Multiple background music (optional)
+- Dark Mode (optional)
 
 ## Roadmap
 📝 Future plans for enhancements and development:
-- Auto start next session
 
 ## License
 
