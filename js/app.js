@@ -22,6 +22,7 @@ var settingsDisplay = document.getElementById('settingsDisplay');
 var pomodoroInput = document.getElementById("pomodoroInput");
 var shortBreakInput = document.getElementById("shortBreakInput");
 var longBreakInput = document.getElementById("longBreakInput");
+var sliderValue = document.getElementById("sliderValue");
 var autoStartRoundsInput = document.getElementById("autoStartRoundsInput");
 var tickSoundInput = document.getElementById("tickSoundInput");
 var darkModeToggle = document.getElementById("darkModeToggle");
@@ -215,6 +216,15 @@ function init(){
   if (localStorage.longBreakInterval !== undefined){
     longBreakIntervalInput.value = localStorage.longBreakInterval;
   }
+  else{
+    longBreakIntervalInput.value = 1;
+  }
+  if (localStorage.sliderValue != undefined){
+    sliderValue.innerHTML = localStorage.sliderValue;
+  }
+  else{
+    sliderValue.innerHTML = 1;
+  }
   // ======================Auto Start Input===================================
   if(localStorage.autoStartRoundsInputValue === "true"){
     autoStartRoundsInput.checked = localStorage.autoStartRoundsInputValue;
@@ -223,7 +233,6 @@ function init(){
     autoStartRoundsInput.checked = false;
   }
 }
-
 pomodoros.addEventListener("click",function(){
   currentTab = "pomodoro";
   pomodoroTabDisplay();
@@ -744,8 +753,12 @@ function listIsEmpty(){
   return localStorage.todoContents.indexOf("li") === -1;
 }
 // ======================================Start Next Rounds===================================================
-longBreakIntervalInput.addEventListener("change", function(){
+
+longBreakIntervalInput.addEventListener("input", function(){
    localStorage.longBreakInterval = Number(longBreakIntervalInput.value);
+   localStorage.sliderValue = Number(longBreakIntervalInput.value);
+   sliderValue.innerHTML = localStorage.sliderValue;
+
 })
 var numberSessions = 0;
 function startNextRound(){

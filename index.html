@@ -168,9 +168,16 @@
               </div>
               <div class="row">
                 <div class="col-4">
-                  <div class="input-group mb-2">
-                    <input id="longBreakIntervalInput" type="number" min="1" step="1" class="form-control mr-5">
-                  </div>
+                  <form>
+                    <div class="row">
+                      <div class="col">
+                        <input type="range" class="custom-range" min=1 max=12 id="longBreakIntervalInput">
+                      </div>
+                      <div class="col">
+                        <p class="font-weight-bold" id="sliderValue"></p>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
               <hr>
