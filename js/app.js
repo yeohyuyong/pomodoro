@@ -314,7 +314,7 @@ function resetTimer(){
   }
   //Display input
   timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
-  document.title = "Pomodoro Timers";
+  document.title = "PomodoroTimers";
   startButton.classList.remove("active");
   stopButton.classList.remove("active");
   resetButton.classList.add("active");
