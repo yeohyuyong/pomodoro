@@ -27,7 +27,7 @@
 
 # Overview
 
-> Pomodoro Timers is a simple and configurable Pomodoro timer. It aims to provide a visually-pleasing and reliable way to track productivity using the Pomodoro Technique.
+> PomodoroTimers is a simple and configurable Pomodoro timer. It aims to provide a visually-pleasing and reliable way to track productivity using the Pomodoro Technique.
 
 ## Features
 - Customize times for Focus, Short Breaks and Long Breaks
@@ -47,4 +47,4 @@
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2020 © <a href="https://pomodorotimers.com" target="_blank">Pomodoro Timers</a>.
+- Copyright 2020 © <a href="https://pomodorotimers.com" target="_blank">PomodoroTimers</a>.
