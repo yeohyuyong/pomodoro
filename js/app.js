@@ -217,13 +217,13 @@ function init(){
     longBreakIntervalInput.value = localStorage.longBreakInterval;
   }
   else{
-    longBreakIntervalInput.value = 1;
+    longBreakIntervalInput.value = 4;
   }
   if (localStorage.sliderValue != undefined){
     sliderValue.innerHTML = localStorage.sliderValue;
   }
   else{
-    sliderValue.innerHTML = 1;
+    sliderValue.innerHTML = 4;
   }
   // ======================Auto Start Input===================================
   if(localStorage.autoStartRoundsInputValue === "true"){
