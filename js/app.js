@@ -314,7 +314,7 @@ function resetTimer(){
   }
   //Display input
   timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
-  document.title = "PomodoroTimers";
+  document.title = "Pomodoro Timers";
   startButton.classList.remove("active");
   stopButton.classList.remove("active");
   resetButton.classList.add("active");
@@ -590,12 +590,12 @@ function lightMode(){
   document.querySelectorAll(".notificationText")[1].style.color = "black";
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
-    socialIcons[i].style.color = "black";
+    socialIcons[i].style.color = "#999";
     socialIcons[i].addEventListener("mouseover", function(){
       this.style.color = "#007bff";
     })
     socialIcons[i].addEventListener("mouseleave", function(){
-      this.style.color = "black";
+      this.style.color = "#999";
     })
   }
 }
