@@ -78,6 +78,15 @@ html, body {
   margin-right: 10rem;
 }
 
+.descriptionText{
+  border-bottom: 0.5rem solid red;
+  border-color: #dc3545;
+  margin-bottom: 2rem;
+}
+.descriptionContent{
+  margin-bottom: 3rem;
+
+}
 .social-icon{
   color: black;
 }
