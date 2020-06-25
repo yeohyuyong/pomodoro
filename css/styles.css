@@ -6,12 +6,7 @@ html, body {
   font-family: 'Arvo', serif;
 }
 
-#mainContent{
-  width: 100%;
-  /* height: 100%; */
-  margin: auto;
-  padding: inherit;
-}
+
 
 #timerDisplay{
   padding-bottom: 0;
