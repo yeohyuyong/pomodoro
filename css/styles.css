@@ -141,6 +141,8 @@ html, body {
   transition: .4s;
 }
 
+
+
 .slider:before {
   position: absolute;
   content: "";

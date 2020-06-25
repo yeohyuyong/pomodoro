@@ -569,6 +569,10 @@ function darkMode(){
   for (var i=0;i<textMuted.length;i++){
     textMuted[i].classList.add("textMutedWhite");
   }
+  closeModalButton = document.querySelectorAll(".closeButton");
+  for (var i=0;i<closeModalButton.length;i++){
+    closeModalButton[i].style.color = "white";
+  }
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
     socialIcons[i].style.color = "hsla(0,0%,100%,.87)";
@@ -598,6 +602,10 @@ function lightMode(){
   document.querySelector('#siteFooter').style.color = "black";
   for (var i=0;i<textMuted.length;i++){
     textMuted[i].classList.remove("textMutedWhite");
+  }
+  closeModalButton = document.querySelectorAll(".closeButton");
+  for (var i=0;i<closeModalButton.length;i++){
+    closeModalButton[i].style.color = "black";
   }
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
