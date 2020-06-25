@@ -91,9 +91,9 @@ html, body {
 }
 
 .descriptionText{
-  border-bottom: 0.5rem solid red;
+  /* border-bottom: 0.5rem solid red; */
   border-color: #dc3545;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
   word-wrap: break-word;
 }
 .descriptionContent{

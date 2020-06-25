@@ -598,7 +598,6 @@ function lightMode(){
   for (var i=0;i<closeModalButton.length;i++){
     closeModalButton[i].style.color = "black";
   }
-
 }
 // ================================Get Time and Date=================================================
 function getDate(){
