@@ -563,6 +563,8 @@ function darkMode(){
   document.getElementById("loggingModalLabel").style.color = "hsla(0,0%,100%,.87)";
   document.getElementById("todoModalLabel").style.color = "hsla(0,0%,100%,.87)";
   document.getElementById("logDataTable").classList.add("table-dark");
+  document.querySelector('.siteDescription').style.color = "white";
+  document.querySelector('#siteFooter').style.color = "white";
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
     socialIcons[i].style.color = "hsla(0,0%,100%,.87)";
@@ -588,6 +590,8 @@ function lightMode(){
   document.getElementById("logDataTable").classList.remove("table-dark");
   document.querySelectorAll(".notificationText")[0].style.color = "black";
   document.querySelectorAll(".notificationText")[1].style.color = "black";
+  document.querySelector('.siteDescription').style.color = "black";
+  document.querySelector('#siteFooter').style.color = "black";
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
     socialIcons[i].style.color = "#999";

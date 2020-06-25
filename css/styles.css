@@ -153,6 +153,7 @@ html, body {
   transition: .2s;
 }
 
+
 input:checked + .slider {
   background-color: #2196F3;
 }
