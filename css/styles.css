@@ -152,7 +152,12 @@ html, body {
   -webkit-transition: .2s;
   transition: .2s;
 }
-
+.textMutedWhite{
+  color:white!important;
+}
+.textMutedNormal{
+  color:#6c757d!important;
+}
 
 input:checked + .slider {
   background-color: #2196F3;

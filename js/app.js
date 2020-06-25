@@ -565,6 +565,10 @@ function darkMode(){
   document.getElementById("logDataTable").classList.add("table-dark");
   document.querySelector('.siteDescription').style.color = "white";
   document.querySelector('#siteFooter').style.color = "white";
+  textMuted = document.querySelectorAll(".text-muted");
+  for (var i=0;i<textMuted.length;i++){
+    textMuted[i].classList.add("textMutedWhite");
+  }
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
     socialIcons[i].style.color = "hsla(0,0%,100%,.87)";
@@ -592,6 +596,9 @@ function lightMode(){
   document.querySelectorAll(".notificationText")[1].style.color = "black";
   document.querySelector('.siteDescription').style.color = "black";
   document.querySelector('#siteFooter').style.color = "black";
+  for (var i=0;i<textMuted.length;i++){
+    textMuted[i].classList.remove("textMutedWhite");
+  }
   var socialIcons = document.querySelectorAll(".social-icon");
   for (var i=0;i<socialIcons.length;i++){
     socialIcons[i].style.color = "#999";
