@@ -94,6 +94,7 @@ html, body {
   border-bottom: 0.5rem solid red;
   border-color: #dc3545;
   margin-bottom: 2rem;
+  word-wrap: break-word;
 }
 .descriptionContent{
   margin-bottom: 3rem;
