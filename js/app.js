@@ -573,16 +573,7 @@ function darkMode(){
   for (var i=0;i<closeModalButton.length;i++){
     closeModalButton[i].style.color = "white";
   }
-  var socialIcons = document.querySelectorAll(".social-icon");
-  for (var i=0;i<socialIcons.length;i++){
-    socialIcons[i].style.color = "hsla(0,0%,100%,.87)";
-    socialIcons[i].addEventListener("mouseover", function(){
-      this.style.color = "007bff";
-    })
-    socialIcons[i].addEventListener("mouseleave", function(){
-      this.style.color = "white";
-    })
-  }
+
 }
 function lightMode(){
   document.body.style.backgroundColor = "white";
@@ -607,16 +598,7 @@ function lightMode(){
   for (var i=0;i<closeModalButton.length;i++){
     closeModalButton[i].style.color = "black";
   }
-  var socialIcons = document.querySelectorAll(".social-icon");
-  for (var i=0;i<socialIcons.length;i++){
-    socialIcons[i].style.color = "#999";
-    socialIcons[i].addEventListener("mouseover", function(){
-      this.style.color = "#007bff";
-    })
-    socialIcons[i].addEventListener("mouseleave", function(){
-      this.style.color = "#999";
-    })
-  }
+
 }
 // ================================Get Time and Date=================================================
 function getDate(){
