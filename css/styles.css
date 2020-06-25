@@ -67,6 +67,9 @@ html, body {
 #brandName{
   font-weight: 600;
 }
+.darkMode {
+  background-color: rgb(23, 23, 23)!important;
+}
 #timerName{
   margin-top: 100px;
 }

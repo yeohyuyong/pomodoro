@@ -573,7 +573,11 @@ function darkMode(){
   for (var i=0;i<closeModalButton.length;i++){
     closeModalButton[i].style.color = "white";
   }
-
+  allBackgrounds = document.querySelectorAll(".bg-light");
+  for (var i=0;i<allBackgrounds.length;i++){
+    allBackgrounds[i].classList.add("darkMode");
+  }
+  document.querySelector("#navText").style.color = "white";
 }
 function lightMode(){
   document.body.style.backgroundColor = "white";
@@ -598,6 +602,11 @@ function lightMode(){
   for (var i=0;i<closeModalButton.length;i++){
     closeModalButton[i].style.color = "black";
   }
+  allBackgrounds = document.querySelectorAll(".bg-light");
+  for (var i=0;i<allBackgrounds.length;i++){
+    allBackgrounds[i].classList.remove("darkMode");
+  }
+  document.querySelector("#navText").style.color = "black";
 }
 // ================================Get Time and Date=================================================
 function getDate(){
