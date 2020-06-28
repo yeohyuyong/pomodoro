@@ -678,6 +678,7 @@ function addDataToLog(){
   row.appendChild(startTimeCol);
   row.appendChild(endTimeCol);
   row.appendChild(timeCol);
+  row.innerHTML += '<td><input class="form-control" type="text" placeholder=""></td>'
   row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
   locationUpdateLog.appendChild(row);
   storeLogItems();
