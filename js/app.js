@@ -678,7 +678,7 @@ function addDataToLog(){
   row.appendChild(startTimeCol);
   row.appendChild(endTimeCol);
   row.appendChild(timeCol);
-  row.innerHTML += '<td><input class="form-control" type="text" placeholder=""></td>'
+  row.innerHTML += '<td><input class="form-control" type="text" placeholder="" onchange="storeLogDescription(this)"></td>'
   row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
   locationUpdateLog.appendChild(row);
   storeLogItems();
@@ -701,6 +701,11 @@ function deleteLog(item){
 // ===========================Local Storage for Logging==============================================
 function storeLogItems(){
   localStorage.logContents = locationUpdateLog.innerHTML;
+}
+function storeLogDescription(item){
+  item.outerHTML = '<td><input class="form-control" type="text" value="'+item.value+'" onchange="storeLogDescription(this)"></td>';
+  storeLogItems();
+
 }
 // =====================================No logging data text===============================================
 function showNoDataLoggedText(){
