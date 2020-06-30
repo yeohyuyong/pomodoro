@@ -578,6 +578,7 @@ function darkMode(){
     allBackgrounds[i].classList.add("darkMode");
   }
   document.querySelector("#navText").style.color = "white";
+  sliderValue.style.color = "white";
 }
 function lightMode(){
   document.body.style.backgroundColor = "white";
@@ -607,6 +608,7 @@ function lightMode(){
     allBackgrounds[i].classList.remove("darkMode");
   }
   document.querySelector("#navText").style.color = "black";
+  sliderValue.style.color = "black";
 }
 // ================================Get Time and Date=================================================
 function getDate(){
