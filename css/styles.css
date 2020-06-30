@@ -70,7 +70,8 @@ html, body {
   margin-top: 100px;
 }
 #navText{
-  font-size: 2rem;
+  font-size: 2.5rem;
+  line-height: 3rem;
 }
 #settingsText{
   font-size: 4rem;
