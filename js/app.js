@@ -37,7 +37,7 @@ var jumbotron = document.querySelector(".jumbotron");
 var locationUpdateLog = document.getElementById("locationUpdateLog");
 var listOfTasks = document.getElementById('listOfTasks');
 
-var progressBar = document.getElementById("progressBar");
+var progressValue = document.querySelector(".progress-value");
 var notificationTime;
 var titleDisplayText;
 var currentTab;
@@ -277,7 +277,6 @@ function countDown(){
       titleTimeDisplay();
       document.title = secondsToMinutes(timeLeft) + " - " + titleDisplayText;
       progressDisplay();
-      progressBar.setAttribute("style", "width: " + percentageComplete.toString() + "%");
       playTickSound();
       playEndingNotification();
 
@@ -289,7 +288,6 @@ function countDown(){
       document.title = secondsToMinutes(timeLeft) + " - " + titleDisplayText;
       clearInterval(updateSeconds);
       allPossibleModes[currentTab].sound.play();
-      progressBar.setAttribute("style", "width: 100%");
       stopBackGroundMusic();
       currentEndTime = getTime();
       addDataToLog();
@@ -301,7 +299,6 @@ function countDown(){
 
 function resetTimer(){
   clearInterval(updateSeconds);
-  progressBar.setAttribute("style", "width: 0%");
   timerRunning = false;
   //If user entered some input
   if(allPossibleModes[currentTab].localStorage){
@@ -514,9 +511,16 @@ function stopBackGroundMusic(){
 }
 //===========Calculate percentage complete for progress bar================================
 var percentageComplete;
+// var degreeOfCircle;
 function progressDisplay(){
   //Get total time in seconds
-  var totalMinutes = allPossibleModes[currentTab].localStorage*60;
+  var totalMinutes;
+  if(allPossibleModes[currentTab].localStorage){
+    totalMinutes = minutesToSeconds(allPossibleModes[currentTab].localStorage);
+  }
+  else{
+    totalMinutes = minutesToSeconds(allPossibleModes[currentTab].defaultTime);
+  }
   //Find percetage complete
   percentageComplete = (totalMinutes-timeLeft)/totalMinutes * 100;
 }
