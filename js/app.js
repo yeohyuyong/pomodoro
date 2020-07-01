@@ -50,6 +50,7 @@ var allPossibleModes = {
     input: pomodoroInput,
     defaultTime: 25,
     localStorage: localStorage.currentPomodoroValue,
+    progressColor: "#dc3545",
     sound: new Howl({
       src: ['assets/sounds/alert-work.mp3']
     })
@@ -59,6 +60,7 @@ var allPossibleModes = {
     input: longBreakInput,
     defaultTime: 20,
     localStorage: localStorage.currentLongBreakValue,
+    progressColor: "#007bff",
     sound: new Howl({
       src: ['assets/sounds/alert-long-break.mp3']
     })
@@ -67,6 +69,7 @@ var allPossibleModes = {
     input: shortBreakInput,
     defaultTime: 5,
     localStorage: localStorage.currentShortBreakValue,
+    progressColor: "#28a745",
     sound: new Howl({
       src: ['assets/sounds/alert-short-break.mp3']
     })
@@ -253,7 +256,6 @@ function countDown(){
       titleTimeDisplay();
       document.title = secondsToMinutes(timeLeft) + " - " + titleDisplayText;
       progressDisplay();
-
       playTickSound();
       playEndingNotification();
 
@@ -493,11 +495,12 @@ function progressDisplay(){
     totalMinutes = minutesToSeconds(allPossibleModes[currentTab].defaultTime);
   }
   degreeOfCircle = ((totalMinutes-timeLeft)/totalMinutes) * 360;
+  progressColor = allPossibleModes[currentTab].progressColor;
   if (degreeOfCircle <= 180){
-    progressValue.style.backgroundImage = "-webkit-linear-gradient(" + degreeOfCircle + "deg, #ddd 50%, transparent 50%), -webkit-linear-gradient(left, #007bff 50%, #ddd 50%)";
+    progressValue.style.backgroundImage = `-webkit-linear-gradient(${degreeOfCircle}deg, ${progressColor} 50%, transparent 50%), -webkit-linear-gradient(left, #ddd 50%, ${progressColor} 50%)`;
   }
   else{
-    progressValue.style.backgroundImage = "-webkit-linear-gradient(left, #007bff 50%, transparent 50%), -webkit-linear-gradient(" + (Number(degreeOfCircle)-180).toString() + "deg, #007bff 50%, #ddd 50%)";
+    progressValue.style.backgroundImage = `-webkit-linear-gradient(left, #ddd 50%, transparent 50%), -webkit-linear-gradient(${(Number(degreeOfCircle)-180).toString()}deg, #ddd 50%, ${progressColor} 50%)`;
   }
 }
 
