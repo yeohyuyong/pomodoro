@@ -294,5 +294,5 @@ input:checked + .slider:before {
 }
 
 .progress-value {
-  background-image: -webkit-linear-gradient(10deg, #ddd 50%, transparent 50%), -webkit-linear-gradient(right, #007bff 50%, #ddd 50%);
+  background-image: -webkit-linear-gradient(0deg, #ddd 50%, transparent 50%), -webkit-linear-gradient(right, #ddd 50%, #007bff 50%);
 }
