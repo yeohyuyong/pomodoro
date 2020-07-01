@@ -277,6 +277,12 @@ function countDown(){
       titleTimeDisplay();
       document.title = secondsToMinutes(timeLeft) + " - " + titleDisplayText;
       progressDisplay();
+      if (degreeOfCircle <= 180){
+        progressValue.style.backgroundImage = "-webkit-linear-gradient(" + degreeOfCircle + "deg, #ddd 50%, transparent 50%), -webkit-linear-gradient(left, #007bff 50%, #ddd 50%)";
+      }
+      else{
+        progressValue.style.backgroundImage = "-webkit-linear-gradient(" + (Number(degreeOfCircle)-180).toString() + "deg, #ddd 50%, transparent 50%), -webkit-linear-gradient(right, #007bff 50%, #ddd 50%)";
+      }
       playTickSound();
       playEndingNotification();
 
@@ -312,6 +318,7 @@ function resetTimer(){
   //Display input
   timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
   document.title = "PomodoroTimers";
+  progressValue.style.backgroundImage = "-webkit-linear-gradient(0deg, #ddd 50%, transparent 50%), -webkit-linear-gradient(left, #007bff 50%, #ddd 50%)";
   startButton.classList.remove("active");
   stopButton.classList.remove("active");
   resetButton.classList.add("active");
@@ -511,7 +518,7 @@ function stopBackGroundMusic(){
 }
 //===========Calculate percentage complete for progress bar================================
 var percentageComplete;
-// var degreeOfCircle;
+var degreeOfCircle;
 function progressDisplay(){
   //Get total time in seconds
   var totalMinutes;
@@ -523,6 +530,7 @@ function progressDisplay(){
   }
   //Find percetage complete
   percentageComplete = (totalMinutes-timeLeft)/totalMinutes * 100;
+  degreeOfCircle = (percentageComplete / 100) * 360;
 }
 
 //=========================Minutes and Seconds converter==========================================
