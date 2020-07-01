@@ -6,8 +6,6 @@ html, body {
   font-family: 'Arvo', serif;
 }
 
-
-
 #timerDisplay{
   padding-bottom: 0;
   margin-bottom: 0;
@@ -19,7 +17,6 @@ html, body {
   font-weight: 500;
   text-align: center;
 }
-
 
 #backgroundMusicOptions{
   width: 8rem;
@@ -38,6 +35,12 @@ html, body {
   font-weight: 500;
   border-radius: 2rem;
   line-height: 2rem;
+}
+
+
+.dropButtonEffect:active{
+ transform: translateY(0.25rem);
+
 }
 .modal-content{
   border-radius: 1rem;
