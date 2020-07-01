@@ -35,89 +35,94 @@
 <body>
   <!-- Scroll Indicator -->
   <div class="line" id="scrollIndicator"></div>
-  <!-- Brand Name -->
-  <div class="d-flex justify-content-center navbar navbar-light bg-light border-bottom">
-      <nav class="navbar navbar-light bg-light pb-0 pt-0 d-flex justify-content-center" id="brandName">
-        <a class="navbar-brand" href="/">
-          <img src="assets/img/logo.png" width="50" height="50" class="align-top" alt="PomodoroTimers Logo">
-          <span id="navText">PomodoroTimers</span>
-        </a>
-        <!-- Only Visible when small -->
-        <ul class="nav nav-pills justify-content-end">
-          <li class="nav-item p-0">
-            <a class="nav-link px-2 mx-1 d-md-none" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-list-ul fa-lg"></i></a>
-          </li>
-          <li class="nav-item pl-1 pr-0">
-            <a class="nav-link px-2 mx-1 d-md-none" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link pl-2 pr-0 ml-2 d-md-none" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
-          </li>
-        </ul>
-      </nav>
+
+  <!-- Main Content -->
+  <div class="border-bottom pb-5" id="mainPage">
+    <!-- Brand Name -->
+    <div class="d-flex justify-content-center navbar navbar-light bg-light border-bottom">
+        <nav class="navbar navbar-light bg-light pb-0 pt-0 d-flex justify-content-center" id="brandName">
+          <a class="navbar-brand" href="/">
+            <img src="assets/img/logo.png" width="50" height="50" class="align-top" alt="PomodoroTimers Logo">
+            <span id="navText">PomodoroTimers</span>
+          </a>
+          <!-- Only Visible when small -->
+          <ul class="nav nav-pills justify-content-end">
+            <li class="nav-item p-0">
+              <a class="nav-link px-2 mx-1 d-md-none" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-list-ul fa-lg"></i></a>
+            </li>
+            <li class="nav-item pl-1 pr-0">
+              <a class="nav-link px-2 mx-1 d-md-none" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pl-2 pr-0 ml-2 d-md-none" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
+            </li>
+          </ul>
+        </nav>
+    </div>
+
+    <!-- NAVBAR -->
+    <div class="container mt-4 mb-0">
+        <div class="row justify-content-end">
+          <div class="col-6 px-0">
+            <ul class="nav nav-pills">
+              <div class="col-lg-4 px-0">
+                <a class="nav-link timerLinks navs-expand active pt-2 dropButtonNoShadow" id="pomodoros" data-toggle="tab" role="tab" aria-selected="false" href="/">Focus</a>
+              </div>
+              <div class="col-lg-4 px-0">
+                <a class="nav-link timerLinks navs-expand pt-2 dropButtonNoShadow" id="shortBreak" data-toggle="tab" role="tab" aria-selected="false" href="/">Short Break</a>
+              </div>
+              <div class="col-lg-4 px-0">
+                <a class="nav-link timerLinks navs-expand pt-2 dropButtonNoShadow" id="longBreak" data-toggle="tab" role="tab" aria-selected="false" href="/" >Long Break</a>
+              </div>
+            </ul>
+          </div>
+          <div class="col-3">
+            <ul class="nav nav-pills justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link px-2 d-none d-md-block dropButtonNoShadow" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-tasks fa-lg"></i></a>
+              </li>
+              <li class="nav-item pl-2 pr-0">
+                <a class="nav-link px-2 mx-1 d-none d-md-block dropButtonNoShadow" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link pl-2 pr-0 ml-2 d-none d-md-block dropButtonNoShadow" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Main Content -->
+    <!-- Timer and Buttons -->
+    <div id="timerDisplay" class="container-fluid">
+      <div class="row">
+        <!-- Time Left and Progress Bar -->
+        <div class="col-12 pt-0 d-flex justify-content-center">
+          <div class="radialProgressBar progress-value">
+            <div class="overlay">
+              <h1 class="display-4 d-flex justify-content-center"><span id="timeLeft"></span></h1>
+            </div>
+          </div>
+        </div>
+        <!-- Start, Stop, Reset Buttons -->
+        <div class="col-12">
+          <div class="container d-flex justify-content-around">
+            <div class="row">
+              <div class="col-md-4">
+                <button type="button" class="dropButtonEffect btn btn-lg btn-success w-100 mb-1 button-expand" id="startButton">Start</button>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="dropButtonEffect btn btn-danger btn-lg w-100 mb-1 button-expand" id="stopButton">Stop</button>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="dropButtonEffect btn btn-secondary btn-lg w-100 mb-1 button-expand" id="resetButton">Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- NAVBAR -->
-  <div class="container mt-4 mb-0">
-      <div class="row justify-content-end">
-        <div class="col-6 px-0">
-          <ul class="nav nav-pills">
-            <div class="col-lg-4 px-0">
-              <a class="nav-link timerLinks navs-expand active pt-2 dropButtonNoShadow" id="pomodoros" data-toggle="tab" role="tab" aria-selected="false" href="/">Focus</a>
-            </div>
-            <div class="col-lg-4 px-0">
-              <a class="nav-link timerLinks navs-expand pt-2 dropButtonNoShadow" id="shortBreak" data-toggle="tab" role="tab" aria-selected="false" href="/">Short Break</a>
-            </div>
-            <div class="col-lg-4 px-0">
-              <a class="nav-link timerLinks navs-expand pt-2 dropButtonNoShadow" id="longBreak" data-toggle="tab" role="tab" aria-selected="false" href="/" >Long Break</a>
-            </div>
-          </ul>
-        </div>
-        <div class="col-3">
-          <ul class="nav nav-pills justify-content-end">
-            <li class="nav-item">
-              <a class="nav-link px-2 d-none d-md-block dropButtonNoShadow" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-tasks fa-lg"></i></a>
-            </li>
-            <li class="nav-item pl-2 pr-0">
-              <a class="nav-link px-2 mx-1 d-none d-md-block dropButtonNoShadow" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link pl-2 pr-0 ml-2 d-none d-md-block dropButtonNoShadow" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <!-- Main Content -->
-  <!-- Main Content -->
-  <div id="timerDisplay" class="container-fluid pb-5 mb-0 border-bottom">
-    <div class="row">
-      <!-- Time Left and Progress Bar -->
-      <div class="col-12 pt-0 d-flex justify-content-center">
-        <div class="radialProgressBar progress-value">
-          <div class="overlay">
-            <h1 class="display-4 d-flex justify-content-center"><span id="timeLeft"></span></h1>
-          </div>
-        </div>
-      </div>
-      <!-- Start, Stop, Reset Buttons -->
-      <div class="col-12">
-        <div class="container d-flex justify-content-around">
-          <div class="row">
-            <div class="col-md-4">
-              <button type="button" class="dropButtonEffect btn btn-lg btn-success w-100 mb-1 button-expand" id="startButton">Start</button>
-            </div>
-            <div class="col-md-4">
-              <button type="button" class="dropButtonEffect btn btn-danger btn-lg w-100 mb-1 button-expand" id="stopButton">Stop</button>
-            </div>
-            <div class="col-md-4">
-              <button type="button" class="dropButtonEffect btn btn-secondary btn-lg w-100 mb-1 button-expand" id="resetButton">Reset</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
   <!-- Description of PomodoroTimers -->
