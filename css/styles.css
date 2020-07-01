@@ -35,13 +35,19 @@ html, body {
   font-weight: 500;
   border-radius: 2rem;
   line-height: 2rem;
+  box-shadow: 0 9px #999;
 }
 
 
 .dropButtonEffect:active{
+ box-shadow: 0 5px #666!important;
  transform: translateY(0.25rem);
-
 }
+
+.dropButtonNoShadow:active{
+ transform: translateY(0.25rem);
+}
+
 .modal-content{
   border-radius: 1rem;
 }
