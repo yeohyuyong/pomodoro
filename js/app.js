@@ -312,7 +312,6 @@ startButton.addEventListener('click',function(){
   startButton.style.fontSize = "1.3rem";
   stopButton.style.fontSize = "1.25rem";
   resetButton.style.fontSize = "1.25rem";
-
 });
 resetButton.addEventListener('click',function(){
   resetTimer();
