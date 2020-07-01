@@ -222,14 +222,13 @@
               <span class="closeButton" aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <div class="container">
+          <div class="modal-body border border-danger">
               <!-- Selecting Timings -->
               <div class="row ml-1">
-                <p class="h6 text-muted">Time (Minutes)</p>
-              </div>
-              <div class="row">
-                <div class="col-lg-4">
+                <div class="col-12">
+                  <p class="h6 text-muted">Time (Minutes)</p>
+                </div>
+                <div class="col-12">
                   <div class="input-group mb-2">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="inputGroup-sizing-default">Focus</span>
@@ -237,7 +236,7 @@
                     <input id="pomodoroInput" type="number" min="1" step="1" class="form-control">
                   </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-12">
                   <div class="input-group mb-2">
                     <div class="input-group-prepend ">
                       <span class="input-group-text" id="inputGroup-sizing-default">Short Break</span>
@@ -245,7 +244,7 @@
                     <input id="shortBreakInput" type="number" min="1" step="1" class="form-control">
                   </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-12">
                   <div class="input-group mb-2">
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="inputGroup-sizing-default">Long Break</span>
@@ -254,11 +253,12 @@
                   </div>
                 </div>
               </div>
+
               <hr>
               <!-- Auto Start Next Round -->
               <div class="row ml-1">
                 <div class="col">
-                  <p class="h6 text-muted">Auto Start Rounds</p>
+                  <p class="h6 text-muted mt-2">Auto Start Rounds</p>
                 </div>
                 <div class="col">
                   <label class="switch">
@@ -272,16 +272,16 @@
               <!-- Long Break Interval -->
               <div class="row ml-1">
                 <div class="col">
-                    <p class="h6 text-muted">Long Break Interval</p>
+                    <p class="h6 text-muted mt-2">Long Break Interval</p>
                 </div>
                 <div class="col">
                   <form>
                     <div class="row">
-                      <div class="col">
+                      <div class="col-9">
                         <input type="range" class="custom-range" min=1 max=12 id="longBreakIntervalInput">
                       </div>
                       <div class="col">
-                        <p class="font-weight-bold" id="sliderValue">2</p>
+                        <p class="font-weight-bold" id="sliderValue"></p>
                       </div>
                     </div>
                   </form>
@@ -292,7 +292,7 @@
               <!-- Tick Sounds -->
               <div class="row ml-1">
                 <div class="col">
-                  <p class="h6 text-muted">Tick Sounds</p>
+                  <p class="h6 text-muted mt-2">Tick Sounds</p>
                 </div>
                 <div class="col">
                   <label class="switch">
@@ -306,12 +306,12 @@
               <!-- Ending Notification Sound -->
               <div class="row ml-1">
                 <div class="col">
-                  <p class="h6 text-muted">Notification</p>
+                  <p class="h6 text-muted mt-2">Notification</p>
                 </div>
                 <div class="col">
                   <form class="form-inline">
                     <div class="form-group">
-                      <label for="notificationTextInput" class="mr-1 notificationText">Last</label>
+                      <label for="notificationTextInput" class="notificationText">&nbsp;&nbsp;&nbsp;Last&nbsp;</label>
                       <input type="number" id="notificationTextInput"  min=1 class="form-control col-2" value=1>&nbsp;<span class="notificationText">Minutes</span>
                     </div>
                   </form>
@@ -322,7 +322,7 @@
               <!-- Background Music -->
               <div class="row ml-1">
                 <div class="col">
-                  <p class="h6 text-muted">Background Music</p>
+                  <p class="h6 text-muted mt-2">Background Music</p>
                 </div>
                 <div class="col">
                   <select class="form-control inline px-0" id="backgroundMusicOptions">
@@ -340,7 +340,7 @@
               <!-- Dark Mode -->
               <div class="row ml-1">
                 <div class="col">
-                  <p class="h6 text-muted">Dark Mode</p>
+                  <p class="h6 text-muted mt-2">Dark Mode</p>
                 </div>
                 <div class="col">
                   <label class="switch mb-0">
@@ -356,7 +356,6 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveButton">Save Changes</button>
               </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
