@@ -281,7 +281,7 @@ function countDown(){
         progressValue.style.backgroundImage = "-webkit-linear-gradient(" + degreeOfCircle + "deg, #ddd 50%, transparent 50%), -webkit-linear-gradient(left, #007bff 50%, #ddd 50%)";
       }
       else{
-        progressValue.style.backgroundImage = "-webkit-linear-gradient(" + (Number(degreeOfCircle)-180).toString() + "deg, #ddd 50%, transparent 50%), -webkit-linear-gradient(right, #007bff 50%, #ddd 50%)";
+        progressValue.style.backgroundImage = "-webkit-linear-gradient(left, #007bff 50%, transparent 50%), -webkit-linear-gradient(" + (Number(degreeOfCircle)-180).toString() + "deg, #007bff 50%, #ddd 50%)";
       }
       playTickSound();
       playEndingNotification();
