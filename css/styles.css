@@ -38,6 +38,10 @@ html, body {
   line-height: 2rem;
   box-shadow: 0 9px #999;
 }
+#startButton, #stopButton, #resetButton {
+  box-shadow: 0 9px #999;
+}
+
 
 .buttonClicked{
   box-shadow: 0 5px #666!important;
