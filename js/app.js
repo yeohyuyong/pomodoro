@@ -560,7 +560,6 @@ darkModeToggle.addEventListener("change", function(){
 });
 function darkMode(){
   document.body.style.backgroundColor = "#171717";
-  jumbotron.style.background = "none";
   document.getElementById("timeLeft").style.color = "white";
   var modals = document.querySelectorAll(".modal-content");
   for (var i=0;i<modals.length;i++){
@@ -589,10 +588,10 @@ function darkMode(){
   }
   document.querySelector("#navText").style.color = "white";
   sliderValue.style.color = "white";
+  document.querySelector(".overlay").style.background = "#171717";
 }
 function lightMode(){
   document.body.style.backgroundColor = "white";
-  jumbotron.style.background = "#e9ecef";
   document.getElementById("timeLeft").style.color = "black";
   var modals = document.querySelectorAll(".modal-content");
   for (var i=0;i<modals.length;i++){
@@ -619,6 +618,7 @@ function lightMode(){
   }
   document.querySelector("#navText").style.color = "black";
   sliderValue.style.color = "black";
+  document.querySelector(".overlay").style.background = "#fff";
 }
 // ================================Get Time and Date=================================================
 function getDate(){
