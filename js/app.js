@@ -213,6 +213,7 @@ pomodoros.addEventListener("click",function(){
   resetTimer();
   makeButtonsInactive();
   resetButtonSize();
+  resetButtonPosition();
   stopBackGroundMusic();
 });
 
@@ -223,6 +224,7 @@ shortBreak.addEventListener("click",function(){
   resetTimer();
   makeButtonsInactive();
   resetButtonSize();
+  resetButtonPosition();
   stopBackGroundMusic();
 });
 
@@ -233,6 +235,7 @@ longBreak.addEventListener("click",function(){
   resetTimer();
   makeButtonsInactive();
   resetButtonSize();
+  resetButtonPosition();
   stopBackGroundMusic();
 });
 
@@ -290,6 +293,7 @@ function resetTimer(){
   startButton.classList.remove("active");
   stopButton.classList.remove("active");
   resetButton.classList.add("active");
+
 }
 
 function stopTimer(){
@@ -312,12 +316,20 @@ startButton.addEventListener('click',function(){
   startButton.style.fontSize = "1.3rem";
   stopButton.style.fontSize = "1.25rem";
   resetButton.style.fontSize = "1.25rem";
+
+  startButton.classList.add("buttonClicked");
+  stopButton.classList.remove("buttonClicked");
+  resetButton.classList.remove("buttonClicked");
 });
 resetButton.addEventListener('click',function(){
   resetTimer();
   startButton.style.fontSize = "1.25rem";
   stopButton.style.fontSize = "1.25rem";
   resetButton.style.fontSize = "1.3rem";
+
+  startButton.classList.remove("buttonClicked");
+  stopButton.classList.remove("buttonClicked");
+  resetButton.classList.add("buttonClicked")
   stopBackGroundMusic();
 
 });
@@ -326,6 +338,10 @@ stopButton.addEventListener('click',function(){
   startButton.style.fontSize = "1.25rem";
   stopButton.style.fontSize = "1.3rem";
   resetButton.style.fontSize = "1.25rem";
+
+  startButton.classList.remove("buttonClicked");
+  stopButton.classList.add("buttonClicked");
+  resetButton.classList.remove("buttonClicked")
   stopBackGroundMusic();
 });
 saveButton.addEventListener('click',function(){
@@ -345,6 +361,12 @@ function resetButtonSize(){
   startButton.style.fontSize = "1.25rem";
   stopButton.style.fontSize = "1.25rem";
   resetButton.style.fontSize = "1.25rem";
+}
+
+function resetButtonPosition(){
+  startButton.classList.remove("buttonClicked");
+  stopButton.classList.remove("buttonClicked");
+  resetButton.classList.remove("buttonClicked")
 }
 function pomodoroTabDisplay(){
   // Make tabs active
