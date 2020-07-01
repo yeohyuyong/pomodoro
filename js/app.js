@@ -139,20 +139,6 @@ function init(){
   }
 
   //=================Notification===================
-  if(localStorage.notificationSoundInputValue === "true"){
-    notificationSoundInput.checked = localStorage.notificationSoundInputValue;
-  }
-  else{
-    notificationSoundInput.checked = false;
-  }
-
-  if(localStorage.notificationTextInputEnableDisable === "true"){
-    notificationTextInput.disabled = localStorage.notificationTextInputEnableDisable;
-  }
-  else{
-    notificationTextInput.disabled = false;
-  }
-
   if(localStorage.notificationTextInputValue){
     notificationTextInput.value = localStorage.notificationTextInputValue;
   }
@@ -160,19 +146,6 @@ function init(){
     notificationTextInput.value = 1;
   }
   // ===================================Background Music=========================
-  if(localStorage.backgroundMusicToggleButtonValue === "true"){
-    backgroundMusicToggleButton.checked = localStorage.backgroundMusicToggleButtonValue;
-  }
-  else{
-    backgroundMusicToggleButton.checked = false;
-
-  }
-  if(localStorage.backgroundMusicOptionsEnableDisable === "true"){
-    backgroundMusicOptions.disabled = localStorage.backgroundMusicOptionsEnableDisable;
-  }
-  else{
-    backgroundMusicOptions.disabled = false;
-  }
   if(localStorage.backgroundMusicOptionsValue){
     backgroundMusicOptions.value = localStorage.backgroundMusicOptionsValue;
   }
@@ -451,32 +424,10 @@ function makeButtonsInactive(){
   resetButton.classList.remove("active");
 }
 //=================Notificiation, Ticking Sounds and Background Music=======================
-notificationSoundInput.addEventListener("change", function(){
-  if (notificationSoundInput.checked === true){
-    notificationTextInput.disabled = false;
-  }
-  if (notificationSoundInput.checked === false){
-    notificationTextInput.disabled = true;
-  }
-  localStorage.notificationSoundInputValue = notificationSoundInput.checked;
-  localStorage.notificationTextInputEnableDisable = notificationTextInput.disabled;
-})
 notificationTextInput.addEventListener("change", function(){
   localStorage.notificationTextInputValue = notificationTextInput.value;
 })
 
-backgroundMusicToggleButton.addEventListener("change", function(){
-  if (backgroundMusicToggleButton.checked === true){
-    backgroundMusicOptions.disabled = false;
-    playBackGroundMusic();
-  }
-  if (backgroundMusicToggleButton.checked === false){
-    backgroundMusicOptions.disabled = true;
-    stopBackGroundMusic();
-  }
-  localStorage.backgroundMusicToggleButtonValue = backgroundMusicToggleButton.checked;
-  localStorage.backgroundMusicOptionsEnableDisable = backgroundMusicOptions.disabled;
-})
 backgroundMusicOptions.addEventListener("change", function(){
   localStorage.backgroundMusicOptionsValue = backgroundMusicOptions.value;
   stopBackGroundMusic();
@@ -493,14 +444,12 @@ tickSoundInput.addEventListener("change", function(){
 })
 function playEndingNotification(){
   notificationTime = notificationTextInput.value;
-  if (notificationSoundInput.checked){
-      if (timeLeft === Number(minutesToSeconds(notificationTime))){
-        notification.play();
-      }
-    }
+  if (timeLeft === Number(minutesToSeconds(notificationTime))){
+    notification.play();
+  }
 }
 function playBackGroundMusic(){
-  if (backgroundMusicToggleButton.checked){
+  if (backgroundMusicOptions.value !== "None"){
     if (timerRunning){
       allBackgroundMusic[backgroundMusicOptions.value].play();
     }
