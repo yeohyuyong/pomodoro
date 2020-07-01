@@ -150,7 +150,7 @@ function init(){
     backgroundMusicOptions.value = localStorage.backgroundMusicOptionsValue;
   }
   else{
-    backgroundMusicOptions.value = "Rain";
+    backgroundMusicOptions.value = "None";
   }
   // ===============================Dark Mode====================================
   if(localStorage.darkModeToggleValue === "true"){

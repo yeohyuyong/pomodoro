@@ -214,7 +214,7 @@
   <!-- Modals -->
   <!-- Settings Modal -->
   <div class="modal fade" data-keyboard="true" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title ml-3 modalHeaderText" id="exampleModalLabel">Settings</h3>
@@ -222,7 +222,7 @@
               <span class="closeButton" aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body border border-danger">
+          <div class="modal-body">
               <!-- Selecting Timings -->
               <div class="row ml-1">
                 <div class="col-12">
@@ -277,7 +277,7 @@
                 <div class="col">
                   <form>
                     <div class="row">
-                      <div class="col-9">
+                      <div class="col">
                         <input type="range" class="custom-range" min=1 max=12 id="longBreakIntervalInput">
                       </div>
                       <div class="col">
@@ -311,7 +311,7 @@
                 <div class="col">
                   <form class="form-inline">
                     <div class="form-group">
-                      <label for="notificationTextInput" class="notificationText">&nbsp;&nbsp;&nbsp;Last&nbsp;</label>
+                      <label for="notificationTextInput" class="notificationText">Last&nbsp;</label>
                       <input type="number" id="notificationTextInput"  min=1 class="form-control col-2" value=1>&nbsp;<span class="notificationText">Minutes</span>
                     </div>
                   </form>
@@ -325,7 +325,7 @@
                   <p class="h6 text-muted mt-2">Background Music</p>
                 </div>
                 <div class="col">
-                  <select class="form-control inline px-0" id="backgroundMusicOptions">
+                  <select class="form-control" id="backgroundMusicOptions" style="width:10rem">
                     <option>None</option>
                     <option>Rain</option>
                     <option>Ocean</option>
