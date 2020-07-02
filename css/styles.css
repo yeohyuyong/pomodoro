@@ -168,7 +168,9 @@ html, body {
 .social-icon:hover{
   color: #007bff;
 }
-
+.close{
+  outline: none!important;
+}
 .done{
   text-decoration: line-through;
   color: rgba(0, 0, 0, 0.2);
