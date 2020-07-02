@@ -121,11 +121,17 @@ html, body {
 }
 
 .descriptionText{
-  /* border-bottom: 0.5rem solid red; */
   border-color: #dc3545;
   margin-bottom: 0rem;
   word-wrap: break-word;
 }
+
+@media screen and (max-width: 800px) {
+  .descriptionText {
+    font-size: 5vw;
+  }
+}
+
 .descriptionContent{
   margin-bottom: 3rem;
 
