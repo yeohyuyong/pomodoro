@@ -120,18 +120,25 @@ html, body {
   margin-right: 10rem;
 }
 
-.descriptionText{
+.descriptionLabel{
   border-color: #dc3545;
   margin-bottom: 0rem;
   word-wrap: break-word;
 }
 
+
 @media screen and (max-width: 800px) {
-  .descriptionText {
+  .descriptionLabel {
     font-size: 5vw;
   }
 }
 
+.descriptionLabelBorder{
+   height: 0.5rem;
+   background: #dc3545;
+   border-radius: 2rem;
+   margin-bottom: 3rem;
+}
 .descriptionContent{
   margin-bottom: 3rem;
 
@@ -317,6 +324,7 @@ input:checked + .slider:before {
   display: flex;
   background: #007bff;
   margin: 20px;
+  min-width: 300px;
 }
 
 .radialProgressBar .overlay {
