@@ -858,3 +858,17 @@ function moveScrollIndicator(e) {
   const percentage = ((window.scrollY) / maxHeight) * 100;
   scrollIndicatorElt.style.width = percentage + '%';
 }
+
+window.addEventListener('scroll', displayScrollButton);
+
+function displayScrollButton(){
+  var scrollSection = document.querySelector(".scrolltop-wrap");
+  var scrollAmount = window.scrollY;
+  const maxHeight = window.document.body.scrollHeight - window.innerHeight;
+  if (scrollAmount >= maxHeight-1300){
+    scrollSection.style.display = "block";
+  }
+  else{
+    scrollSection.style.display = "none";
+  }
+}
