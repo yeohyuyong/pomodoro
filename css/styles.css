@@ -23,8 +23,6 @@ html, body {
   right: 5%;
   bottom: 5%;
   display: none;
-  transition-duration: 2s;
-
 }
 
 .scrolltop-wrap i{

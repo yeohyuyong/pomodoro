@@ -858,7 +858,7 @@ function moveScrollIndicator(e) {
   const percentage = ((window.scrollY) / maxHeight) * 100;
   scrollIndicatorElt.style.width = percentage + '%';
 }
-
+// =====================Back to Top Button===========================================================
 window.addEventListener('scroll', displayScrollButton);
 
 function displayScrollButton(){
