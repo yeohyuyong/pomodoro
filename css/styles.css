@@ -11,8 +11,14 @@ html, body {
 #mainPage{
   padding-bottom: 0;
   margin-bottom: 0;
-  /* height: 100vh; */
   width: 100%;
+}
+
+@media screen and (min-width: 1000px) {
+  #mainPage {
+    height: 100%;
+    overflow-y: hidden;
+  }
 }
 
 .timerLinks{
