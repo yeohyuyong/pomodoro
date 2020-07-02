@@ -127,9 +127,16 @@ html, body {
 }
 
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
   .descriptionLabel {
-    font-size: 5vw;
+    font-size: 7vw;
+  }
+
+}
+
+@media screen and (max-width: 400px) {
+  .descriptionText {
+    font-size: 4vw;
   }
 }
 
