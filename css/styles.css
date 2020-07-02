@@ -6,21 +6,23 @@ html, body {
   font-family: 'Arvo', serif;
   scroll-behavior: smooth;
 }
-#brandName{
+
+#brandName {
   min-width: 150px;
 }
-#mainPage{
+
+#mainPage {
   padding-bottom: 0;
   margin-bottom: 0;
   width: 100%;
 }
 
-.mainText{
+.mainText {
   height: 100%;
   width: 100%;
 }
 
-.scrolltop-wrap{
+.scrolltop-wrap {
   color: #dc3545;
   margin-bottom: 2rem;
   position: fixed;
@@ -30,7 +32,7 @@ html, body {
   display: none;
 }
 
-.scrollButton{
+.scrollButton {
   cursor: pointer;
   color: #dc3545;
 }
@@ -42,20 +44,21 @@ html, body {
   }
 }
 
-.timerLinks{
+.timerLinks {
   font-size: 1.1rem;
   font-weight: 500;
   text-align: center;
 }
 
-#backgroundMusicOptions{
+#backgroundMusicOptions {
   width: 8rem;
 }
 
-#pomodoros, #shortBreak, #longBreak{
+#pomodoros, #shortBreak, #longBreak {
   border-radius: 2rem;
   padding: 0.4rem 1.5rem;
 }
+
 #saveButton, #clearButton, #clearTasksButton {
   font-size: 1.1rem;
   padding: 0.8rem 1.6rem;
@@ -67,58 +70,62 @@ html, body {
   line-height: 2rem;
   box-shadow: 0 9px #999;
 }
+
 #startButton, #stopButton, #resetButton {
   box-shadow: 0 9px #999;
 }
 
-
-.buttonClicked{
-  box-shadow: 0 5px #666!important;
+.buttonClicked {
+  box-shadow: 0 5px #666 !important;
   transform: translateY(0.25rem);
 }
 
-.dropButtonEffect:active{
- box-shadow: 0 5px #666!important;
- transform: translateY(0.25rem);
+.dropButtonEffect:active {
+  box-shadow: 0 5px #666 !important;
+  transform: translateY(0.25rem);
 }
 
-.dropButtonNoShadow:active{
- transform: translateY(0.25rem);
+.dropButtonNoShadow:active {
+  transform: translateY(0.25rem);
 }
 
-.modal-content{
+.modal-content {
   border-radius: 1rem;
 }
-.modalHeaderText{
+
+.modalHeaderText {
   font-size: 2rem;
 }
-#NoDataLoggedText, #NoTaskTodayText{
+
+#NoDataLoggedText, #NoTaskTodayText {
   font-size: 2rem;
   padding-top: 2rem;
   padding-bottom: 2rem;
   color: #6c757d;
 }
 
-#timeLeft{
+#timeLeft {
   font-weight: bold;
   font-size: 5rem;
 }
 
-
-.btn-group-lg>.btn, .btn-lg{
+.btn-group-lg>.btn, .btn-lg {
   padding: 1rem 3rem;
 }
 
-#brandName{
+#brandName {
   font-weight: 600;
 }
+
 .darkMode {
-  background-color: rgb(23, 23, 23)!important;
+  background-color: rgb(23, 23, 23) !important;
 }
-#timerName{
+
+#timerName {
   margin-top: 100px;
 }
-#navText{
+
+#navText {
   font-size: 2.5rem;
   line-height: 3rem;
 }
@@ -129,38 +136,38 @@ html, body {
   }
 }
 
-#settingsText{
+#settingsText {
   font-size: 4rem;
   font-weight: bold;
 }
 
-#taskInput{
+#taskInput {
   border-radius: 1rem;
 }
-#addTaskButton{
+
+#addTaskButton {
   border-radius: 10rem;
   margin-left: 0.5rem;
 }
 
-#longBreakIntervalInput{
+#longBreakIntervalInput {
   margin-right: 10rem;
 }
 
-.descriptionLabel{
+.descriptionLabel {
   border-color: #dc3545;
   margin-bottom: 0rem;
   word-wrap: break-word;
 }
 
-
 @media screen and (max-width: 600px) {
   .descriptionLabel {
     font-size: 7vw;
   }
-  html, body{
+
+  html, body {
     overflow-x: hidden;
   }
-
 }
 
 @media screen and (max-width: 400px) {
@@ -169,33 +176,38 @@ html, body {
   }
 }
 
-.modal-body{
+.modal-body {
   overflow-x: hidden;
 }
-.descriptionLabelBorder{
-   height: 0.5rem;
-   background: #dc3545;
-   border-radius: 2rem;
-   margin-bottom: 3rem;
-}
-.descriptionContent{
-  margin-bottom: 3rem;
 
+.descriptionLabelBorder {
+  height: 0.5rem;
+  background: #dc3545;
+  border-radius: 2rem;
+  margin-bottom: 3rem;
 }
-.social-icon{
+
+.descriptionContent {
+  margin-bottom: 3rem;
+}
+
+.social-icon {
   color: #999;
 }
 
-.social-icon:hover{
+.social-icon:hover {
   color: #007bff;
 }
-.close{
-  outline: none!important;
+
+.close {
+  outline: none !important;
 }
-.done{
+
+.done {
   text-decoration: line-through;
   color: rgba(0, 0, 0, 0.2);
 }
+
 /* Styling for Tick Sound Slider */
 /* The switch - the box around the slider */
 .switch {
@@ -225,8 +237,6 @@ html, body {
   transition: .4s;
 }
 
-
-
 .slider:before {
   position: absolute;
   content: "";
@@ -238,22 +248,24 @@ html, body {
   -webkit-transition: .2s;
   transition: .2s;
 }
-.textMutedWhite{
-  color:white!important;
-}
-.textMutedNormal{
-  color:#6c757d!important;
+
+.textMutedWhite {
+  color: white !important;
 }
 
-input:checked + .slider {
+.textMutedNormal {
+  color: #6c757d !important;
+}
+
+input:checked+.slider {
   background-color: #2196F3;
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -269,81 +281,87 @@ input:checked + .slider:before {
 }
 
 /* Hover link animation */
-.expand{
-  position:relative;
-  text-decoration:none;
-  display:inline-block;
+.expand {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
 }
-.expand:hover{
-  position:relative;
-  text-decoration:none;
-  display:inline-block;
+
+.expand:hover {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
 }
+
 .expand:after {
-  display:block;
+  display: block;
   content: '';
   border-bottom: solid 0.15rem #dc3545;
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
-  transform-origin:100% 50%
+  transform-origin: 100% 50%
 }
 
 .expand:hover:after {
   transform: scaleX(1);
-  transform-origin:0 50%;
+  transform-origin: 0 50%;
 }
+
 /* for blue */
-.blue-expand{
-  position:relative;
-  text-decoration:none;
-  display:inline-block;
+.blue-expand {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
 }
-.blue-expand:hover{
-  position:relative;
-  text-decoration:none;
-  display:inline-block;
+
+.blue-expand:hover {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
 }
+
 .blue-expand:after {
-  display:block;
+  display: block;
   content: '';
   border-bottom: solid 0.15rem #007bff;
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
-  transform-origin:100% 50%
+  transform-origin: 100% 50%
 }
 
 .blue-expand:hover:after {
   transform: scaleX(1);
-  transform-origin:0 50%;
+  transform-origin: 0 50%;
 }
 
 /* for navs */
 .navs-expand:after {
-  display:block;
+  display: block;
   content: '';
   border-bottom: solid 0.2rem #007bff;
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
-  transform-origin:100% 50%
+  transform-origin: 100% 50%
 }
 
 .navs-expand:hover:after {
   transform: scaleX(1);
-  transform-origin:0 50%;
+  transform-origin: 0 50%;
 }
+
 /* for buttons */
 .button-expand:after {
-  display:block;
+  display: block;
   content: '';
   border-bottom: solid 0.15rem white;
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
-  transform-origin:100% 50%
+  transform-origin: 100% 50%
 }
 
 .button-expand:hover:after {
   transform: scaleX(1);
-  transform-origin:0 50%;
+  transform-origin: 0 50%;
 }
 
 /* Scroll Indicator */
