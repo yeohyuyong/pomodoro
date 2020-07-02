@@ -104,6 +104,12 @@ html, body {
   color: #6c757d;
 }
 
+@media screen and (max-width: 400px) {
+  #NoDataLoggedText {
+    font-size: 7vw;
+  }
+}
+
 #timeLeft {
   font-weight: bold;
   font-size: 5rem;

@@ -29,7 +29,6 @@ var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
 var longBreakIntervalInput = document.getElementById('longBreakIntervalInput');
 
 
-var jumbotron = document.querySelector(".jumbotron");
 var locationUpdateLog = document.getElementById("locationUpdateLog");
 var listOfTasks = document.getElementById('listOfTasks');
 
