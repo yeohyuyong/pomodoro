@@ -4,7 +4,6 @@ html, body {
   padding: 0;
   margin: 0;
   font-family: 'Arvo', serif;
-  overflow-x: hidden;
 }
 #brandName{
   min-width: 150px;
@@ -131,6 +130,9 @@ html, body {
   .descriptionLabel {
     font-size: 7vw;
   }
+  html, body{
+    overflow-x: hidden;
+  }
 
 }
 
@@ -140,6 +142,9 @@ html, body {
   }
 }
 
+.modal-body{
+  overflow-x: hidden;
+}
 .descriptionLabelBorder{
    height: 0.5rem;
    background: #dc3545;
