@@ -86,6 +86,10 @@ notification = new Howl({
   src: ['assets/sounds/notification-bell.mp3']
 });
 
+buttonClick = new Howl({
+  src: ['assets/sounds/button-click.mp3'],
+  volume: 0.2
+});
 
 //Background Music
 allBackgroundMusic = {
@@ -322,6 +326,7 @@ startButton.addEventListener('click',function(){
   startButton.classList.add("buttonClicked");
   stopButton.classList.remove("buttonClicked");
   resetButton.classList.remove("buttonClicked");
+  playButtonClickSound();
 });
 resetButton.addEventListener('click',function(){
   resetTimer();
@@ -333,6 +338,7 @@ resetButton.addEventListener('click',function(){
   stopButton.classList.remove("buttonClicked");
   resetButton.classList.add("buttonClicked")
   stopBackGroundMusic();
+  playButtonClickSound();
 
 });
 stopButton.addEventListener('click',function(){
@@ -345,6 +351,7 @@ stopButton.addEventListener('click',function(){
   stopButton.classList.add("buttonClicked");
   resetButton.classList.remove("buttonClicked")
   stopBackGroundMusic();
+  playButtonClickSound();
 });
 saveButton.addEventListener('click',function(){
   if(currentTab==="pomodoro"){
@@ -461,6 +468,9 @@ function playTickSound(){
   if (tickSoundInput.checked){
     tick.play();
   }
+}
+function playButtonClickSound(){
+  buttonClick.play();
 }
 tickSoundInput.addEventListener("change", function(){
   localStorage.tickSoundInputValue = tickSoundInput.checked;
