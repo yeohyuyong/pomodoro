@@ -3,7 +3,6 @@ var pomodoros = document.getElementById('pomodoros');
 var shortBreak = document.getElementById('shortBreak');
 var longBreak = document.getElementById('longBreak');
 var settings = document.getElementById('settings');
-
 //Buttons
 var startButton = document.getElementById('startButton');
 var resetButton = document.getElementById('resetButton');
@@ -11,9 +10,8 @@ var stopButton = document.getElementById('stopButton');
 var saveButton = document.getElementById('saveButton');
 var clearButton = document.getElementById('clearButton');
 var clearTasksButton = document.getElementById('clearTasksButton');
-
+//Time left displayed
 var timeLeftDisplay = document.getElementById("timeLeft");
-
 //Inputs
 var pomodoroInput = document.getElementById("pomodoroInput");
 var shortBreakInput = document.getElementById("shortBreakInput");
@@ -22,9 +20,7 @@ var sliderValue = document.getElementById("sliderValue");
 var autoStartRoundsInput = document.getElementById("autoStartRoundsInput");
 var tickSoundInput = document.getElementById("tickSoundInput");
 var darkModeToggle = document.getElementById("darkModeToggle");
-var notificationSoundInput = document.getElementById("notificationSoundInput");
 var notificationTextInput = document.getElementById("notificationTextInput");
-var backgroundMusicToggleButton = document.getElementById("backgroundMusicToggleButton");
 var backgroundMusicOptions = document.getElementById("backgroundMusicOptions");
 var longBreakIntervalInput = document.getElementById('longBreakIntervalInput');
 
@@ -36,6 +32,7 @@ var progressValue = document.querySelector(".progress-value");
 var notificationTime;
 var titleDisplayText;
 var currentTab;
+var timerButtonClicked;
 var currentStartTime;
 var currentEndTime;
 var currentDate;
@@ -46,17 +43,18 @@ var allPossibleModes = {
     defaultTime: 25,
     navButton: pomodoros,
     localStorage: localStorage.currentPomodoroValue,
+    titleDisplayText: "Time to Work!",
     progressColor: "#dc3545",
     sound: new Howl({
       src: ['assets/sounds/alert-work.mp3']
     })
   },
-
   "long break": {
     input: longBreakInput,
     defaultTime: 20,
     navButton: longBreak,
     localStorage: localStorage.currentLongBreakValue,
+    titleDisplayText: "Time for a Break",
     progressColor: "#007bff",
     sound: new Howl({
       src: ['assets/sounds/alert-long-break.mp3']
@@ -67,6 +65,7 @@ var allPossibleModes = {
     defaultTime: 5,
     navButton: shortBreak,
     localStorage: localStorage.currentShortBreakValue,
+    titleDisplayText: "Time for a Break",
     progressColor: "#28a745",
     sound: new Howl({
       src: ['assets/sounds/alert-short-break.mp3']
@@ -125,13 +124,26 @@ function init() {
   makePillsActive(currentTab);
   contentDisplay();
   buttonsDefaultState();
-  pomodoros.style.fontSize = "1.15rem";
-  // ===================Ticking Sound============================
+  displayTickSoundValue();
+  displayTimeInputValues();
+  displayNotificationValue();
+  displayBackGroundMusic();
+  displayLog();
+  displayTodoList();
+  displayLongBreakInterval();
+  displayAutoStartBreak();
+}
+
+//=========================Initialise Default/Local Storage values=================================================
+function displayTickSoundValue() {
   if (localStorage.tickSoundInputValue === "true") {
     tickSoundInput.checked = localStorage.tickSoundInputValue;
   } else {
     tickSoundInput.checked = false;
   }
+}
+
+function displayTimeInputValues() {
   modesList = ["pomodoro", "short break", "long break"]
   for (var i = 0; i < modesList.length; i++) {
     if (allPossibleModes[modesList[i]].localStorage) {
@@ -140,27 +152,34 @@ function init() {
       allPossibleModes[modesList[i]].input.value = allPossibleModes[modesList[i]].defaultTime;
     }
   }
+}
 
-  //=================Notification===================
+function displayNotificationValue() {
   if (localStorage.notificationTextInputValue) {
     notificationTextInput.value = localStorage.notificationTextInputValue;
   } else {
     notificationTextInput.value = 1;
   }
-  // ===================================Background Music=========================
+}
+
+function displayBackGroundMusic() {
   if (localStorage.backgroundMusicOptionsValue) {
     backgroundMusicOptions.value = localStorage.backgroundMusicOptionsValue;
   } else {
     backgroundMusicOptions.value = "None";
   }
-  // ===============================Dark Mode====================================
+}
+
+function displayDarkMode() {
   if (localStorage.darkModeToggleValue === "true") {
     darkModeToggle.checked = localStorage.darkModeToggleValue;
     darkMode();
   } else {
     darkModeToggle.checked = false;
   }
-  // ===============================Logging=============================================
+}
+
+function displayLog() {
   if (localStorage.logContents !== undefined) {
     if (localStorage.logContents.indexOf("tr") === -1) {
       showNoDataLoggedText();
@@ -168,8 +187,10 @@ function init() {
       locationUpdateLog.innerHTML = localStorage.logContents;
       removeNoDataLoggedText();
     }
-  } else {}
-  // ============================Todo list===========================================
+  }
+}
+
+function displayTodoList() {
   if (localStorage.todoContents !== undefined) {
     if (localStorage.todoContents.indexOf("li") === -1) {
       showNoTaskTodayText();
@@ -178,8 +199,10 @@ function init() {
       listOfTasks.innerHTML = localStorage.todoContents;
       removeNoTaskTodayText();
     }
-  } else {}
-  // =====================Long Break Interval==========================================
+  }
+}
+
+function displayLongBreakInterval() {
   if (localStorage.longBreakInterval !== undefined) {
     longBreakIntervalInput.value = localStorage.longBreakInterval;
   } else {
@@ -190,13 +213,16 @@ function init() {
   } else {
     sliderValue.innerHTML = 4;
   }
-  // ======================Auto Start Input===================================
+}
+
+function displayAutoStartBreak() {
   if (localStorage.autoStartRoundsInputValue === "true") {
     autoStartRoundsInput.checked = localStorage.autoStartRoundsInputValue;
   } else {
     autoStartRoundsInput.checked = false;
   }
 }
+
 pomodoros.addEventListener("click", function() {
   currentTab = "pomodoro";
   makePillsActive(currentTab);
@@ -273,18 +299,11 @@ function resetTimer() {
   timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
   document.title = "PomodoroTimers";
   progressDisplay();
-  startButton.classList.remove("active");
-  stopButton.classList.remove("active");
-  resetButton.classList.add("active");
-
 }
 
 function stopTimer() {
   clearInterval(updateSeconds);
   timerRunning = false;
-  startButton.classList.remove("active");
-  stopButton.classList.add("active");
-  resetButton.classList.remove("active");
 }
 //Buttons
 var timerRunning = false;
@@ -292,55 +311,48 @@ startButton.addEventListener('click', function() {
   if (timerRunning === false) {
     timerRunning = true;
     countDown();
-    startButton.classList.add("active");
-    stopButton.classList.remove("active");
-    resetButton.classList.remove("active");
   }
-  startButton.style.fontSize = "1.3rem";
-  stopButton.style.fontSize = "1.25rem";
-  resetButton.style.fontSize = "1.25rem";
-
-  startButton.classList.add("buttonClicked");
-  stopButton.classList.remove("buttonClicked");
-  resetButton.classList.remove("buttonClicked");
+  makeTimerButtonActive(this);
   playButtonClickSound();
 });
 resetButton.addEventListener('click', function() {
   resetTimer();
-  startButton.style.fontSize = "1.25rem";
-  stopButton.style.fontSize = "1.25rem";
-  resetButton.style.fontSize = "1.3rem";
-
-  startButton.classList.remove("buttonClicked");
-  stopButton.classList.remove("buttonClicked");
-  resetButton.classList.add("buttonClicked")
+  makeTimerButtonActive(this);
   stopBackGroundMusic();
   playButtonClickSound();
 
 });
 stopButton.addEventListener('click', function() {
   stopTimer();
-  startButton.style.fontSize = "1.25rem";
-  stopButton.style.fontSize = "1.3rem";
-  resetButton.style.fontSize = "1.25rem";
-
-  startButton.classList.remove("buttonClicked");
-  stopButton.classList.add("buttonClicked");
-  resetButton.classList.remove("buttonClicked")
+  makeTimerButtonActive(this);
   stopBackGroundMusic();
   playButtonClickSound();
 });
 
-function makePillsActive(session){
-    allPossibleModes[session].navButton.classList.add("active");
-    allPossibleModes[session].navButton.style.fontSize = "1.15rem";
-    allSessions = Object.keys(allPossibleModes);
-    allSessions.forEach(function(sessionType){
-      if (sessionType !== session){
-        allPossibleModes[sessionType].navButton.classList.remove("active");
-        allPossibleModes[sessionType].navButton.style.fontSize = "1.1rem";
-      }
-    })
+function makePillsActive(session) {
+  allPossibleModes[session].navButton.classList.add("active");
+  allPossibleModes[session].navButton.style.fontSize = "1.15rem";
+  allSessions = Object.keys(allPossibleModes);
+  allSessions.forEach(function(sessionType) {
+    if (sessionType !== session) {
+      allPossibleModes[sessionType].navButton.classList.remove("active");
+      allPossibleModes[sessionType].navButton.style.fontSize = "1.1rem";
+    }
+  })
+}
+
+function makeTimerButtonActive(buttonClicked) {
+  allTimerButtons = [startButton, stopButton, resetButton];
+  buttonClicked.style.fontSize = "1.3rem";
+  buttonClicked.classList.add("active");
+  buttonClicked.classList.add("buttonClicked");
+  allTimerButtons.forEach(function(button) {
+    if (button !== buttonClicked) {
+      button.style.fontSize = "1.25rem";
+      button.classList.remove("active");
+      button.classList.remove("buttonClicked");
+    }
+  })
 }
 //Content Display
 function contentDisplay() {
@@ -373,11 +385,7 @@ longBreakInput.addEventListener("change", function() {
 
 
 function titleTimeDisplay() {
-  if (currentTab === "pomodoro") {
-    titleDisplayText = "Time to Work!";
-  } else {
-    titleDisplayText = "Time for a Break";
-  }
+  titleDisplayText = allPossibleModes[currentTab].titleDisplayText;
 }
 
 //=================Notificiation, Ticking Sounds and Background Music=======================
@@ -428,7 +436,6 @@ function stopBackGroundMusic() {
 var degreeOfCircle;
 
 function progressDisplay() {
-  //Get total time in seconds
   var totalMinutes;
   if (allPossibleModes[currentTab].localStorage) {
     totalMinutes = minutesToSeconds(allPossibleModes[currentTab].localStorage);
@@ -702,13 +709,12 @@ function listIsEmpty() {
   return localStorage.todoContents.indexOf("li") === -1;
 }
 // ======================================Start Next Rounds===================================================
-
 longBreakIntervalInput.addEventListener("input", function() {
   localStorage.longBreakInterval = Number(longBreakIntervalInput.value);
   localStorage.sliderValue = Number(longBreakIntervalInput.value);
   sliderValue.innerHTML = localStorage.sliderValue;
-
 })
+
 var numberSessions = 0;
 
 function startNextRound() {
@@ -769,12 +775,11 @@ function autoStartTimer() {
     countDown();
   }
 }
-
 autoStartRoundsInput.addEventListener("change", function() {
   localStorage.autoStartRoundsInputValue = autoStartRoundsInput.checked;
 })
 
-function buttonsDefaultState(){
+function buttonsDefaultState() {
   startButton.classList.remove("active");
   stopButton.classList.remove("active");
   resetButton.classList.remove("active");
@@ -789,12 +794,14 @@ function buttonsDefaultState(){
 window.addEventListener('scroll', moveScrollIndicator);
 const scrollIndicatorElt = document.getElementById('scrollIndicator');
 const maxHeight = window.document.body.scrollHeight - window.innerHeight;
+
 function moveScrollIndicator(e) {
   const percentage = ((window.scrollY) / maxHeight) * 100;
   scrollIndicatorElt.style.width = percentage + '%';
 }
 // =====================Back to Top Button===========================================================
 window.addEventListener('scroll', displayScrollButton);
+
 function displayScrollButton() {
   var scrollSection = document.querySelector(".scrolltop-wrap");
   var scrollAmount = window.scrollY;
