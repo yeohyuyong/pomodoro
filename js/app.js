@@ -330,15 +330,6 @@ stopButton.addEventListener('click', function() {
   stopBackGroundMusic();
   playButtonClickSound();
 });
-saveButton.addEventListener('click', function() {
-  if (currentTab === "pomodoro") {
-    makePillsActive(currentTab);
-  } else if (currentTab === "short break") {
-    makePillsActive(currentTab);
-  } else if (currentTab === "long break") {
-    makePillsActive(currentTab);
-  }
-});
 
 function makePillsActive(session){
     allPossibleModes[session].navButton.classList.add("active");
