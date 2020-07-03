@@ -80,7 +80,8 @@ tick = new Howl({
 });
 
 notification = new Howl({
-  src: ['assets/sounds/notification-bell.mp3']
+  src: ['assets/sounds/notification-bell.mp3'],
+  volume: 0.3
 });
 
 buttonClick = new Howl({
