@@ -44,6 +44,7 @@ var allPossibleModes = {
   "pomodoro": {
     input: pomodoroInput,
     defaultTime: 25,
+    navButton: pomodoros,
     localStorage: localStorage.currentPomodoroValue,
     progressColor: "#dc3545",
     sound: new Howl({
@@ -54,6 +55,7 @@ var allPossibleModes = {
   "long break": {
     input: longBreakInput,
     defaultTime: 20,
+    navButton: longBreak,
     localStorage: localStorage.currentLongBreakValue,
     progressColor: "#007bff",
     sound: new Howl({
@@ -63,6 +65,7 @@ var allPossibleModes = {
   "short break": {
     input: shortBreakInput,
     defaultTime: 5,
+    navButton: shortBreak,
     localStorage: localStorage.currentShortBreakValue,
     progressColor: "#28a745",
     sound: new Howl({
@@ -119,9 +122,9 @@ init();
 
 function init() {
   currentTab = "pomodoro";
-  pomodoroTabDisplay();
+  makePillsActive(currentTab);
   contentDisplay();
-  makeButtonsInactive();
+  buttonsDefaultState();
   pomodoros.style.fontSize = "1.15rem";
   // ===================Ticking Sound============================
   if (localStorage.tickSoundInputValue === "true") {
@@ -129,7 +132,6 @@ function init() {
   } else {
     tickSoundInput.checked = false;
   }
-  resetButtonSize();
   modesList = ["pomodoro", "short break", "long break"]
   for (var i = 0; i < modesList.length; i++) {
     if (allPossibleModes[modesList[i]].localStorage) {
@@ -197,34 +199,28 @@ function init() {
 }
 pomodoros.addEventListener("click", function() {
   currentTab = "pomodoro";
-  pomodoroTabDisplay();
+  makePillsActive(currentTab);
   contentDisplay();
   resetTimer();
-  makeButtonsInactive();
-  resetButtonSize();
-  resetButtonPosition();
+  buttonsDefaultState();
   stopBackGroundMusic();
 });
 
 shortBreak.addEventListener("click", function() {
   currentTab = "short break";
-  shortBreakTabDisplay();
+  makePillsActive(currentTab);
   contentDisplay();
   resetTimer();
-  makeButtonsInactive();
-  resetButtonSize();
-  resetButtonPosition();
+  buttonsDefaultState();
   stopBackGroundMusic();
 });
 
 longBreak.addEventListener("click", function() {
   currentTab = "long break";
-  longBreakTabDisplay();
+  makePillsActive(currentTab);
   contentDisplay();
   resetTimer();
-  makeButtonsInactive();
-  resetButtonSize();
-  resetButtonPosition();
+  buttonsDefaultState();
   stopBackGroundMusic();
 });
 
@@ -336,59 +332,24 @@ stopButton.addEventListener('click', function() {
 });
 saveButton.addEventListener('click', function() {
   if (currentTab === "pomodoro") {
-    pomodoroTabDisplay();
+    makePillsActive(currentTab);
   } else if (currentTab === "short break") {
-    shortBreakTabDisplay();
+    makePillsActive(currentTab);
   } else if (currentTab === "long break") {
-    longBreakTabDisplay();
+    makePillsActive(currentTab);
   }
-  resetButtonSize();
 });
 
-function resetButtonSize() {
-  startButton.style.fontSize = "1.25rem";
-  stopButton.style.fontSize = "1.25rem";
-  resetButton.style.fontSize = "1.25rem";
-}
-
-function resetButtonPosition() {
-  startButton.classList.remove("buttonClicked");
-  stopButton.classList.remove("buttonClicked");
-  resetButton.classList.remove("buttonClicked")
-}
-
-function pomodoroTabDisplay() {
-  // Make tabs active
-  pomodoros.classList.add("active");
-  shortBreak.classList.remove("active");
-  longBreak.classList.remove("active");
-
-  //Make tabs text larger
-  pomodoros.style.fontSize = "1.15rem";
-  shortBreak.style.fontSize = "1.1rem";
-  longBreak.style.fontSize = "1.1rem";
-}
-
-function shortBreakTabDisplay() {
-  // Make tabs active
-  pomodoros.classList.remove("active");
-  shortBreak.classList.add("active");
-  longBreak.classList.remove("active");
-  //Make tabs text larger
-  pomodoros.style.fontSize = "1.1rem";
-  shortBreak.style.fontSize = "1.15rem";
-  longBreak.style.fontSize = "1.1rem";
-}
-
-function longBreakTabDisplay() {
-  // Make tabs active
-  pomodoros.classList.remove("active");
-  shortBreak.classList.remove("active");
-  longBreak.classList.add("active");
-  //Make tabs text larger
-  pomodoros.style.fontSize = "1.1rem";
-  shortBreak.style.fontSize = "1.1rem";
-  longBreak.style.fontSize = "1.15rem";
+function makePillsActive(session){
+    allPossibleModes[session].navButton.classList.add("active");
+    allPossibleModes[session].navButton.style.fontSize = "1.15rem";
+    allSessions = Object.keys(allPossibleModes);
+    allSessions.forEach(function(sessionType){
+      if (sessionType !== session){
+        allPossibleModes[sessionType].navButton.classList.remove("active");
+        allPossibleModes[sessionType].navButton.style.fontSize = "1.1rem";
+      }
+    })
 }
 //Content Display
 function contentDisplay() {
@@ -428,11 +389,6 @@ function titleTimeDisplay() {
   }
 }
 
-function makeButtonsInactive() {
-  startButton.classList.remove("active");
-  stopButton.classList.remove("active");
-  resetButton.classList.remove("active");
-}
 //=================Notificiation, Ticking Sounds and Background Music=======================
 notificationTextInput.addEventListener("change", function() {
   localStorage.notificationTextInputValue = notificationTextInput.value;
@@ -770,22 +726,22 @@ function startNextRound() {
     //play long break
     numberSessions = 0;
     currentTab = "long break";
-    longBreakTabDisplay();
+    makePillsActive(currentTab);
     contentDisplay();
     resetTimer();
-    makeButtonsInactive();
-    resetButtonSize();
+    buttonsDefaultState();
     stopBackGroundMusic();
-    countDown();
+    if (autoStartRoundsInput.checked) {
+      autoStartTimer();
+    }
   } else if (currentTab === "pomodoro") {
     //play short break
     numberSessions += 1;
     currentTab = "short break";
-    shortBreakTabDisplay();
+    makePillsActive(currentTab);
     contentDisplay();
     resetTimer();
-    makeButtonsInactive();
-    resetButtonSize();
+    buttonsDefaultState();
     stopBackGroundMusic();
     if (autoStartRoundsInput.checked) {
       autoStartTimer();
@@ -794,11 +750,10 @@ function startNextRound() {
   } else if (currentTab === "short break") {
     //play pomodoros
     currentTab = "pomodoro";
-    pomodoroTabDisplay();
+    makePillsActive(currentTab);
     contentDisplay();
     resetTimer();
-    makeButtonsInactive();
-    resetButtonSize();
+    buttonsDefaultState();
     stopBackGroundMusic();
     if (autoStartRoundsInput.checked) {
       autoStartTimer();
@@ -806,11 +761,10 @@ function startNextRound() {
   } else if (currentTab === "long break") {
     //play pomodoros
     currentTab = "pomodoro";
-    pomodoroTabDisplay();
+    makePillsActive(currentTab);
     contentDisplay();
     resetTimer();
-    makeButtonsInactive();
-    resetButtonSize();
+    buttonsDefaultState();
     stopBackGroundMusic();
     if (autoStartRoundsInput.checked) {
       autoStartTimer();
@@ -822,33 +776,34 @@ function autoStartTimer() {
   if (timerRunning === false) {
     timerRunning = true;
     countDown();
-    startButton.classList.add("active");
-    stopButton.classList.remove("active");
-    resetButton.classList.remove("active");
   }
-  startButton.style.fontSize = "1.3rem";
-  stopButton.style.fontSize = "1.25rem";
-  resetButton.style.fontSize = "1.25rem";
 }
 
 autoStartRoundsInput.addEventListener("change", function() {
   localStorage.autoStartRoundsInputValue = autoStartRoundsInput.checked;
 })
 
+function buttonsDefaultState(){
+  startButton.classList.remove("active");
+  stopButton.classList.remove("active");
+  resetButton.classList.remove("active");
+  startButton.style.fontSize = "1.25rem";
+  stopButton.style.fontSize = "1.25rem";
+  resetButton.style.fontSize = "1.25rem";
+  startButton.classList.remove("buttonClicked");
+  stopButton.classList.remove("buttonClicked");
+  resetButton.classList.remove("buttonClicked");
+}
 // ===========================Scroll Indicator====================================================
 window.addEventListener('scroll', moveScrollIndicator);
-
 const scrollIndicatorElt = document.getElementById('scrollIndicator');
-
 const maxHeight = window.document.body.scrollHeight - window.innerHeight;
-
 function moveScrollIndicator(e) {
   const percentage = ((window.scrollY) / maxHeight) * 100;
   scrollIndicatorElt.style.width = percentage + '%';
 }
 // =====================Back to Top Button===========================================================
 window.addEventListener('scroll', displayScrollButton);
-
 function displayScrollButton() {
   var scrollSection = document.querySelector(".scrolltop-wrap");
   var scrollAmount = window.scrollY;
@@ -859,7 +814,6 @@ function displayScrollButton() {
     scrollSection.style.display = "none";
   }
 }
-
 var scrollButton = document.querySelector(".scrollButton");
 scrollButton.addEventListener("click", function() {
   window.scroll({
