@@ -67,7 +67,6 @@ html, body {
   font-weight: 500;
   border-radius: 2rem;
   line-height: 2rem;
-  box-shadow: 0 9px #999;
 }
 
 #startButton, #stopButton, #resetButton {

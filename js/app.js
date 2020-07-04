@@ -73,7 +73,7 @@ var allPossibleModes = {
   }
 };
 
-// Ticking Sound
+// All Sound Effects
 tick = new Howl({
   src: ['assets/sounds/tick.mp3'],
   volume: 2
