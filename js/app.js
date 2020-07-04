@@ -667,6 +667,8 @@ function displayTasks() {
   var todo = document.createTextNode(taskInput.value);
   listItem.setAttribute("class", "list-group-item");
   listItem.setAttribute("onclick", "checkedWhenclicked(this)");
+  listItem.setAttribute("onmouseover", "taskMouseOver(this)");
+  listItem.setAttribute("onmouseout", "taskMouseOut(this)");
   listItem.setAttribute("style", "cursor:pointer; overflow-wrap: break-word;");
   listItem.appendChild(todo);
   listItem.innerHTML += '<td><button type="button" class="close" onclick = "deleteTasks(this)" aria-label="Close"><span aria-hidden="true"><i class="fas fa-trash-alt fa-sm"></i></i></span></button></td>';
@@ -692,6 +694,16 @@ clearTasksButton.addEventListener("click", function() {
   storeTasks();
   showNoTaskTodayText();
 })
+
+function taskMouseOver(item){
+  item.style.fontSize = "1.2rem";
+  item.style.transition = "100ms";
+}
+
+function taskMouseOut(item){
+  item.style.fontSize = "1rem";
+  item.style.transition = "100ms";
+}
 // ================================Local storage for todo list==========================================
 function storeTasks() {
   localStorage.todoContents = listOfTasks.innerHTML;
