@@ -1,0 +1,22 @@
+{
+  "name": "pomodoro",
+  "version": "0.1.0",
+  "description": "Simple and visually pleasing pomodoro timer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeohyuyong/pomodoro.git"
+  },
+  "author": "Yeoh Yu Yong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yeohyuyong/pomodoro/issues"
+  },
+  "homepage": "https://github.com/yeohyuyong/pomodoro#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
