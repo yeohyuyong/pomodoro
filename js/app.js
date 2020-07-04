@@ -611,7 +611,7 @@ function addDataToLog() {
   row.appendChild(endTimeCol);
   row.appendChild(timeCol);
   row.innerHTML += '<td><input class="form-control" type="text" placeholder="" onchange="storeLogDescription(this)"></td>'
-  row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
+  row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true"><i class="fas fa-trash-alt"></i></span></button></td>';
   locationUpdateLog.appendChild(row);
   storeLogItems();
   removeNoDataLoggedText();
@@ -669,7 +669,7 @@ function displayTasks() {
   listItem.setAttribute("onclick", "checkedWhenclicked(this)");
   listItem.setAttribute("style", "cursor:pointer; overflow-wrap: break-word;");
   listItem.appendChild(todo);
-  listItem.innerHTML += '<td><button type="button" class="close" onclick = "deleteTasks(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
+  listItem.innerHTML += '<td><button type="button" class="close" onclick = "deleteTasks(this)" aria-label="Close"><span aria-hidden="true"><i class="fas fa-trash-alt fa-sm"></i></i></span></button></td>';
   listOfTasks.appendChild(listItem);
   storeTasks();
   removeNoTaskTodayText();
