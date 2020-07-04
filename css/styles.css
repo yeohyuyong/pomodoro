@@ -4,7 +4,6 @@ html, body {
   padding: 0;
   margin: 0;
   font-family: 'Arvo', serif;
-
 }
 
 #brandName {
@@ -53,9 +52,11 @@ html, body {
 #backgroundMusicOptions {
   width: 8rem;
 }
-.siteDescription{
+
+.siteDescription {
   background: #9ADBB3;
 }
+
 #pomodoros, #shortBreak, #longBreak {
   border-radius: 2rem;
   padding: 0.4rem 1.5rem;
@@ -199,10 +200,6 @@ html, body {
   padding-bottom: 0rem;
 }
 
-/* .descriptionContent:nth-child(even) {
-  background: #9ADBB3;
-} */
-
 .social-icon {
   color: #999;
 }
@@ -220,8 +217,9 @@ html, body {
   color: rgba(0, 0, 0, 0.2);
 }
 
-/* Styling for Tick Sound Slider */
-/* The switch - the box around the slider */
+/* ===============
+  Switch Input
+  ================ */
 .switch {
   position: relative;
   display: inline-block;
@@ -229,14 +227,12 @@ html, body {
   height: 34px;
 }
 
-/* Hide default HTML checkbox */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* The slider */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -269,6 +265,9 @@ html, body {
   color: #6c757d !important;
 }
 
+/* ===============
+  Range Slider
+  ================ */
 input:checked+.slider {
   background-color: #2196F3;
 }
@@ -283,7 +282,6 @@ input:checked+.slider:before {
   transform: translateX(26px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
@@ -292,7 +290,9 @@ input:checked+.slider:before {
   border-radius: 50%;
 }
 
-/* Hover link animation */
+/* ===================
+  Hover link animation
+  ==================== */
 .expand {
   position: relative;
   text-decoration: none;
@@ -346,37 +346,9 @@ input:checked+.slider:before {
   transform-origin: 0 50%;
 }
 
-/* for navs */
-.navs-expand:after {
-  display: block;
-  content: '';
-  border-bottom: solid 0.2rem #007bff;
-  transform: scaleX(0);
-  transition: transform 250ms ease-in-out;
-  transform-origin: 100% 50%
-}
-
-.navs-expand:hover:after {
-  transform: scaleX(1);
-  transform-origin: 0 50%;
-}
-
-/* for buttons */
-.button-expand:after {
-  display: block;
-  content: '';
-  border-bottom: solid 0.15rem white;
-  transform: scaleX(0);
-  transition: transform 250ms ease-in-out;
-  transform-origin: 100% 50%
-}
-
-.button-expand:hover:after {
-  transform: scaleX(1);
-  transform-origin: 0 50%;
-}
-
-/* Scroll Indicator */
+/* ===============
+  Scroll Indicator
+  ================ */
 .line {
   background: #dc3545;
   height: 4px;
@@ -386,6 +358,9 @@ input:checked+.slider:before {
   top: 0;
 }
 
+/* ===========
+  Progress Bar
+  ============ */
 .radialProgressBar {
   border-radius: 50%;
   width: 300px;
