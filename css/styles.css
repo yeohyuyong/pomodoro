@@ -4,6 +4,7 @@ html, body {
   padding: 0;
   margin: 0;
   font-family: 'Arvo', serif;
+
 }
 
 #brandName {
@@ -53,7 +54,7 @@ html, body {
   width: 8rem;
 }
 .siteDescription{
-  background: #e7717d;
+  background: #9ADBB3;
 }
 #pomodoros, #shortBreak, #longBreak {
   border-radius: 2rem;
@@ -194,12 +195,13 @@ html, body {
 }
 
 .descriptionContent {
-  padding: 3rem 0;
+  padding-top: 3rem;
+  padding-bottom: 0rem;
 }
 
-.descriptionContent:nth-child(even) {
-  background: #659dbd;
-}
+/* .descriptionContent:nth-child(even) {
+  background: #9ADBB3;
+} */
 
 .social-icon {
   color: #999;
