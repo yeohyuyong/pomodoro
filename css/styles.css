@@ -52,7 +52,9 @@ html, body {
 #backgroundMusicOptions {
   width: 8rem;
 }
-
+.siteDescription{
+  background: #e7717d;
+}
 #pomodoros, #shortBreak, #longBreak {
   border-radius: 2rem;
   padding: 0.4rem 1.5rem;
@@ -192,7 +194,11 @@ html, body {
 }
 
 .descriptionContent {
-  margin-bottom: 3rem;
+  padding: 3rem 0;
+}
+
+.descriptionContent:nth-child(even) {
+  background: #659dbd;
 }
 
 .social-icon {
