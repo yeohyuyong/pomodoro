@@ -667,8 +667,7 @@ function displayTasks() {
   var todo = document.createTextNode(taskInput.value);
   listItem.setAttribute("class", "list-group-item");
   listItem.setAttribute("onclick", "checkedWhenclicked(this)");
-  listItem.setAttribute("style", "cursor:pointer;");
-  listItem.setAttribute("style", "overflow-wrap: break-word;");
+  listItem.setAttribute("style", "cursor:pointer; overflow-wrap: break-word;");
   listItem.appendChild(todo);
   listItem.innerHTML += '<td><button type="button" class="close" onclick = "deleteTasks(this)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>';
   listOfTasks.appendChild(listItem);
