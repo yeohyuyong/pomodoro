@@ -308,26 +308,28 @@ function stopTimer() {
 }
 //Buttons
 var timerRunning = false;
+var timerButtonClicked;
 startButton.addEventListener('click', function() {
   if (timerRunning === false) {
     timerRunning = true;
     countDown();
   }
   makeTimerButtonActive(this);
-  playButtonClickSound();
+  playButtonClickSound(this);
 });
+
 resetButton.addEventListener('click', function() {
   resetTimer();
   makeTimerButtonActive(this);
   stopBackGroundMusic();
-  playButtonClickSound();
-
+  playButtonClickSound(this);
 });
+
 stopButton.addEventListener('click', function() {
   stopTimer();
   makeTimerButtonActive(this);
   stopBackGroundMusic();
-  playButtonClickSound();
+  playButtonClickSound(this);
 });
 
 function makePillsActive(session) {
@@ -406,9 +408,13 @@ function playTickSound() {
   }
 }
 
-function playButtonClickSound() {
-  buttonClick.play();
+function playButtonClickSound(button) {
+  if (button !== timerButtonClicked){
+    buttonClick.play();
+  }
+  timerButtonClicked = button;
 }
+
 tickSoundInput.addEventListener("change", function() {
   localStorage.tickSoundInputValue = tickSoundInput.checked;
 })
