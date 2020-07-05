@@ -201,6 +201,14 @@ html, body {
   font-size: 1.2rem;
 }
 
+dt[class="col-sm-2"]{
+  margin-right: -2.5rem;
+}
+
+dd[class="col-sm-10"]{
+  margin-bottom: 1rem;
+}
+
 .social-icon {
   color: #999;
 }
