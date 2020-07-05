@@ -357,6 +357,28 @@ input:checked+.slider:before {
   transform: scaleX(1);
 }
 
+.nav-expand {
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-expand:hover {
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-expand::after {
+  display: block;
+  content: '';
+  border-bottom: solid 0.25rem #007bff;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+
+.nav-expand:hover::after {
+  transform: scaleX(1);
+}
+
 /* ===============
   Scroll Indicator
   ================ */
