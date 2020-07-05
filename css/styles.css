@@ -212,6 +212,10 @@ html, body {
   padding-bottom: 0rem;
 }
 
+.descriptionContent:nth-child(1){
+  padding-top: 4rem;
+}
+
 .descriptionText {
   font-size: 1.2rem;
   line-height: 1.8rem;
@@ -236,6 +240,23 @@ dd[class="col-sm-10"]{
 
 .social-icon:hover {
   color: #007bff;
+}
+
+.fa-code {
+  color: #ffc107;
+}
+
+.fa-heart {
+  color: #dc3545;
+}
+
+#siteFooter p a{
+  font-weight: bold;
+  color: #007bff;
+}
+
+#siteFooter p{
+  font-size: 1.1rem;
 }
 
 .done {
