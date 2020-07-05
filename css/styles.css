@@ -242,8 +242,12 @@ dd[class="col-sm-10"]{
   color: #999;
 }
 
-.social-icon:hover {
+.social-icon:hover{
   color: #007bff;
+}
+
+.social-icon:focus {
+  border: 1px solid red;
 }
 
 .fa-code {
@@ -355,7 +359,7 @@ input:checked+.slider:before {
 }
 
 .expand:hover::after,
-.expand:focus::after,{
+.expand:focus::after{
   transform: scaleX(1);
 }
 
