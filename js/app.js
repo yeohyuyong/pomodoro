@@ -346,12 +346,12 @@ function makePillsActive(session) {
 
 function makeTimerButtonActive(buttonClicked) {
   allTimerButtons = [startButton, stopButton, resetButton];
-  buttonClicked.style.fontSize = "1.3rem";
+  buttonClicked.style.fontSize = "1.28rem";
   buttonClicked.classList.add("active");
   buttonClicked.classList.add("buttonClicked");
   allTimerButtons.forEach(function(button) {
     if (button !== buttonClicked) {
-      button.style.fontSize = "1.25rem";
+      button.style.fontSize = "1.3rem";
       button.classList.remove("active");
       button.classList.remove("buttonClicked");
     }
@@ -802,9 +802,9 @@ function buttonsDefaultState() {
   startButton.classList.remove("active");
   stopButton.classList.remove("active");
   resetButton.classList.remove("active");
-  startButton.style.fontSize = "1.25rem";
-  stopButton.style.fontSize = "1.25rem";
-  resetButton.style.fontSize = "1.25rem";
+  startButton.style.fontSize = "1.3rem";
+  stopButton.style.fontSize = "1.3rem";
+  resetButton.style.fontSize = "1.3rem";
   startButton.classList.remove("buttonClicked");
   stopButton.classList.remove("buttonClicked");
   resetButton.classList.remove("buttonClicked");
