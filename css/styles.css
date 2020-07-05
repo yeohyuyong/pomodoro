@@ -176,6 +176,7 @@ html, body {
 .textMutedNormal {
   color: #6c757d !important;
 }
+
 /* ===============
   Site description
   ================ */
@@ -193,6 +194,7 @@ html, body {
   .descriptionLabel {
     font-size: 7vw;
   }
+
   html, body {
     overflow-x: hidden;
   }
@@ -216,7 +218,7 @@ html, body {
   padding-bottom: 0rem;
 }
 
-.descriptionContent:nth-child(1){
+.descriptionContent:nth-child(1) {
   padding-top: 4rem;
 }
 
@@ -226,14 +228,13 @@ html, body {
   color: #444a51;
 }
 
-dt[class="col-sm-2"]{
+dt[class="col-sm-2"] {
   margin-right: -2.5rem;
 }
 
-dd[class="col-sm-10"]{
+dd[class="col-sm-10"] {
   margin-bottom: 1rem;
 }
-
 
 /* ========
    Footer
@@ -246,6 +247,10 @@ dd[class="col-sm-10"]{
   color: #007bff;
 }
 
+.social-icon:focus {
+  border: 1px solid red;
+}
+
 .fa-code {
   color: #ffc107;
 }
@@ -254,12 +259,12 @@ dd[class="col-sm-10"]{
   color: #dc3545;
 }
 
-#siteFooter p a{
+#siteFooter p a {
   font-weight: bold;
   color: #007bff;
 }
 
-#siteFooter p{
+#siteFooter p {
   font-size: 1.1rem;
 }
 
@@ -355,7 +360,7 @@ input:checked+.slider:before {
 }
 
 .expand:hover::after,
-.expand:focus::after,{
+.expand:focus::after {
   transform: scaleX(1);
 }
 
