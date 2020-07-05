@@ -176,6 +176,10 @@ html, body {
   font-size: 1.1rem;
 }
 
+.table th {
+  border-top: none;
+}
+
 .darkMode {
   background-color: rgb(23, 23, 23) !important;
 }
