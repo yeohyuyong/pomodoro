@@ -115,6 +115,15 @@ html, body {
   padding: 1rem 3rem;
 }
 
+.btn-outline-secondary:focus, .btn-outline-secondary.focus {
+  box-shadow: none;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled):active:focus, .btn-outline-secondary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-secondary.dropdown-toggle:focus {
+  box-shadow: none;
+}
+
 /*======
   Modals
   ====== */
