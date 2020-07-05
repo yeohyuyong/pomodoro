@@ -189,6 +189,11 @@ html, body {
   border-top: none;
 }
 
+.list-group-item {
+  border-left: none;
+  border-right: none;
+}
+
 .darkMode {
   background-color: rgb(23, 23, 23) !important;
 }
