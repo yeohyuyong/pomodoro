@@ -165,6 +165,13 @@ html, body {
   background-color: rgb(23, 23, 23) !important;
 }
 
+.textMutedWhite {
+  color: white !important;
+}
+
+.textMutedNormal {
+  color: #6c757d !important;
+}
 /* ===============
   Site description
   ================ */
@@ -207,6 +214,7 @@ html, body {
 
 .descriptionText {
   font-size: 1.2rem;
+  line-height: 1.8rem;
   color: #292929;
 }
 
@@ -259,11 +267,11 @@ dd[class="col-sm-10"]{
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: .2s;
+  transition: .2s;
 }
 
-.slider:before {
+.slider::before {
   position: absolute;
   content: "";
   height: 26px;
@@ -275,17 +283,6 @@ dd[class="col-sm-10"]{
   transition: .2s;
 }
 
-.textMutedWhite {
-  color: white !important;
-}
-
-.textMutedNormal {
-  color: #6c757d !important;
-}
-
-/* ===============
-  Range Slider
-  ================ */
 input:checked+.slider {
   background-color: #2196F3;
 }
