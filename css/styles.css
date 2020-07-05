@@ -1,3 +1,6 @@
+/*============
+  Golbal Styles
+  ============= */
 html, body {
   width: 100%;
   height: 100%;
@@ -6,21 +9,49 @@ html, body {
   font-family: 'Arvo', serif;
 }
 
-#brandName {
-  min-width: 150px;
-}
-
+/*============
+  Main Content
+  ============= */
 #mainPage {
   padding-bottom: 0;
   margin-bottom: 0;
   width: 100%;
 }
 
-.mainText {
-  height: 100%;
-  width: 100%;
+@media screen and (min-width: 1000px) {
+  #mainPage {
+    height: 100%;
+    overflow-y: hidden;
+  }
 }
 
+#timeLeft {
+  font-weight: bold;
+  font-size: 5rem;
+}
+
+/*==========
+  Brand Name
+  =========== */
+#brandName {
+  min-width: 150px;
+  font-weight: bold;
+}
+
+#navText {
+  font-size: 2.5rem;
+  line-height: 3rem;
+}
+
+@media screen and (max-width: 500px) {
+  #navText {
+    font-size: 8vw;
+  }
+}
+
+/*========
+  Buttons
+  ======== */
 .scrolltop-wrap {
   color: #dc3545;
   margin-bottom: 2rem;
@@ -36,25 +67,10 @@ html, body {
   color: #dc3545;
 }
 
-@media screen and (min-width: 1000px) {
-  #mainPage {
-    height: 100%;
-    overflow-y: hidden;
-  }
-}
-
 .timerLinks {
   font-size: 1.1rem;
   font-weight: 500;
   text-align: center;
-}
-
-#backgroundMusicOptions {
-  width: 8rem;
-}
-
-.siteDescription {
-  background: #9ADBB3;
 }
 
 #pomodoros, #shortBreak, #longBreak {
@@ -91,6 +107,13 @@ html, body {
   transform: translateY(0.25rem);
 }
 
+.btn-group-lg>.btn, .btn-lg {
+  padding: 1rem 3rem;
+}
+
+/*======
+  Modals
+  ====== */
 .modal-content {
   border-radius: 1rem;
 }
@@ -99,49 +122,12 @@ html, body {
   font-size: 2rem;
 }
 
-#NoDataLoggedText, #NoTaskTodayText {
-  font-size: 2rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  color: #6c757d;
+.modal-body {
+  overflow-x: hidden;
 }
 
-@media screen and (max-width: 400px) {
-  #NoDataLoggedText {
-    font-size: 7vw;
-  }
-}
-
-#timeLeft {
-  font-weight: bold;
-  font-size: 5rem;
-}
-
-.btn-group-lg>.btn, .btn-lg {
-  padding: 1rem 3rem;
-}
-
-#brandName {
-  font-weight: 600;
-}
-
-.darkMode {
-  background-color: rgb(23, 23, 23) !important;
-}
-
-#timerName {
-  margin-top: 100px;
-}
-
-#navText {
-  font-size: 2.5rem;
-  line-height: 3rem;
-}
-
-@media screen and (max-width: 500px) {
-  #navText {
-    font-size: 8vw;
-  }
+#backgroundMusicOptions {
+  width: 8rem;
 }
 
 #settingsText {
@@ -162,6 +148,30 @@ html, body {
   margin-right: 10rem;
 }
 
+#NoDataLoggedText, #NoTaskTodayText {
+  font-size: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  color: #6c757d;
+}
+
+@media screen and (max-width: 400px) {
+  #NoDataLoggedText {
+    font-size: 7vw;
+  }
+}
+
+.darkMode {
+  background-color: rgb(23, 23, 23) !important;
+}
+
+/* ===============
+  Site description
+  ================ */
+.siteDescription {
+  background: #9ADBB3;
+}
+
 .descriptionLabel {
   border-color: #dc3545;
   margin-bottom: 0rem;
@@ -172,7 +182,6 @@ html, body {
   .descriptionLabel {
     font-size: 7vw;
   }
-
   html, body {
     overflow-x: hidden;
   }
@@ -182,10 +191,6 @@ html, body {
   .descriptionText {
     font-size: 5vw;
   }
-}
-
-.modal-body {
-  overflow-x: hidden;
 }
 
 .descriptionLabelBorder {
@@ -209,6 +214,10 @@ dd[class="col-sm-10"]{
   margin-bottom: 1rem;
 }
 
+
+/* ========
+   Footer
+   ======== */
 .social-icon {
   color: #999;
 }
