@@ -172,6 +172,9 @@ html, body {
     font-size: 7vw;
   }
 }
+.table thead th {
+  font-size: 1.1rem;
+}
 
 .darkMode {
   background-color: rgb(23, 23, 23) !important;
