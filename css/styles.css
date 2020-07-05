@@ -118,6 +118,14 @@ html, body {
 /*======
   Modals
   ====== */
+.modal-lg {
+  max-width: 700px;
+}
+
+.modal-xl {
+  max-width: 1000px;
+}
+
 .modal-content {
   border-radius: 1rem;
 }
