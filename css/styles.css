@@ -447,8 +447,9 @@ input:checked+.slider:before {
 /* ===============
   Scroll Indicator
   ================ */
-.line {
+#scrollIndicator {
   background: #dc3545;
+  z-index: 150;
   height: 4px;
   border-radius: 1px;
   width: 0%;
