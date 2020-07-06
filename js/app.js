@@ -43,6 +43,7 @@ var allPossibleModes = {
     defaultTime: 25,
     navButton: pomodoros,
     localStorage: localStorage.currentPomodoroValue,
+    alertMessage: "<strong>Time is up!</strong> Lets take a break",
     titleDisplayText: "Time to Work!",
     progressColor: "#dc3545",
     sound: new Howl({
@@ -54,6 +55,7 @@ var allPossibleModes = {
     defaultTime: 20,
     navButton: longBreak,
     localStorage: localStorage.currentLongBreakValue,
+    alertMessage: "<strong>Long break over!</strong> Lets get back to work",
     titleDisplayText: "Time for a Break",
     progressColor: "#007bff",
     sound: new Howl({
@@ -65,6 +67,7 @@ var allPossibleModes = {
     defaultTime: 5,
     navButton: shortBreak,
     localStorage: localStorage.currentShortBreakValue,
+    alertMessage: "<strong>Short break over!</strong> Lets get back to work",
     titleDisplayText: "Time for a Break",
     progressColor: "#28a745",
     sound: new Howl({
@@ -273,6 +276,7 @@ function countDown() {
       timeLeft = 0;
       timeLeftDisplay.innerHTML = secondsToMinutes(timeLeft);
       titleTimeDisplay();
+      showAlertMessage(currentTab);
       document.title = secondsToMinutes(timeLeft) + " - " + titleDisplayText;
       clearInterval(updateSeconds);
       allPossibleModes[currentTab].sound.play();
@@ -808,6 +812,33 @@ function buttonsDefaultState() {
   startButton.classList.remove("buttonClicked");
   stopButton.classList.remove("buttonClicked");
   resetButton.classList.remove("buttonClicked");
+}
+// ============================Alerts==============================================================
+var alert = document.querySelector('.alert');
+var alertMessage = document.querySelector('#alertMessage');
+function showAlertMessage(session){
+  alert.style.display = "block";
+  if (session === "pomodoro"){
+    alert.classList.add("alert-danger");
+    alert.classList.remove("alert-success");
+    alert.classList.remove("alert-primary");
+  }
+  else if (session === "short break"){
+    alert.classList.remove("alert-danger");
+    alert.classList.add("alert-success");
+    alert.classList.remove("alert-primary");
+  }
+  else if (session === "long break"){
+    alert.classList.remove("alert-danger");
+    alert.classList.remove("alert-success");
+    alert.classList.add("alert-primary");
+  }
+  alertMessage.innerHTML = allPossibleModes[session].alertMessage;
+  setTimeout(dismissAlert, 3000);
+}
+
+function dismissAlert(){
+  alert.style.display = "none";
 }
 // ===========================Scroll Indicator====================================================
 window.addEventListener('scroll', moveScrollIndicator);
