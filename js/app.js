@@ -521,6 +521,7 @@ function darkMode() {
   document.querySelector("#navText").style.color = "white";
   sliderValue.style.color = "white";
   document.querySelector(".overlay").style.background = "#171717";
+  document.querySelector('.siteDescription').style.background = "#171717";
 }
 
 function lightMode() {
@@ -552,6 +553,7 @@ function lightMode() {
   document.querySelector("#navText").style.color = "black";
   sliderValue.style.color = "black";
   document.querySelector(".overlay").style.background = "#fff";
+  document.querySelector('.siteDescription').style.background = "#9ADBB3";
 }
 // ================================Get Time and Date=================================================
 function getDate() {
