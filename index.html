@@ -75,13 +75,13 @@
         <div class="col-6 px-0">
           <ul class="nav nav-pills">
             <div class="col-lg-4 px-0">
-              <a class="nav-link timerLinks active pt-2 nav-expand" id="pomodoros" data-toggle="tab" role="tab" aria-selected="false" href="/">Focus</a>
+              <a class="nav-link active pt-2 nav-expand" id="pomodoros" data-toggle="tab" role="tab" aria-selected="false" href="/">Focus</a>
             </div>
             <div class="col-lg-4 px-0">
-              <a class="nav-link timerLinks pt-2 nav-expand" id="shortBreak" data-toggle="tab" role="tab" aria-selected="false" href="/">Short Break</a>
+              <a class="nav-link pt-2 nav-expand" id="shortBreak" data-toggle="tab" role="tab" aria-selected="false" href="/">Short Break</a>
             </div>
             <div class="col-lg-4 px-0">
-              <a class="nav-link timerLinks pt-2 nav-expand" id="longBreak" data-toggle="tab" role="tab" aria-selected="false" href="/">Long Break</a>
+              <a class="nav-link pt-2 nav-expand" id="longBreak" data-toggle="tab" role="tab" aria-selected="false" href="/">Long Break</a>
             </div>
           </ul>
         </div>
@@ -493,19 +493,21 @@
           </button>
         </div>
         <div class="modal-body">
-          <!-- Task Input  -->
-          <div class="input-group mb-3 ">
-            <input id="taskInput" type="text" class="form-control" placeholder="Task Description" aria-label="Task name" aria-describedby="button-addon2">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary dropButtonNoShadow" id="addTaskButton" type="button" id="button-addon2">Add</button>
+          <div class="container">
+            <!-- Task Input  -->
+            <div class="input-group mb-3">
+              <input id="taskInput" type="text" class="form-control" placeholder="Task Description" aria-label="Task name" aria-describedby="button-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary dropButtonNoShadow" id="addTaskButton" type="button" id="button-addon2">Add</button>
+              </div>
             </div>
+            <div class="container d-flex justify-content-center">
+              <span id="NoTaskTodayText">No tasks for today</span>
+            </div>
+            <!-- Task items -->
+            <ul class="list-group mb-5" id="listOfTasks">
+            </ul>
           </div>
-          <div class="container d-flex justify-content-center">
-            <span id="NoTaskTodayText">No tasks for today</span>
-          </div>
-          <!-- Task items -->
-          <ul class="list-group mb-5" id="listOfTasks">
-          </ul>
         </div>
         <div class="modal-footer">
           <div class="container d-flex justify-content-center mt-1">

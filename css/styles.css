@@ -1,6 +1,10 @@
 /*============
   Golbal Styles
   ============= */
+:root {
+  --main-red-color: #dc3545;
+}
+
 :focus {
   outline: none;
 }
@@ -68,7 +72,7 @@ html, body {
   Buttons
   ======== */
 .scrolltop-wrap {
-  color: #dc3545;
+  color: var(--main-red-color);
   margin-bottom: 2rem;
   position: fixed;
   z-index: 100;
@@ -79,16 +83,11 @@ html, body {
 
 .scrollButton {
   cursor: pointer;
-  color: #dc3545;
-}
-
-.timerLinks {
-  font-size: 1.1rem;
-  font-weight: 500;
-  text-align: center;
+  color: var(--main-red-color);
 }
 
 #pomodoros, #shortBreak, #longBreak {
+  text-align: center;
   border-radius: 2rem;
   padding: 0.65rem 1.5rem 0.45rem 1.5rem;
 }
@@ -96,10 +95,10 @@ html, body {
 #saveButton, #clearButton, #clearTasksButton {
   font-size: 1.1rem;
   padding: 0.8rem 1.6rem;
+  margin: 0.5rem auto;
 }
 
 #startButton, #stopButton, #resetButton, #saveButton, #clearButton, #clearTasksButton {
-  font-weight: 500;
   border-radius: 2rem;
   line-height: 2rem;
 }
@@ -150,12 +149,24 @@ html, body {
   border-radius: 1rem;
 }
 
+.modal-header {
+  border: none;
+}
+
 .modalHeaderText {
   font-size: 2rem;
 }
 
 .modal-body {
   overflow-x: hidden;
+}
+
+.modal-title {
+  border-bottom: 4px solid var(--main-red-color);
+}
+
+.modal-footer {
+  border: none;
 }
 
 #backgroundMusicOptions {
@@ -225,7 +236,6 @@ html, body {
 }
 
 .descriptionLabel {
-  border-color: #dc3545;
   margin-bottom: 0rem;
   word-wrap: break-word;
 }
@@ -248,7 +258,7 @@ html, body {
 
 .descriptionLabelBorder {
   height: 0.5rem;
-  background: #dc3545;
+  background: var(--main-red-color);
   border-radius: 2rem;
   margin-bottom: 3rem;
 }
@@ -296,7 +306,7 @@ dd[class="col-sm-10"] {
 }
 
 .fa-heart {
-  color: #dc3545;
+  color: var(--main-red-color);
 }
 
 #siteFooter p a {
@@ -394,7 +404,7 @@ input:checked+.slider:before {
 .expand::after {
   display: block;
   content: '';
-  border-bottom: solid 0.15rem #dc3545;
+  border-bottom: solid 0.15rem var(--main-red-color);
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
 }
@@ -459,7 +469,7 @@ input:checked+.slider:before {
   Scroll Indicator
   ================ */
 #scrollIndicator {
-  background: #dc3545;
+  background: var(--main-red-color);
   z-index: 150;
   height: 4px;
   border-radius: 1px;
@@ -494,5 +504,5 @@ input:checked+.slider:before {
 }
 
 .progress-value {
-  background-image: -webkit-linear-gradient(left, #dc3545 50%, transparent 50%), -webkit-linear-gradient(left, #ddd 50%, #dc3545 50%);
+  background-image: -webkit-linear-gradient(left, var(--main-red-color) 50%, transparent 50%), -webkit-linear-gradient(left, #ddd 50%, var(--main-red-color) 50%);
 }
