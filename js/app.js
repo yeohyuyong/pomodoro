@@ -132,6 +132,7 @@ function init() {
   displayTimeInputValues();
   displayNotificationValue();
   displayBackGroundMusic();
+  displayDarkMode();
   displayLog();
   displayTodoList();
   displayLongBreakInterval();
