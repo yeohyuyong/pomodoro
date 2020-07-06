@@ -1,25 +1,7 @@
-
-
   <div align="center">
-    <img alt="Pomotroid" src="assets\img\site_title.PNG" title="PomodoroTimers" width="800px">
+    <img src="assets\img\main.PNG" width="800px">
   </div>
-  <div align="center">
-    <img src="assets\img\site_content.PNG" width="800px">
-  </div>
-  <div align="center">
-    <img src="assets\img\site_settings.PNG"" width="800px">
-  </div>
-  <div align="center">
-    <img src="assets\img\site_log.PNG"" width="800px">
-  </div>
-  <div align="center">
-    <img src="assets\img\site_todo.PNG"" width="800px">
-  </div>
-
 ---
-
-
-
 - [Overview](#overview)
 - [Features](#features)
 - [Roadmap](#roadmap)
