@@ -133,7 +133,7 @@ html, body {
 }
 
 .btn-outline-secondary:not(:disabled):not(.disabled):active:focus, .btn-outline-secondary:not(:disabled):not(.disabled).active:focus,
-.show > .btn-outline-secondary.dropdown-toggle:focus {
+.show>.btn-outline-secondary.dropdown-toggle:focus {
   box-shadow: none;
 }
 
@@ -173,13 +173,13 @@ html, body {
 }
 
 #exampleModal .form-control,
-#toDoModal .form-control{
+#toDoModal .form-control {
   background-color: var(--form-input-bg);
   border: none;
   border-radius: 2rem;
 }
 
-#LoggingModal .form-control{
+#LoggingModal .form-control {
   border-radius: 2rem;
 }
 
@@ -188,7 +188,7 @@ html, body {
   box-shadow: none;
 }
 
-.input-group-text{
+.input-group-text {
   padding-left: 0;
   background-color: inherit;
   border: none;
@@ -228,6 +228,7 @@ html, body {
     font-size: 7vw;
   }
 }
+
 .table thead th {
   font-size: 1.1rem;
 }
@@ -318,7 +319,7 @@ dd[class="col-sm-10"] {
   color: #999;
 }
 
-.social-icon:hover{
+.social-icon:hover {
   color: var(--main-blue-color);
 }
 

@@ -413,7 +413,7 @@ function playTickSound() {
 }
 
 function playButtonClickSound(button) {
-  if (button !== timerButtonClicked){
+  if (button !== timerButtonClicked) {
     buttonClick.play();
   }
   timerButtonClicked = button;
@@ -705,12 +705,12 @@ clearTasksButton.addEventListener("click", function() {
   showNoTaskTodayText();
 })
 
-function taskMouseOver(item){
+function taskMouseOver(item) {
   item.style.fontSize = "1.2rem";
   item.style.transition = "100ms";
 }
 
-function taskMouseOut(item){
+function taskMouseOut(item) {
   item.style.fontSize = "1rem";
   item.style.transition = "100ms";
 }
@@ -816,19 +816,18 @@ function buttonsDefaultState() {
 // ============================Alerts==============================================================
 var alert = document.querySelector('.alert');
 var alertMessage = document.querySelector('#alertMessage');
-function showAlertMessage(session){
+
+function showAlertMessage(session) {
   alert.style.display = "block";
-  if (session === "pomodoro"){
+  if (session === "pomodoro") {
     alert.classList.add("alert-danger");
     alert.classList.remove("alert-success");
     alert.classList.remove("alert-primary");
-  }
-  else if (session === "short break"){
+  } else if (session === "short break") {
     alert.classList.remove("alert-danger");
     alert.classList.add("alert-success");
     alert.classList.remove("alert-primary");
-  }
-  else if (session === "long break"){
+  } else if (session === "long break") {
     alert.classList.remove("alert-danger");
     alert.classList.remove("alert-success");
     alert.classList.add("alert-primary");
@@ -837,7 +836,7 @@ function showAlertMessage(session){
   setTimeout(dismissAlert, 3000);
 }
 
-function dismissAlert(){
+function dismissAlert() {
   alert.style.display = "none";
 }
 // ===========================Scroll Indicator====================================================
