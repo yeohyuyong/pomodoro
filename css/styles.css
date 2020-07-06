@@ -3,6 +3,8 @@
   ============= */
 :root {
   --main-red-color: #dc3545;
+  --main-blue-color: #007bff;
+  --main-green-color: #28a745;
 }
 
 :focus {
@@ -294,7 +296,7 @@ dd[class="col-sm-10"] {
 }
 
 .social-icon:hover{
-  color: #007bff;
+  color: var(--main-blue-color);
 }
 
 .social-icon:focus {
@@ -311,7 +313,7 @@ dd[class="col-sm-10"] {
 
 #siteFooter p a {
   font-weight: bold;
-  color: #007bff;
+  color: var(--main-blue-color);
 }
 
 #siteFooter p {
@@ -431,7 +433,7 @@ input:checked+.slider:before {
 .blue-expand::after {
   display: block;
   content: '';
-  border-bottom: solid 0.15rem #007bff;
+  border-bottom: solid 0.15rem var(--main-blue-color);
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
 }
@@ -455,7 +457,7 @@ input:checked+.slider:before {
 .nav-expand::after {
   display: block;
   content: '';
-  border-bottom: solid 0.25rem #007bff;
+  border-bottom: solid 0.25rem var(--main-blue-color);
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
 }
@@ -488,7 +490,6 @@ input:checked+.slider:before {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background: #007bff;
   margin: 20px;
   min-width: 300px;
 }
