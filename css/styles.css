@@ -34,6 +34,17 @@ html, body {
   font-size: 5rem;
 }
 
+.alert {
+  z-index: 110;
+  font-size: 1.3rem;
+  position: absolute;
+  display: none;
+  text-align: center;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
 /*==========
   Brand Name
   =========== */

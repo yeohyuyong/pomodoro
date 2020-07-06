@@ -41,6 +41,13 @@
 
   <!-- Main Content -->
   <div class="border-bottom pb-5" id="mainPage">
+    <!-- Alert -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <span id="alertMessage"></span>
+      <button type="button" class="close" onclick="dismissAlert()" aria-label="Close">
+        <span aria-hidden="true"><i class="fas fa-times fa-lg mt-1"></i></span>
+      </button>
+    </div>
     <!-- Brand Name -->
     <div class="d-flex justify-content-center navbar navbar-light bg-light border-bottom">
       <nav class="navbar navbar-light bg-light pb-0 pt-0 d-flex justify-content-center" id="brandName">
