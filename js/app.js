@@ -844,3 +844,6 @@ scrollButton.addEventListener("click", function() {
     behavior: "smooth"
   })
 })
+// ===================Input Validation==================================================
+// $('input[type="number"]').attr("onkeypress", "return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57");
+// $('input[type="number"]').attr("oninput", "validity.valid||(value='');");
