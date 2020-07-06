@@ -507,6 +507,7 @@ function darkMode() {
   $("#sliderValue").css("color", "#ececec");
   $(".overlay").css("background", "#222831");
   $('.siteDescription').css("background", "#222831");
+  $(".fa-trash-alt").css("color", "white");
 }
 
 function lightMode() {
@@ -526,6 +527,7 @@ function lightMode() {
   $("#sliderValue").css("color", "#ffffffde");
   $(".overlay").css("background", "#fff");
   $('.siteDescription').css("background", "#9ADBB3");
+  $(".fa-trash-alt").css("color", "black");
 }
 // ================================Get Time and Date=================================================
 function getDate() {
@@ -598,6 +600,9 @@ function addDataToLog() {
   row.innerHTML += '<td><input class="form-control" type="text" placeholder="" onchange="storeLogDescription(this)"></td>'
   row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true"><i class="fas fa-trash-alt"></i></span></button></td>';
   locationUpdateLog.appendChild(row);
+  if (darkModeToggle.checked){
+    $(".fa-trash-alt").css("color", "white");
+  }
   storeLogItems();
   removeNoDataLoggedText();
 }
