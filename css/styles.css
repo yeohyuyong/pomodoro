@@ -196,6 +196,7 @@ html, body {
 
 #backgroundMusicOptions {
   width: 8rem;
+  cursor: pointer;
 }
 
 #settingsText {
@@ -235,6 +236,10 @@ html, body {
 
 .table th {
   border-top: none;
+}
+
+.table-dark {
+  background-color: #222831;
 }
 
 .list-group-item {
