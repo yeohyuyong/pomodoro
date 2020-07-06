@@ -507,7 +507,9 @@ function darkMode() {
   $("#sliderValue").css("color", "#ececec");
   $(".overlay").css("background", "#222831");
   $('.siteDescription').css("background", "#222831");
-  $(".fa-trash-alt").css("color", "white");
+  $(".fa-trash-alt").css("color", "#ececec");
+  $("#addTaskButton").css("color", "#ececec");
+  $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #666")
 }
 
 function lightMode() {
@@ -528,6 +530,8 @@ function lightMode() {
   $(".overlay").css("background", "#fff");
   $('.siteDescription').css("background", "#9ADBB3");
   $(".fa-trash-alt").css("color", "black");
+  $("#addTaskButton").css("color", "#6c757d");
+  $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #999")
 }
 // ================================Get Time and Date=================================================
 function getDate() {
@@ -600,6 +604,7 @@ function addDataToLog() {
   row.innerHTML += '<td><input class="form-control" type="text" placeholder="" onchange="storeLogDescription(this)"></td>'
   row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true"><i class="fas fa-trash-alt"></i></span></button></td>';
   locationUpdateLog.appendChild(row);
+  // Make new trash icons white
   if (darkModeToggle.checked){
     $(".fa-trash-alt").css("color", "white");
   }
