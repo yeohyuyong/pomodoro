@@ -16,7 +16,6 @@ var timeLeftDisplay = document.getElementById("timeLeft");
 var pomodoroInput = document.getElementById("pomodoroInput");
 var shortBreakInput = document.getElementById("shortBreakInput");
 var longBreakInput = document.getElementById("longBreakInput");
-var sliderValue = document.getElementById("sliderValue");
 var autoStartRoundsInput = document.getElementById("autoStartRoundsInput");
 var tickSoundInput = document.getElementById("tickSoundInput");
 var darkModeToggle = document.getElementById("darkModeToggle");
@@ -491,69 +490,39 @@ darkModeToggle.addEventListener("change", function() {
 });
 
 function darkMode() {
-  document.body.style.backgroundColor = "#171717";
-  document.getElementById("timeLeft").style.color = "white";
-  var modals = document.querySelectorAll(".modal-content");
-  for (var i = 0; i < modals.length; i++) {
-    modals[i].style.backgroundColor = "#171717";
-  }
-  document.querySelectorAll(".notificationText")[0].style.color = "white";
-  document.querySelectorAll(".notificationText")[1].style.color = "white";
-
-  document.getElementById("exampleModalLabel").style.color = "hsla(0,0%,100%,.87)";
-  document.getElementById("loggingModalLabel").style.color = "hsla(0,0%,100%,.87)";
-  document.getElementById("todoModalLabel").style.color = "hsla(0,0%,100%,.87)";
-  document.getElementById("logDataTable").classList.add("table-dark");
-  document.querySelector('.siteDescription').style.color = "white";
-  document.querySelector('#siteFooter').style.color = "white";
-  textMuted = document.querySelectorAll(".text-muted");
-  for (var i = 0; i < textMuted.length; i++) {
-    textMuted[i].classList.add("textMutedWhite");
-  }
-  closeModalButton = document.querySelectorAll(".closeButton");
-  for (var i = 0; i < closeModalButton.length; i++) {
-    closeModalButton[i].style.color = "white";
-  }
-  allBackgrounds = document.querySelectorAll(".bg-light");
-  for (var i = 0; i < allBackgrounds.length; i++) {
-    allBackgrounds[i].classList.add("darkMode");
-  }
-  document.querySelector("#navText").style.color = "white";
-  sliderValue.style.color = "white";
-  document.querySelector(".overlay").style.background = "#171717";
-  document.querySelector('.siteDescription').style.background = "#171717";
+  $(document.body).css("background-color", "#171717");
+  $("#timeLeft").css("color", "white");
+  $(".modal-content").css("background-color", "#171717");
+  $(".notificationText").css("color", "#ffffffde");
+  $(".modalHeaderText").css("color", "#ffffffde");
+  $("#logDataTable").toggleClass("table-dark");
+  $(".descriptionLabel").css("color", "#ffffffde");
+  $('#siteFooter').css("color", "#ffffffde");
+  $(".text-muted").toggleClass("textMutedWhite");
+  $(".closeButton").css("color", "#ffffffde");
+  $(".bg-light").toggleClass("darkMode");
+  $("#navText").css("color", "#ffffffde");
+  $("#sliderValue").css("color", "#ffffffde");
+  $(".overlay").css("background", "#171717");
+  $('.siteDescription').css("background", "#171717");
 }
 
 function lightMode() {
-  document.body.style.backgroundColor = "white";
-  document.getElementById("timeLeft").style.color = "black";
-  var modals = document.querySelectorAll(".modal-content");
-  for (var i = 0; i < modals.length; i++) {
-    modals[i].style.backgroundColor = "white";
-  }
-  document.getElementById("exampleModalLabel").style.color = "black";
-  document.getElementById("loggingModalLabel").style.color = "black";
-  document.getElementById("todoModalLabel").style.color = "black";
-  document.getElementById("logDataTable").classList.remove("table-dark");
-  document.querySelectorAll(".notificationText")[0].style.color = "black";
-  document.querySelectorAll(".notificationText")[1].style.color = "black";
-  document.querySelector('.siteDescription').style.color = "black";
-  document.querySelector('#siteFooter').style.color = "black";
-  for (var i = 0; i < textMuted.length; i++) {
-    textMuted[i].classList.remove("textMutedWhite");
-  }
-  closeModalButton = document.querySelectorAll(".closeButton");
-  for (var i = 0; i < closeModalButton.length; i++) {
-    closeModalButton[i].style.color = "black";
-  }
-  allBackgrounds = document.querySelectorAll(".bg-light");
-  for (var i = 0; i < allBackgrounds.length; i++) {
-    allBackgrounds[i].classList.remove("darkMode");
-  }
-  document.querySelector("#navText").style.color = "black";
-  sliderValue.style.color = "black";
-  document.querySelector(".overlay").style.background = "#fff";
-  document.querySelector('.siteDescription').style.background = "#9ADBB3";
+  $(document.body).css("background-color", "#fff");
+  $("#timeLeft").css("color", "black");
+  $(".modal-content").css("background-color", "white");
+  $(".modalHeaderText").css("color", "black");
+  $("#logDataTable").toggleClass("table-dark");
+  $(".notificationText").css("color", "black");
+  $(".descriptionLabel").css("color", "black");
+  $('#siteFooter').css("color", "black");
+  $(".text-muted").toggleClass("textMutedWhite");
+  $(".closeButton").css("color", "black");
+  $(".bg-light").toggleClass("darkMode");
+  $("#navText").css("color", "black");
+  $("#sliderValue").css("color", "#ffffffde");
+  $(".overlay").css("background", "#fff");
+  $('.siteDescription').css("background", "#9ADBB3");
 }
 // ================================Get Time and Date=================================================
 function getDate() {
