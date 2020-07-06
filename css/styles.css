@@ -5,6 +5,7 @@
   --main-red-color: #dc3545;
   --main-blue-color: #007bff;
   --main-green-color: #28a745;
+  --form-input-bg: #efefef;
 }
 
 :focus {
@@ -173,7 +174,7 @@ html, body {
 
 #exampleModal .form-control,
 #toDoModal .form-control{
-  background-color: #efefef;
+  background-color: var(--form-input-bg);
   border: none;
   border-radius: 2rem;
 }
@@ -183,7 +184,6 @@ html, body {
 }
 
 .form-control:focus {
-  background-color: #efefef;
   outline: 0;
   box-shadow: none;
 }
