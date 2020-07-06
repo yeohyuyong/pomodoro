@@ -490,21 +490,23 @@ darkModeToggle.addEventListener("change", function() {
 });
 
 function darkMode() {
-  $(document.body).css("background-color", "#171717");
-  $("#timeLeft").css("color", "white");
-  $(".modal-content").css("background-color", "#171717");
-  $(".notificationText").css("color", "#ffffffde");
-  $(".modalHeaderText").css("color", "#ffffffde");
+  $(document.body).css("background-color", "#222831");
+  $("#timeLeft").css("color", "#ececec");
+  $(".modal-content").css("background-color", "#222831");
+  $(".notificationText").css("color", "#ececec");
+  $(".modalHeaderText").css("color", "#ececec");
   $("#logDataTable").toggleClass("table-dark");
-  $(".descriptionLabel").css("color", "#ffffffde");
-  $('#siteFooter').css("color", "#ffffffde");
+  $(".descriptionLabel").css("color", "#ececec");
+  $(".descriptionText").css("color", "#a19d9d");
+  $('#siteFooter').css("color", "#ececec");
+  $(".input-group-text").css("color", "#a19d9d");
   $(".text-muted").toggleClass("textMutedWhite");
-  $(".closeButton").css("color", "#ffffffde");
+  $(".closeButton").css("color", "#ececec");
   $(".bg-light").toggleClass("darkMode");
-  $("#navText").css("color", "#ffffffde");
-  $("#sliderValue").css("color", "#ffffffde");
-  $(".overlay").css("background", "#171717");
-  $('.siteDescription').css("background", "#171717");
+  $("#navText").css("color", "#ececec");
+  $("#sliderValue").css("color", "#ececec");
+  $(".overlay").css("background", "#222831");
+  $('.siteDescription').css("background", "#222831");
 }
 
 function lightMode() {
@@ -515,6 +517,7 @@ function lightMode() {
   $("#logDataTable").toggleClass("table-dark");
   $(".notificationText").css("color", "black");
   $(".descriptionLabel").css("color", "black");
+  $(".descriptionText").css("color", "#444a51");
   $('#siteFooter').css("color", "black");
   $(".text-muted").toggleClass("textMutedWhite");
   $(".closeButton").css("color", "black");

@@ -243,11 +243,11 @@ html, body {
 }
 
 .darkMode {
-  background-color: rgb(23, 23, 23) !important;
+  background-color: #1d232b !important;
 }
 
 .textMutedWhite {
-  color: white !important;
+  color: #ececec !important;
 }
 
 .textMutedNormal {
