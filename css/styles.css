@@ -237,6 +237,10 @@ html, body {
   border-top: none;
 }
 
+.table-dark {
+  background-color: #222831;
+}
+
 .list-group-item {
   border-left: none;
   border-right: none;
