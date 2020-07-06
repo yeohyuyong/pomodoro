@@ -171,6 +171,29 @@ html, body {
   border: none;
 }
 
+#exampleModal .form-control,
+#toDoModal .form-control{
+  background-color: #efefef;
+  border: none;
+  border-radius: 2rem;
+}
+
+#LoggingModal .form-control{
+  border-radius: 2rem;
+}
+
+.form-control:focus {
+  background-color: #efefef;
+  outline: 0;
+  box-shadow: none;
+}
+
+.input-group-text{
+  padding-left: 0;
+  background-color: inherit;
+  border: none;
+}
+
 #backgroundMusicOptions {
   width: 8rem;
 }
