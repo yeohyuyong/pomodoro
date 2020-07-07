@@ -493,20 +493,20 @@ function darkMode() {
   $(document.body).css("background-color", "#222831");
   $("#timeLeft").css("color", "#ececec");
   $(".modal-content").css("background-color", "#222831");
-  $(".notificationText").css("color", "#ececec");
-  $(".modalHeaderText").css("color", "#ececec");
+  $(".notification-text").css("color", "#ececec");
+  $(".modal-title").css("color", "#ececec");
   $("#logDataTable").toggleClass("table-dark");
-  $(".descriptionLabel").css("color", "#ececec");
-  $(".descriptionText").css("color", "#a19d9d");
+  $(".section-title").css("color", "#ececec");
+  $(".section-content").css("color", "#a19d9d");
   $('#siteFooter').css("color", "#ececec");
   $(".input-group-text").css("color", "#a19d9d");
   $(".text-muted").toggleClass("textMutedWhite");
-  $(".closeButton").css("color", "#ececec");
+  $(".modal-close-button").css("color", "#ececec");
   $(".bg-light").toggleClass("darkMode");
   $("#navText").css("color", "#ececec");
   $("#sliderValue").css("color", "#ececec");
   $(".overlay").css("background", "#222831");
-  $('.siteDescription').css("background", "#222831");
+  $('.site-description').css("background", "#222831");
   $(".fa-trash-alt").css("color", "#ececec");
   $("#addTaskButton").css("color", "#ececec");
   $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #666")
@@ -517,19 +517,19 @@ function lightMode() {
   $(document.body).css("background-color", "#fff");
   $("#timeLeft").css("color", "black");
   $(".modal-content").css("background-color", "white");
-  $(".modalHeaderText").css("color", "black");
+  $(".modal-title").css("color", "black");
   $("#logDataTable").toggleClass("table-dark");
-  $(".notificationText").css("color", "black");
-  $(".descriptionLabel").css("color", "black");
-  $(".descriptionText").css("color", "#444a51");
+  $(".notification-text").css("color", "black");
+  $(".section-title").css("color", "#212529");
+  $(".section-content").css("color", "#444a51");
   $('#siteFooter').css("color", "black");
   $(".text-muted").toggleClass("textMutedWhite");
-  $(".closeButton").css("color", "black");
+  $(".modal-close-button").css("color", "black");
   $(".bg-light").toggleClass("darkMode");
   $("#navText").css("color", "black");
   $("#sliderValue").css("color", "#ffffffde");
   $(".overlay").css("background", "#fff");
-  $('.siteDescription').css("background", "#9ADBB3");
+  $('.site-description').css("background", "#9ADBB3");
   $(".fa-trash-alt").css("color", "black");
   $("#addTaskButton").css("color", "#6c757d");
   $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #999")
@@ -848,7 +848,7 @@ function displayScrollButton() {
     scrollSection.style.display = "none";
   }
 }
-var scrollButton = document.querySelector(".scrollButton");
+var scrollButton = document.querySelector(".back-to-top-button");
 scrollButton.addEventListener("click", function() {
   window.scroll({
     top: 0,

@@ -88,13 +88,13 @@
         <div class="col-3">
           <ul class="nav nav-pills justify-content-end">
             <li class="nav-item">
-              <a class="nav-link px-2 d-none d-md-block dropButtonNoShadow" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-tasks fa-lg"></i></a>
+              <a class="nav-link px-2 d-none d-md-block button-pressed-no-shadow" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-tasks fa-lg"></i></a>
             </li>
             <li class="nav-item pl-2 pr-0">
-              <a class="nav-link px-2 mx-1 d-none d-md-block dropButtonNoShadow" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
+              <a class="nav-link px-2 mx-1 d-none d-md-block button-pressed-no-shadow" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link pl-2 pr-0 ml-2 d-none d-md-block dropButtonNoShadow" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
+              <a class="nav-link pl-2 pr-0 ml-2 d-none d-md-block button-pressed-no-shadow" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
             </li>
           </ul>
         </div>
@@ -105,7 +105,7 @@
       <div class="row">
         <!-- Time Left and Progress Bar -->
         <div class="col-12 pt-0 d-flex justify-content-center">
-          <div class="radialProgressBar progress-value">
+          <div class="radial-progress-bar progress-value">
             <div class="overlay">
               <h1 class="display-4 d-flex justify-content-center"><span id="timeLeft"></span></h1>
             </div>
@@ -116,13 +116,13 @@
           <div class="container d-flex justify-content-around">
             <div class="row">
               <div class="col-md-4">
-                <button type="button" class="dropButtonEffect btn btn-lg btn-success w-100 mb-3" id="startButton">Start</button>
+                <button type="button" class="button-pressed-effect btn btn-lg btn-success w-100 mb-3" id="startButton">Start</button>
               </div>
               <div class="col-md-4">
-                <button type="button" class="dropButtonEffect btn btn-danger btn-lg w-100 mb-3" id="stopButton">Stop</button>
+                <button type="button" class="button-pressed-effect btn btn-danger btn-lg w-100 mb-3" id="stopButton">Stop</button>
               </div>
               <div class="col-md-4">
-                <button type="button" class="dropButtonEffect btn btn-secondary btn-lg w-100 mb-3" id="resetButton">Reset</button>
+                <button type="button" class="button-pressed-effect btn btn-secondary btn-lg w-100 mb-3" id="resetButton">Reset</button>
               </div>
             </div>
           </div>
@@ -134,12 +134,12 @@
 
 
   <!-- Description of PomodoroTimers -->
-  <div class="siteDescription container-fluid">
-    <div class="descriptionContent row justify-content-center">
+  <div class="site-description container-fluid">
+    <div class="description-section row justify-content-center">
       <div class="col-10 col-lg-7 mb-4">
-        <h1 class="descriptionLabel text-center pb-3">What is PomodoroTimers?</h1>
-        <div class="descriptionLabelBorder"></div>
-        <div class="descriptionText">
+        <h1 class="section-title text-center pb-3">What is PomodoroTimers?</h1>
+        <div class="section-title-border"></div>
+        <div class="section-content">
           <p><strong>PomodoroTimers</strong> is a simple and configurable Pomodoro timer. It aims to provide a visually-pleasing and reliable way to track productivity using the <a class="expand"
               href="https://francescocirillo.com/pages/pomodoro-technique" target="_blank" style="color: #dc3545; font-weight: bold">Pomodoro Technique</a>. It is customizable and works on both desktop and mobile. The app aims to help you focus on
             any task you are working on be it study, writing, or coding. This app is inspired by the Pomodoro Technique which is a time management method developed by Francesco Cirillo</p>
@@ -149,11 +149,11 @@
       </div>
     </div>
 
-    <div class="descriptionContent row justify-content-center">
+    <div class="description-section row justify-content-center">
       <div class="col-10 col-lg-7 mb-4">
-        <h1 class="descriptionLabel text-center pb-3">About Pomodoro Technique</h1>
-        <div class="descriptionLabelBorder"></div>
-        <div class="descriptionText">
+        <h1 class="section-title text-center pb-3">About Pomodoro Technique</h1>
+        <div class="section-title-border"></div>
+        <div class="section-content">
           <p>The <strong>Pomodoro Technique</strong> is a time management method developed by <a class="expand" style="color: #dc3545; font-weight: bold" href="https://francescocirillo.com" target="_blank">Francesco Cirillo</a> in the late 1980s. The
             technique uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short breaks. Each interval is known as a pomodoro, from the Italian word for 'tomato', after the tomato-shaped kitchen timer that
             Cirillo used as a university student.</p>
@@ -162,11 +162,11 @@
       </div>
     </div>
 
-    <div class="descriptionContent row justify-content-center">
+    <div class="description-section row justify-content-center">
       <div class="col-10 col-lg-7 mb-4">
-        <h1 class="descriptionLabel text-center pb-3">How to use PomodoroTimers?</h1>
-        <div class="descriptionLabelBorder"></div>
-        <div class="descriptionText">
+        <h1 class="section-title text-center pb-3">How to use PomodoroTimers?</h1>
+        <div class="section-title-border"></div>
+        <div class="section-content">
           <dl class="row">
             <dt class="col-sm-2">Step 1</dt>
             <dd class="col-sm-10">Decide on the task to be done</dd>
@@ -183,11 +183,11 @@
       </div>
     </div>
 
-    <div class="descriptionContent row justify-content-center pb-5">
+    <div class="description-section row justify-content-center pb-5">
       <div class="col-10 col-lg-7">
-        <h1 class="descriptionLabel text-center pb-3">Why use PomodoroTimers?</h1>
-        <div class="descriptionLabelBorder"></div>
-        <div class="descriptionText">
+        <h1 class="section-title text-center pb-3">Why use PomodoroTimers?</h1>
+        <div class="section-title-border"></div>
+        <div class="section-content">
           <dl class="row">
             <dt class="col-sm-1">
               <i class="far fa-hand-point-right fa-2x"></i>
@@ -231,7 +231,7 @@
   <div class="scrolltop-wrap row">
     <div class="col-12 d-flex justify-content-center">
       <!-- <a href="/" role="button" aria-label="Scroll to top"> -->
-      <i class="scrollButton fas fa-arrow-circle-up fa-4x dropButtonNoShadow"></i>
+      <i class="back-to-top-button fas fa-arrow-circle-up fa-4x button-pressed-no-shadow"></i>
       <!-- </a> -->
     </div>
   </div>
@@ -241,7 +241,7 @@
     <div class="col-12 d-flex justify-content-center">
       <p><i class="fas fa-code"></i> with <i class="fas fa-heart"></i> by <a class="blue-expand" href="https://yeohyuyong.me/" target="_blank">Yeoh Yu Yong</a></p>
     </div>
-    <div class="col-12 d-flex justify-content-center dropButtonNoShadow">
+    <div class="col-12 d-flex justify-content-center button-pressed-no-shadow">
       <style>
         .bmc-button img {
           height: 34px !important;
@@ -300,9 +300,9 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title ml-3 modalHeaderText" id="exampleModalLabel">Settings</h3>
-          <button type="button" class="close dropButtonNoShadow" data-dismiss="modal" aria-label="Close">
-            <span class="closeButton mt-2" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
+          <h3 class="modal-title ml-3" id="exampleModalLabel">Settings</h3>
+          <button type="button" class="close button-pressed-no-shadow" data-dismiss="modal" aria-label="Close">
+            <span class="modal-close-button mt-2" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
           </button>
         </div>
         <div class="modal-body">
@@ -394,11 +394,11 @@
             <div class="col-sm-6">
               <div class="input-group mb-2">
                 <div class="input-group-prepend ">
-                  <span class="input-group-text notificationText">Last</span>
+                  <span class="input-group-text notification-text">Last</span>
                 </div>
                 <input id="notificationTextInput" type="number" min="0" step="1" class="form-control col-sm-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text notificationText">&nbsp&nbspMinutes</span>
+                  <span class="input-group-text notification-text">&nbsp&nbspMinutes</span>
                 </div>
               </div>
             </div>
@@ -439,7 +439,7 @@
         </div>
         <div class="modal-footer">
           <div class="container d-flex justify-content-center my-1">
-            <button type="button" class="btn btn-primary dropButtonNoShadow shadow-none" data-dismiss="modal" id="saveButton">Save Changes</button>
+            <button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" data-dismiss="modal" id="saveButton">Save Changes</button>
           </div>
         </div>
       </div>
@@ -450,9 +450,9 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title ml-3 modalHeaderText" id="loggingModalLabel">Log</h3>
-          <button type="button" class="close dropButtonNoShadow" data-dismiss="modal" aria-label="Close">
-            <span class="closeButton" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
+          <h3 class="modal-title ml-3" id="loggingModalLabel">Log</h3>
+          <button type="button" class="close button-pressed-no-shadow" data-dismiss="modal" aria-label="Close">
+            <span class="modal-close-button" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
           </button>
         </div>
         <div class="modal-body">
@@ -479,7 +479,7 @@
         </div>
         <div class="modal-footer">
           <div class="container d-flex justify-content-center mt-1">
-            <button type="button" class="btn btn-primary dropButtonNoShadow shadow-none" id="clearButton">Clear Log</button>
+            <button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="clearButton">Clear Log</button>
           </div>
         </div>
       </div>
@@ -490,9 +490,9 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title ml-3 modalHeaderText" id="todoModalLabel">Todo</h3>
-          <button type="button" class="close dropButtonNoShadow" data-dismiss="modal" aria-label="Close">
-            <span class="closeButton" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
+          <h3 class="modal-title ml-3" id="todoModalLabel">Todo</h3>
+          <button type="button" class="close button-pressed-no-shadow" data-dismiss="modal" aria-label="Close">
+            <span class="modal-close-button" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
           </button>
         </div>
         <div class="modal-body">
@@ -501,7 +501,7 @@
             <div class="input-group mb-3">
               <input id="taskInput" type="text" class="form-control" placeholder="Task Description" aria-label="Task name" aria-describedby="button-addon2">
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary dropButtonNoShadow" id="addTaskButton" type="button" id="button-addon2">Add</button>
+                <button class="btn btn-outline-secondary button-pressed-no-shadow" id="addTaskButton" type="button" id="button-addon2">Add</button>
               </div>
             </div>
             <div class="container d-flex justify-content-center">
@@ -514,7 +514,7 @@
         </div>
         <div class="modal-footer">
           <div class="container d-flex justify-content-center mt-1">
-            <button type="button" class="btn btn-primary dropButtonNoShadow shadow-none" id="clearTasksButton">Clear Tasks</button>
+            <button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="clearTasksButton">Clear Tasks</button>
           </div>
         </div>
       </div>

@@ -84,7 +84,7 @@ html, body {
   display: none;
 }
 
-.scrollButton {
+.back-to-top-button {
   cursor: pointer;
   color: var(--main-red-color);
 }
@@ -115,13 +115,13 @@ html, body {
   transform: translateY(0.25rem);
 }
 
-.dropButtonEffect:active {
-  box-shadow: 0 5px #666 !important;
+.button-pressed-no-shadow:active {
   transform: translateY(0.25rem);
 }
 
-.dropButtonNoShadow:active {
+.button-pressed-effect:active {
   transform: translateY(0.25rem);
+  box-shadow: 0 5px #666 !important;
 }
 
 .btn-group-lg>.btn, .btn-lg {
@@ -156,15 +156,12 @@ html, body {
   border: none;
 }
 
-.modalHeaderText {
-  font-size: 2rem;
-}
-
 .modal-body {
   overflow-x: hidden;
 }
 
 .modal-title {
+  font-size: 2rem;
   border-bottom: 4px solid var(--main-red-color);
 }
 
@@ -275,17 +272,17 @@ html, body {
 /* ===============
   Site description
   ================ */
-.siteDescription {
+.site-description {
   background: #9ADBB3;
 }
 
-.descriptionLabel {
+.section-title {
   margin-bottom: 0rem;
   word-wrap: break-word;
 }
 
 @media screen and (max-width: 600px) {
-  .descriptionLabel {
+  .section-title {
     font-size: 7vw;
   }
 
@@ -295,28 +292,28 @@ html, body {
 }
 
 @media screen and (max-width: 400px) {
-  .descriptionText {
+  .section-content {
     font-size: 5vw;
   }
 }
 
-.descriptionLabelBorder {
+.section-title-border {
   height: 0.5rem;
   background: var(--main-red-color);
   border-radius: 2rem;
   margin-bottom: 3rem;
 }
 
-.descriptionContent {
+.description-section {
   padding-top: 3rem;
   padding-bottom: 0rem;
 }
 
-.descriptionContent:nth-child(1) {
+.description-section:nth-child(1) {
   padding-top: 4rem;
 }
 
-.descriptionText {
+.section-content {
   font-size: 1.2rem;
   line-height: 1.8rem;
   color: #444a51;
@@ -525,7 +522,7 @@ input:checked+.slider:before {
 /* ===========
   Progress Bar
   ============ */
-.radialProgressBar {
+.radial-progress-bar {
   border-radius: 50%;
   width: 300px;
   height: 300px;
@@ -536,7 +533,7 @@ input:checked+.slider:before {
   min-width: 300px;
 }
 
-.radialProgressBar .overlay {
+.radial-progress-bar .overlay {
   border-radius: 50%;
   width: 260px;
   height: 260px;
