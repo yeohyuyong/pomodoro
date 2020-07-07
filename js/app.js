@@ -657,9 +657,11 @@ taskInput.addEventListener("keypress", function(){
   }
 });
 function submitTask(){
-  displayTasks();
-  taskInput.value = "";
-  storeTasks();
+  if (taskInput.value !== ""){
+    displayTasks();
+    taskInput.value = "";
+    storeTasks();
+  }
 }
 
 var taskItem;
