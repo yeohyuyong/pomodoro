@@ -6,6 +6,8 @@
   --main-blue-color: #007bff;
   --main-green-color: #28a745;
   --form-input-bg: #efefef;
+  --lg-border-radius: 2rem;
+  --sm-border-radius: 1rem;
 }
 
 :focus {
@@ -91,7 +93,7 @@ html, body {
 
 #pomodoros, #shortBreak, #longBreak {
   text-align: center;
-  border-radius: 2rem;
+  border-radius: var(--lg-border-radius);
   padding: 0.65rem 1.5rem 0.45rem 1.5rem;
 }
 
@@ -101,8 +103,8 @@ html, body {
   margin: 0.5rem auto;
 }
 
-#startButton, #stopButton, #resetButton, #saveButton, #clearButton, #clearTasksButton {
-  border-radius: 2rem;
+.btn {
+  border-radius: var(--lg-border-radius);
   line-height: 2rem;
 }
 
@@ -149,7 +151,7 @@ html, body {
 }
 
 .modal-content {
-  border-radius: 1rem;
+  border-radius: var(--sm-border-radius);
 }
 
 .modal-header {
@@ -173,12 +175,12 @@ html, body {
 #toDoModal .form-control {
   background-color: var(--form-input-bg);
   border: none;
-  border-radius: 2rem;
+  border-radius: var(--lg-border-radius);
 }
 
 #LoggingModal .form-control {
   background-color: var(--form-input-bg);
-  border-radius: 2rem;
+  border-radius: var(--lg-border-radius);
 }
 
 #listOfTasks {
@@ -215,7 +217,7 @@ html, body {
 }
 
 #taskInput {
-  border-radius: 1rem;
+  border-radius: var(--sm-border-radius);
 }
 
 #addTaskButton {
@@ -300,7 +302,7 @@ html, body {
 .section-title-border {
   height: 0.5rem;
   background: var(--main-red-color);
-  border-radius: 2rem;
+  border-radius: var(--lg-border-radius);
   margin-bottom: 3rem;
 }
 
@@ -513,7 +515,7 @@ input:checked+.slider:before {
   background: var(--main-red-color);
   z-index: 150;
   height: 4px;
-  border-radius: 1px;
+  border-radius: var(--sm-border-radius);
   width: 0%;
   position: fixed;
   top: 0;
