@@ -651,11 +651,17 @@ function logIsEmpty() {
 }
 //==========================Todo list============================================================
 var taskInput = document.getElementById('taskInput');
-taskInput.addEventListener("change", function() {
+taskInput.addEventListener("keypress", function(){
+  if (event.key === "Enter"){
+    submitTask();
+  }
+});
+function submitTask(){
   displayTasks();
   taskInput.value = "";
   storeTasks();
-})
+}
+
 var taskItem;
 var listOfTasks = document.getElementById('listOfTasks');
 
