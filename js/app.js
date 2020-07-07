@@ -607,7 +607,7 @@ function addDataToLog() {
   row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true"><i class="fas fa-trash-alt"></i></span></button></td>';
   locationUpdateLog.appendChild(row);
   // Make new trash icons white
-  if (darkModeToggle.checked){
+  if (darkModeToggle.checked) {
     $(".fa-trash-alt").css("color", "white");
   }
   storeLogItems();

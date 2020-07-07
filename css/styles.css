@@ -184,6 +184,18 @@ html, body {
   border-radius: 2rem;
 }
 
+#listOfTasks {
+  line-height: 1.5em;
+}
+
+.todo-main-content {
+  min-height: 200px;
+}
+
+.log-modal-content {
+  min-height: 200px;
+}
+
 .form-control:focus {
   outline: 0;
   box-shadow: none;

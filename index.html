@@ -456,8 +456,8 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="table-responsive-md">
-            <table class="table table-striped" id="logDataTable">
+          <div class="log-modal-content">
+            <table class="table table-striped table-responsive-md" id="logDataTable">
               <thead>
                 <tr>
                   <th scope="col">Session</th>
@@ -472,11 +472,10 @@
               <tbody id="locationUpdateLog">
               </tbody>
             </table>
+            <div class="container d-flex justify-content-center">
+              <span id="NoDataLoggedText">No data logged yet</span>
+            </div>
           </div>
-          <div class="container d-flex justify-content-center">
-            <span id="NoDataLoggedText">No data logged yet</span>
-          </div>
-
         </div>
         <div class="modal-footer">
           <div class="container d-flex justify-content-center mt-1">
@@ -497,7 +496,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="container">
+          <div class="container todo-main-content">
             <!-- Task Input  -->
             <div class="input-group mb-3">
               <input id="taskInput" type="text" class="form-control" placeholder="Task Description" aria-label="Task name" aria-describedby="button-addon2">
