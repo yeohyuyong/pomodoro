@@ -500,10 +500,10 @@ function darkMode() {
   $(".section-content").css("color", "#a19d9d");
   $('#siteFooter').css("color", "#ececec");
   $(".input-group-text").css("color", "#a19d9d");
-  $(".text-muted").toggleClass("textMutedWhite");
+  $(".text-muted").toggleClass("text-muted-dark-mode");
   $(".modal-close-button").css("color", "#ececec");
   $(".bg-light").toggleClass("darkMode");
-  $("#navText").css("color", "#ececec");
+  $("#brandName").css("color", "#ececec");
   $("#sliderValue").css("color", "#ececec");
   $(".overlay").css("background", "#222831");
   $('.site-description').css("background", "#222831");
@@ -523,10 +523,10 @@ function lightMode() {
   $(".section-title").css("color", "#212529");
   $(".section-content").css("color", "#444a51");
   $('#siteFooter').css("color", "black");
-  $(".text-muted").toggleClass("textMutedWhite");
+  $(".text-muted").toggleClass("text-muted-dark-mode");
   $(".modal-close-button").css("color", "black");
   $(".bg-light").toggleClass("darkMode");
-  $("#navText").css("color", "black");
+  $("#brandName").css("color", "black");
   $("#sliderValue").css("color", "#ffffffde");
   $(".overlay").css("background", "#fff");
   $('.site-description').css("background", "#9ADBB3");

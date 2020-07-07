@@ -50,21 +50,21 @@
     </div>
     <!-- Brand Name -->
     <div class="d-flex justify-content-center navbar navbar-light bg-light border-bottom">
-      <nav class="navbar navbar-light bg-light py-0 justify-content-center" id="brandName">
+      <nav class="navbar navbar-light bg-light py-0 justify-content-center" id="brand">
         <a class="navbar-brand" href="/">
           <img src="assets/img/logo.png" width="50" height="50" class="align-top" alt="PomodoroTimers Logo">
-          <span id="navText">PomodoroTimers</span>
+          <span id="brandName">PomodoroTimers</span>
         </a>
         <!-- Only Visible when small -->
-        <ul class="nav nav-pills justify-content-center">
-          <li class="nav-item p-0">
-            <a class="nav-link px-2 mx-1 d-md-none" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-tasks fa-lg"></i></a>
+        <ul class="nav nav-pills justify-content-end">
+          <li class="nav-item">
+            <a class="nav-link px-2 d-md-none button-pressed-no-shadow" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-tasks fa-lg"></i></a>
           </li>
-          <li class="nav-item pl-1 pr-0">
-            <a class="nav-link px-2 mx-1 d-md-none" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
+          <li class="nav-item pl-2 pr-0">
+            <a class="nav-link px-2 mx-1 d-md-none button-pressed-no-shadow" data-toggle="modal" data-target="#loggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link pl-2 pr-0 ml-2 d-md-none" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
+            <a class="nav-link pl-2 pr-0 ml-2 d-md-none button-pressed-no-shadow" data-toggle="modal" data-target="#settingsModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
           </li>
         </ul>
       </nav>
@@ -88,13 +88,13 @@
         <div class="col-3">
           <ul class="nav nav-pills justify-content-end">
             <li class="nav-item">
-              <a class="nav-link px-2 d-none d-md-block button-pressed-no-shadow" id="toDo" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-tasks fa-lg"></i></a>
+              <a class="nav-link px-2 d-none d-md-block button-pressed-no-shadow" data-toggle="modal" data-target="#toDoModal" href="#"><i class="fas fa-tasks fa-lg"></i></a>
             </li>
             <li class="nav-item pl-2 pr-0">
-              <a class="nav-link px-2 mx-1 d-none d-md-block button-pressed-no-shadow" id="logingData" data-toggle="modal" data-target="#LoggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
+              <a class="nav-link px-2 mx-1 d-none d-md-block button-pressed-no-shadow" data-toggle="modal" data-target="#loggingModal" href="#"><i class="fas fa-chart-bar fa-lg"></i></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link pl-2 pr-0 ml-2 d-none d-md-block button-pressed-no-shadow" id="settings" data-toggle="modal" data-target="#exampleModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
+              <a class="nav-link pl-2 pr-0 ml-2 d-none d-md-block button-pressed-no-shadow" data-toggle="modal" data-target="#settingsModal" href="#"><i class="fas fa-cog fa-lg"></i></a>
             </li>
           </ul>
         </div>
@@ -296,11 +296,11 @@
 
   <!-- Modals -->
   <!-- Settings Modal -->
-  <div class="modal fade" data-keyboard="true" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" data-keyboard="true" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title ml-3" id="exampleModalLabel">Settings</h3>
+          <h3 class="modal-title ml-3">Settings</h3>
           <button type="button" class="close button-pressed-no-shadow" data-dismiss="modal" aria-label="Close">
             <span class="modal-close-button mt-2" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
           </button>
@@ -446,11 +446,11 @@
     </div>
   </div>
   <!-- Logging Modal -->
-  <div class="modal fade" data-keyboard="true" id="LoggingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" data-keyboard="true" id="loggingModal" tabindex="-1" role="dialog" aria-labelledby="loggingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title ml-3" id="loggingModalLabel">Log</h3>
+          <h3 class="modal-title ml-3">Log</h3>
           <button type="button" class="close button-pressed-no-shadow" data-dismiss="modal" aria-label="Close">
             <span class="modal-close-button" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
           </button>
@@ -486,11 +486,11 @@
     </div>
   </div>
   <!-- To Do Modal -->
-  <div class="modal fade" data-keyboard="true" id="toDoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" data-keyboard="true" id="toDoModal" tabindex="-1" role="dialog" aria-labelledby="toDoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 class="modal-title ml-3" id="todoModalLabel">Todo</h3>
+          <h3 class="modal-title ml-3">Todo</h3>
           <button type="button" class="close button-pressed-no-shadow" data-dismiss="modal" aria-label="Close">
             <span class="modal-close-button" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
           </button>
@@ -520,9 +520,9 @@
       </div>
     </div>
   </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js"></script>
   <script src="js/app.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
