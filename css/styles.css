@@ -103,8 +103,8 @@ html, body {
   margin: 0.5rem auto;
 }
 
-.btn {
-  border-radius: var(--lg-border-radius);
+#startButton, #stopButton, #resetButton, #saveButton, #clearButton, #clearTasksButton {
+  border-radius: 2rem;
   line-height: 2rem;
 }
 
