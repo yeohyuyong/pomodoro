@@ -510,6 +510,7 @@ function darkMode() {
   $(".fa-trash-alt").css("color", "#ececec");
   $("#addTaskButton").css("color", "#ececec");
   $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #666")
+  $(".form-control").css("background-color", "#ccc");
 }
 
 function lightMode() {
@@ -532,6 +533,7 @@ function lightMode() {
   $(".fa-trash-alt").css("color", "black");
   $("#addTaskButton").css("color", "#6c757d");
   $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #999")
+  $(".form-control").css("background-color", "#efefef");
 }
 // ================================Get Time and Date=================================================
 function getDate() {

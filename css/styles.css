@@ -180,6 +180,7 @@ html, body {
 }
 
 #LoggingModal .form-control {
+  background-color: var(--form-input-bg);
   border-radius: 2rem;
 }
 
