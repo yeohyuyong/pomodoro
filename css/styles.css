@@ -26,9 +26,9 @@ html, body {
   Main Content
   ============= */
 #mainPage {
-  padding-bottom: 0;
-  margin-bottom: 0;
   width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 @media screen and (min-width: 1000px) {
@@ -103,8 +103,8 @@ html, body {
   margin: 0.5rem auto;
 }
 
-.btn {
-  border-radius: var(--lg-border-radius);
+#startButton, #stopButton, #resetButton, #saveButton, #clearButton, #clearTasksButton {
+  border-radius: 2rem;
   line-height: 2rem;
 }
 
@@ -321,6 +321,18 @@ html, body {
   color: #444a51;
 }
 
+.red-link {
+  color: var(--main-red-color)!important;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.blue-link {
+  color: var(--main-blue-color)!important;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
 dt[class="col-sm-2"] {
   margin-right: -2.5rem;
 }
@@ -338,10 +350,6 @@ dd[class="col-sm-10"] {
 
 .social-icon:hover {
   color: var(--main-blue-color);
-}
-
-.social-icon:focus {
-  border: 1px solid red;
 }
 
 .fa-code {
