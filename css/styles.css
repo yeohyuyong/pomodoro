@@ -431,20 +431,20 @@ input:checked+.slider:before {
 /* ===================
   Hover link animation
   ==================== */
-.expand {
+.red-underline {
   position: relative;
   text-decoration: none;
   display: inline-block;
 }
 
-.expand:hover,
-.expand:focus {
+.red-underline:hover,
+.red-underline:focus {
   position: relative;
   text-decoration: none;
   display: inline-block;
 }
 
-.expand::after {
+.red-underline::after {
   display: block;
   content: '';
   border-bottom: solid 0.15rem var(--main-red-color);
@@ -452,26 +452,26 @@ input:checked+.slider:before {
   transition: transform 250ms ease-in-out;
 }
 
-.expand:hover::after,
-.expand:focus::after {
+.red-underline:hover::after,
+.red-underline:focus::after {
   transform: scaleX(1);
 }
 
 /* for blue */
-.blue-expand {
+.blue-underline {
   position: relative;
   text-decoration: none;
   display: inline-block;
 }
 
-.blue-expand:hover,
-.blue-expand:focus {
+.blue-underline:hover,
+.blue-underline:focus {
   position: relative;
   text-decoration: none;
   display: inline-block;
 }
 
-.blue-expand::after {
+.blue-underline::after {
   display: block;
   content: '';
   border-bottom: solid 0.15rem var(--main-blue-color);
@@ -479,23 +479,23 @@ input:checked+.slider:before {
   transition: transform 250ms ease-in-out;
 }
 
-.blue-expand:hover::after,
-.blue-expand:focus::after {
+.blue-underline:hover::after,
+.blue-underline:focus::after {
   transform: scaleX(1);
 }
 
-.nav-expand {
+.nav-underline {
   position: relative;
   text-decoration: none;
 }
 
-.nav-expand:hover,
-.nav-expand:focus {
+.nav-underline:hover,
+.nav-underline:focus {
   position: relative;
   text-decoration: none;
 }
 
-.nav-expand::after {
+.nav-underline::after {
   display: block;
   content: '';
   border-bottom: solid 0.25rem var(--main-blue-color);
@@ -503,8 +503,8 @@ input:checked+.slider:before {
   transition: transform 250ms ease-in-out;
 }
 
-.nav-expand:hover::after,
-.nav-expand:focus::after {
+.nav-underline:hover::after,
+.nav-underline:focus::after {
   transform: scaleX(1);
 }
 
