@@ -10,8 +10,8 @@
   --sm-border-radius: 1rem;
 }
 
-:focus {
-  outline: none;
+* {
+  outline: none!important;
 }
 
 html, body {
