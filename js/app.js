@@ -495,6 +495,7 @@ function darkMode() {
   $(".modal-content").css("background-color", "#222831");
   $(".notification-text").css("color", "#ececec");
   $(".modal-title").css("color", "#ececec");
+  $(".table th").css("color", "#ececec");
   $("#logDataTable").toggleClass("table-dark");
   $(".section-title").css("color", "#ececec");
   $(".section-content").css("color", "#a19d9d");
@@ -524,6 +525,7 @@ function lightMode() {
   $(".section-content").css("color", "#444a51");
   $('#siteFooter').css("color", "black");
   $(".text-muted").toggleClass("text-muted-dark-mode");
+  $(".table th").css("color", "#212529");
   $(".modal-close-button").css("color", "black");
   $(".bg-light").toggleClass("darkMode");
   $("#brandName").css("color", "black");
