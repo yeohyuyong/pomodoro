@@ -491,50 +491,50 @@ darkModeToggle.addEventListener("change", function() {
 
 function darkMode() {
   $(document.body).css("background-color", "#222831");
+  $(".bg-light").toggleClass("darkMode");
+  $("#brandName").css("color", "#ececec");
   $("#timeLeft").css("color", "#ececec");
+  $(".overlay").css("background", "#222831");
+  $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #666");
   $(".modal-content").css("background-color", "#222831");
-  $(".notification-text").css("color", "#ececec");
   $(".modal-title").css("color", "#ececec");
-  $(".table th").css("color", "#ececec");
+  $("#sliderValue").css("color", "#ececec");
+  $(".notification-text").css("color", "#ececec");
+  $("#addTaskButton").css("color", "#ececec");
   $("#logDataTable").toggleClass("table-dark");
-  $(".section-title").css("color", "#ececec");
-  $(".section-content").css("color", "#a19d9d");
+  $(".table th").css("color", "#ececec");
+  $(".modal-close-button").css("color", "#ececec");
   $('#siteFooter').css("color", "#ececec");
   $(".input-group-text").css("color", "#a19d9d");
   $(".text-muted").toggleClass("text-muted-dark-mode");
-  $(".modal-close-button").css("color", "#ececec");
-  $(".bg-light").toggleClass("darkMode");
-  $("#brandName").css("color", "#ececec");
-  $("#sliderValue").css("color", "#ececec");
-  $(".overlay").css("background", "#222831");
   $('.site-description').css("background", "#222831");
+  $(".section-content").css("color", "#a19d9d");
+  $(".section-title").css("color", "#ececec");
   $(".fa-trash-alt").css("color", "#ececec");
-  $("#addTaskButton").css("color", "#ececec");
-  $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #666")
   $(".form-control").css("background-color", "#ccc");
 }
 
 function lightMode() {
   $(document.body).css("background-color", "#fff");
-  $("#timeLeft").css("color", "black");
-  $(".modal-content").css("background-color", "white");
-  $(".modal-title").css("color", "black");
-  $("#logDataTable").toggleClass("table-dark");
-  $(".notification-text").css("color", "black");
-  $(".section-title").css("color", "#212529");
-  $(".section-content").css("color", "#444a51");
-  $('#siteFooter').css("color", "black");
-  $(".text-muted").toggleClass("text-muted-dark-mode");
-  $(".table th").css("color", "#212529");
-  $(".modal-close-button").css("color", "black");
   $(".bg-light").toggleClass("darkMode");
   $("#brandName").css("color", "black");
-  $("#sliderValue").css("color", "#212529");
+  $("#timeLeft").css("color", "black");
   $(".overlay").css("background", "#fff");
+  $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #999");
+  $(".modal-content").css("background-color", "white");
+  $(".modal-title").css("color", "black");
+  $("#sliderValue").css("color", "#212529");
+  $(".notification-text").css("color", "black");
+  $("#addTaskButton").css("color", "#6c757d");
+  $("#logDataTable").toggleClass("table-dark");
+  $(".table th").css("color", "#212529");
+  $(".modal-close-button").css("color", "black");
+  $('#siteFooter').css("color", "black");
+  $(".text-muted").toggleClass("text-muted-dark-mode");
+  $(".section-content").css("color", "#444a51");
+  $(".section-title").css("color", "#212529");
   $('.site-description').css("background", "#9ADBB3");
   $(".fa-trash-alt").css("color", "black");
-  $("#addTaskButton").css("color", "#6c757d");
-  $("#startButton, #stopButton, #resetButton").css("box-shadow", "0 9px #999")
   $(".form-control").css("background-color", "#efefef");
 }
 // ================================Get Time and Date=================================================
