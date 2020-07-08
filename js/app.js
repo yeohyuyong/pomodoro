@@ -607,7 +607,7 @@ function addDataToLog() {
   row.appendChild(endTimeCol);
   row.appendChild(timeCol);
   row.innerHTML += '<td><input class="form-control" type="text" placeholder="" onchange="storeLogDescription(this)"></td>'
-  row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><span aria-hidden="true"><i class="fas fa-trash-alt"></i></span></button></td>';
+  row.innerHTML += '<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><i class="fas fa-trash-alt"></i></button></td>';
   locationUpdateLog.appendChild(row);
   // Make new trash icons white
   if (darkModeToggle.checked) {
