@@ -187,7 +187,7 @@ html, body {
   line-height: 1.5em;
 }
 
-.task-fall{
+.slide-away{
   opacity: 0;
   transform: translateX(20rem);
 }

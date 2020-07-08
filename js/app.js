@@ -624,11 +624,15 @@ clearButton.addEventListener("click", function() {
 })
 // ===============================Delete log=================================================
 function deleteLog(item) {
-  item.parentNode.parentNode.remove();
-  storeLogItems();
-  if (logIsEmpty()) {
-    showNoDataLoggedText();
-  }
+  item.parentNode.parentNode.style.transition = "all 0.2s ease-in";
+  item.parentNode.parentNode.classList.add("slide-away");
+  item.parentNode.parentNode.addEventListener("transitionend", function(){
+    item.parentNode.parentNode.remove();
+    storeLogItems();
+    if (logIsEmpty()) {
+      showNoDataLoggedText();
+    }
+  })
 }
 // ===========================Local Storage for Logging==============================================
 function storeLogItems() {
@@ -697,7 +701,7 @@ function checkedWhenclicked(item) {
 
 function deleteTasks(item) {
   item.parentElement.style.transition = "all 0.2s ease-in";
-  item.parentElement.classList.add("task-fall");
+  item.parentElement.classList.add("slide-away");
   item.parentElement.addEventListener("transitionend", function(){
     item.parentElement.remove();
     storeTasks();
