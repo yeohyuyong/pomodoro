@@ -495,15 +495,16 @@ function darkMode() {
   $(".modal-content").css("background-color", "#222831");
   $(".notification-text").css("color", "#ececec");
   $(".modal-title").css("color", "#ececec");
+  $(".table th").css("color", "#ececec");
   $("#logDataTable").toggleClass("table-dark");
   $(".section-title").css("color", "#ececec");
   $(".section-content").css("color", "#a19d9d");
   $('#siteFooter').css("color", "#ececec");
   $(".input-group-text").css("color", "#a19d9d");
-  $(".text-muted").toggleClass("textMutedWhite");
+  $(".text-muted").toggleClass("text-muted-dark-mode");
   $(".modal-close-button").css("color", "#ececec");
   $(".bg-light").toggleClass("darkMode");
-  $("#navText").css("color", "#ececec");
+  $("#brandName").css("color", "#ececec");
   $("#sliderValue").css("color", "#ececec");
   $(".overlay").css("background", "#222831");
   $('.site-description').css("background", "#222831");
@@ -523,11 +524,12 @@ function lightMode() {
   $(".section-title").css("color", "#212529");
   $(".section-content").css("color", "#444a51");
   $('#siteFooter').css("color", "black");
-  $(".text-muted").toggleClass("textMutedWhite");
+  $(".text-muted").toggleClass("text-muted-dark-mode");
+  $(".table th").css("color", "#212529");
   $(".modal-close-button").css("color", "black");
   $(".bg-light").toggleClass("darkMode");
-  $("#navText").css("color", "black");
-  $("#sliderValue").css("color", "#ffffffde");
+  $("#brandName").css("color", "black");
+  $("#sliderValue").css("color", "#212529");
   $(".overlay").css("background", "#fff");
   $('.site-description').css("background", "#9ADBB3");
   $(".fa-trash-alt").css("color", "black");
@@ -591,13 +593,14 @@ function addDataToLog() {
 
   var timeCol = document.createElement("td");
   if (allPossibleModes[currentTab].localStorage) {
-    data = document.createTextNode(allPossibleModes[currentTab].localStorage);
+    data = document.createTextNode(allPossibleModes[currentTab].localStorage + " min");
     timeCol.appendChild(data);
   } else {
-    data = document.createTextNode(allPossibleModes[currentTab].defaultTime);
+    data = document.createTextNode(allPossibleModes[currentTab].defaultTime + " min");
     timeCol.appendChild(minutesToSeconds(data));
   }
   var row = document.createElement("tr");
+  row.setAttribute("scope", "row");
   row.appendChild(sessionsCol);
   row.appendChild(dateCol);
   row.appendChild(startTimeCol);

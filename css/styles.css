@@ -57,18 +57,18 @@ html, body {
 /*==========
   Brand Name
   =========== */
-#brandName {
+#brand {
   min-width: 150px;
   font-weight: bold;
 }
 
-#navText {
+#brandName {
   font-size: 2.5rem;
   line-height: 3rem;
 }
 
 @media screen and (max-width: 500px) {
-  #navText {
+  #brandName {
     font-size: 8vw;
   }
 }
@@ -171,14 +171,14 @@ html, body {
   border: none;
 }
 
-#exampleModal .form-control,
+#settingsModal .form-control,
 #toDoModal .form-control {
   background-color: var(--form-input-bg);
   border: none;
   border-radius: var(--lg-border-radius);
 }
 
-#LoggingModal .form-control {
+#loggingModal .form-control {
   background-color: var(--form-input-bg);
   border-radius: var(--lg-border-radius);
 }
@@ -242,12 +242,13 @@ html, body {
   }
 }
 
-.table thead th {
+.table th {
+  border-top: none;
   font-size: 1.1rem;
 }
 
-.table th {
-  border-top: none;
+.table th:nth-child(1){
+  width: 16%;
 }
 
 .table-dark {
@@ -263,12 +264,8 @@ html, body {
   background-color: #1d232b !important;
 }
 
-.textMutedWhite {
+.text-muted-dark-mode {
   color: #ececec !important;
-}
-
-.textMutedNormal {
-  color: #6c757d !important;
 }
 
 /* ===============
