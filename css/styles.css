@@ -242,12 +242,13 @@ html, body {
   }
 }
 
-.table thead th {
+.table th {
+  border-top: none;
   font-size: 1.1rem;
 }
 
-.table th {
-  border-top: none;
+.table th:nth-child(1){
+  width: 16%;
 }
 
 .table-dark {

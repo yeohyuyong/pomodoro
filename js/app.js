@@ -591,13 +591,14 @@ function addDataToLog() {
 
   var timeCol = document.createElement("td");
   if (allPossibleModes[currentTab].localStorage) {
-    data = document.createTextNode(allPossibleModes[currentTab].localStorage);
+    data = document.createTextNode(allPossibleModes[currentTab].localStorage + " min");
     timeCol.appendChild(data);
   } else {
-    data = document.createTextNode(allPossibleModes[currentTab].defaultTime);
+    data = document.createTextNode(allPossibleModes[currentTab].defaultTime + " min");
     timeCol.appendChild(minutesToSeconds(data));
   }
   var row = document.createElement("tr");
+  row.setAttribute("scope", "row");
   row.appendChild(sessionsCol);
   row.appendChild(dateCol);
   row.appendChild(startTimeCol);
