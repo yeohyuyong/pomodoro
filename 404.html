@@ -4,11 +4,14 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169261747-1"></script>
   <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'UA-169261747-1');
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-169261747-1');
   </script>
   <!-- Adsense Code -->
   <script data-ad-client="ca-pub-4206825227039724" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -16,20 +19,18 @@
   <meta property="og:title" content="PomodoroTimers" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pomodorotimers.com" />
-  <meta
-  property="og:image"
-  content="https://pomodorotimers.com/assets/img/logo.png"
-  />
+  <meta property="og:image" content="https://pomodorotimers.com/assets/img/logo.png" />
   <meta name="description" content="PomodoroTimers is a simple and configurable Pomodoro timer. It aims to provide a visually-pleasing and reliable way to track productivity using the Pomodoro Technique.">
-  <meta name="keywords" content="pomodoro technique, tomato timer, pomodoro timer, online pomodoro timer, software timer, pomodoro software timer, productivity tools, gtd, getting things done, productivity, digital timer, concentration techniques, pomodoro resources, pomodoro software, to-do list">
+  <meta name="keywords"
+    content="pomodoro technique, tomato timer, pomodoro timer, online pomodoro timer, software timer, pomodoro software timer, productivity tools, gtd, getting things done, productivity, digital timer, concentration techniques, pomodoro resources, pomodoro software, to-do list">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PomodoroTimers</title>
-  <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> -->
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"> -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="css/styles.css" type="text/css">
-  <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.png"/>
+  <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.png" />
   <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -54,17 +55,59 @@
   </div>
 
   <!-- Footer -->
-  <div id="siteFooter" class="row mx-0 pt-3 border-top">
+  <div id="siteFooter" class="row mx-0 pt-4 border-top">
     <div class="col-12 d-flex justify-content-center">
-      <p><i class="fas fa-code" style="color:#ffc107"></i> with <i class="fas fa-heart" style="color:#dc3545"></i> by <a class="blue-expand" href="https://yeohyuyong.me/" target="_blank" style="color:#007bff;font-weight:bold;">Yeoh Yu Yong</a></p>
+      <p><i class="fas fa-code"></i> with <i class="fas fa-heart"></i> by <a class="blue-underline" href="https://yeohyuyong.me/" target="_blank">Yeoh Yu Yong</a></p>
     </div>
-    <div class="col-12 d-flex justify-content-center dropButtonNoShadow">
-      <style>.bmc-button img{height: 34px !important;width: 35px !important;margin-bottom: 1px !important;box-shadow: none !important;border: none !important;vertical-align: middle !important;}.bmc-button{padding: 7px 15px 7px 10px !important;line-height: 35px !important;height:51px !important;text-decoration: none !important;display:inline-flex !important;color:#ffffff !important;background-color:#FF813F !important;border-radius: 5px !important;border: 1px solid transparent !important;padding: 7px 15px 7px 10px !important;font-size: 28px !important;letter-spacing:0.6px !important;box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;margin: 0 auto !important;font-family:'Cookie', cursive !important;-webkit-box-sizing: border-box !important;box-sizing: border-box !important;}.bmc-button:hover, .bmc-button:active, .bmc-button:focus {-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;text-decoration: none !important;box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;opacity: 0.85 !important;color:#ffffff !important;}</style><link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet"><a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/yeohyuyong"><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px;font-size:28px !important;">Buy me a coffee</span></a>
+    <div class="col-12 d-flex justify-content-center button-pressed-no-shadow">
+      <style>
+        .bmc-button img {
+          height: 34px !important;
+          width: 35px !important;
+          margin-bottom: 1px !important;
+          box-shadow: none !important;
+          border: none !important;
+          vertical-align: middle !important;
+        }
+
+        .bmc-button {
+          padding: 7px 15px 7px 10px !important;
+          line-height: 35px !important;
+          height: 51px !important;
+          text-decoration: none !important;
+          display: inline-flex !important;
+          color: #ffffff !important;
+          background-color: #FF813F !important;
+          border-radius: 5px !important;
+          border: 1px solid transparent !important;
+          padding: 7px 15px 7px 10px !important;
+          font-size: 28px !important;
+          letter-spacing: 0.6px !important;
+          box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
+          -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+          margin: 0 auto !important;
+          font-family: 'Cookie', cursive !important;
+          -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+        }
+
+        .bmc-button:hover,
+        .bmc-button:active,
+        .bmc-button:focus {
+          -webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+          text-decoration: none !important;
+          box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+          opacity: 0.85 !important;
+          color: #ffffff !important;
+        }
+      </style>
+      <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet"><a class="bmc-button" target="_blank" href="https://www.buymeacoffee.com/yeohyuyong"><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg"
+          alt="Buy me a coffee"><span style="margin-left:5px;font-size:28px !important;">Buy me a coffee</span></a>
     </div>
     <div class="col-12 d-flex justify-content-center my-3">
-        <a href="https://github.com/yeohyuyong/pomodoro" target="_blank"><i class="fab fa-github fa-2x px-2 social-icon"></i></a>
-        <a href="https://stackexchange.com/users/14223160/yeoh-yu-yong" target="_blank"><i class="fab fa-stack-overflow fa-2x px-2 social-icon"></i></a>
-        <a href="https://yeohyuyong.me" target="_blank"><i class="fas fa-user-circle fa-2x px-2 social-icon"></i></a>
+      <a href="https://github.com/yeohyuyong/pomodoro" target="_blank"><i class="fab fa-github fa-2x px-2 social-icon"></i></a>
+      <a href="https://stackexchange.com/users/14223160/yeoh-yu-yong" target="_blank"><i class="fab fa-stack-overflow fa-2x px-2 social-icon"></i></a>
+      <a href="https://yeohyuyong.me" target="_blank"><i class="fas fa-user-circle fa-2x px-2 social-icon"></i></a>
     </div>
   </div>
   </div>
