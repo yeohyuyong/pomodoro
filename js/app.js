@@ -527,7 +527,7 @@ function lightMode() {
   $(".modal-close-button").css("color", "black");
   $(".bg-light").toggleClass("darkMode");
   $("#brandName").css("color", "black");
-  $("#sliderValue").css("color", "#ffffffde");
+  $("#sliderValue").css("color", "#212529");
   $(".overlay").css("background", "#fff");
   $('.site-description').css("background", "#9ADBB3");
   $(".fa-trash-alt").css("color", "black");
