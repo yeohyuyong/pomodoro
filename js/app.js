@@ -690,16 +690,21 @@ function displayTasks() {
 }
 
 function checkedWhenclicked(item) {
+  item.style.transition = "all 0.2s ease-in";
   item.classList.toggle("done");
   storeTasks();
 }
 
 function deleteTasks(item) {
-  item.parentNode.remove();
-  storeTasks();
-  if (listIsEmpty()) {
-    showNoTaskTodayText();
-  }
+  item.parentElement.style.transition = "all 0.2s ease-in";
+  item.parentElement.classList.add("task-fall");
+  item.parentElement.addEventListener("transitionend", function(){
+    item.parentElement.remove();
+    storeTasks();
+    if (listIsEmpty()) {
+      showNoTaskTodayText();
+    }
+  });
 }
 clearTasksButton.addEventListener("click", function() {
   listOfTasks.innerHTML = "";

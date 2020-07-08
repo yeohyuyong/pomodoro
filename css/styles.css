@@ -187,6 +187,11 @@ html, body {
   line-height: 1.5em;
 }
 
+.task-fall{
+  opacity: 0;
+  transform: translateX(20rem);
+}
+
 .todo-main-content {
   min-height: 200px;
 }
