@@ -211,6 +211,11 @@ html, body {
   border: none;
 }
 
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
 #backgroundMusicOptions {
   width: 8rem;
   cursor: pointer;
