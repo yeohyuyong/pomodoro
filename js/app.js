@@ -511,7 +511,6 @@ function darkMode() {
 	$(".site-description").css("background", "#222831");
 	$(".section-content").css("color", "#a19d9d");
 	$(".section-title").css("color", "#ececec");
-	$(".fa-trash-alt").css("color", "#ececec");
 	$(".form-control").css("background-color", "#ccc");
 }
 
@@ -535,7 +534,6 @@ function lightMode() {
 	$(".section-content").css("color", "#444a51");
 	$(".section-title").css("color", "#212529");
 	$(".site-description").css("background", "#9ADBB3");
-	$(".fa-trash-alt").css("color", "black");
 	$(".form-control").css("background-color", "#efefef");
 }
 // ================================Get Time and Date=================================================
@@ -629,10 +627,6 @@ function addDataToLog() {
 	row.innerHTML +=
 		'<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><i class="fas fa-trash-alt"></i></button></td>';
 	locationUpdateLog.appendChild(row);
-	// Make new trash icons white
-	if (darkModeToggle.checked) {
-		$(".fa-trash-alt").css("color", "white");
-	}
 	storeLogItems();
 	removeNoDataLoggedText();
 }

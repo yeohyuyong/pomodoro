@@ -202,6 +202,10 @@ body {
 	line-height: 1.5em;
 }
 
+.fa-trash-alt {
+	color: #6c757d;
+}
+
 .slide-away {
 	opacity: 0;
 	transform: translateX(20rem);
