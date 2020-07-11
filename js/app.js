@@ -38,7 +38,7 @@ var currentDate;
 var allPossibleModes = {
 	pomodoro: {
 		input: pomodoroInput,
-		defaultTime: 25,
+		defaultTime: 0.1,
 		navButton: pomodoros,
 		localStorage: localStorage.currentPomodoroValue,
 		alertMessage: "<strong>Time is up!</strong> Lets take a break",
@@ -50,7 +50,7 @@ var allPossibleModes = {
 	},
 	"long break": {
 		input: longBreakInput,
-		defaultTime: 20,
+		defaultTime: 0.1,
 		navButton: longBreak,
 		localStorage: localStorage.currentLongBreakValue,
 		alertMessage: "<strong>Long break over!</strong> Lets get back to work",
@@ -62,7 +62,7 @@ var allPossibleModes = {
 	},
 	"short break": {
 		input: shortBreakInput,
-		defaultTime: 5,
+		defaultTime: 0.1,
 		navButton: shortBreak,
 		localStorage: localStorage.currentShortBreakValue,
 		alertMessage: "<strong>Short break over!</strong> Lets get back to work",
