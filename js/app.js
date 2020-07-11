@@ -150,11 +150,9 @@ function displayTimeInputValues() {
 	modesList = ["pomodoro", "short break", "long break"];
 	for (var i = 0; i < modesList.length; i++) {
 		if (allPossibleModes[modesList[i]].localStorage) {
-			allPossibleModes[modesList[i]].input.value =
-				allPossibleModes[modesList[i]].localStorage;
+			allPossibleModes[modesList[i]].input.value = allPossibleModes[modesList[i]].localStorage;
 		} else {
-			allPossibleModes[modesList[i]].input.value =
-				allPossibleModes[modesList[i]].defaultTime;
+			allPossibleModes[modesList[i]].input.value = allPossibleModes[modesList[i]].defaultTime;
 		}
 	}
 }
@@ -377,15 +375,13 @@ pomodoroInput.addEventListener("change", function () {
 });
 shortBreakInput.addEventListener("change", function () {
 	localStorage.currentShortBreakValue = shortBreakInput.value;
-	allPossibleModes["short break"].localStorage =
-		localStorage.currentShortBreakValue;
+	allPossibleModes["short break"].localStorage = localStorage.currentShortBreakValue;
 	shortBreakInput.value = localStorage.currentShortBreakValue;
 	contentDisplay();
 });
 longBreakInput.addEventListener("change", function () {
 	localStorage.currentLongBreakValue = longBreakInput.value;
-	allPossibleModes["long break"].localStorage =
-		localStorage.currentLongBreakValue;
+	allPossibleModes["long break"].localStorage = localStorage.currentLongBreakValue;
 	longBreakInput.value = localStorage.currentLongBreakValue;
 	contentDisplay();
 });
@@ -538,20 +534,7 @@ function lightMode() {
 }
 // ================================Get Time and Date=================================================
 function getDate() {
-	monthList = [
-		"Jan",
-		"Feb",
-		"Mar",
-		"Apr",
-		"May",
-		"Jun",
-		"Jul",
-		"Aug",
-		"Sep",
-		"Oct",
-		"Nov",
-		"Dec",
-	];
+	monthList = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	var today = new Date();
 	var date = today.getDate();
 	var month = monthList[today.getMonth()];
@@ -604,16 +587,12 @@ function addDataToLog() {
 	endTimeCol.appendChild(data);
 
 	var timeCol = document.createElement("td");
-	if (allPossibleModes[currentTab].localStorage) {
-		data = document.createTextNode(
-			allPossibleModes[currentTab].localStorage + " min"
-		);
+	if (allPossibleModes[currentTab].localStorage === undefined) {
+		data = document.createTextNode(allPossibleModes[currentTab].defaultTime + " min");
 		timeCol.appendChild(data);
 	} else {
-		data = document.createTextNode(
-			allPossibleModes[currentTab].defaultTime + " min"
-		);
-		timeCol.appendChild(minutesToSeconds(data));
+		data = document.createTextNode(allPossibleModes[currentTab].localStorage + " min");
+		timeCol.appendChild(data);
 	}
 	var row = document.createElement("tr");
 	row.setAttribute("scope", "row");
@@ -622,8 +601,7 @@ function addDataToLog() {
 	row.appendChild(startTimeCol);
 	row.appendChild(endTimeCol);
 	row.appendChild(timeCol);
-	row.innerHTML +=
-		'<td><input class="form-control" type="text" placeholder="" onchange="storeLogDescription(this)"></td>';
+	row.innerHTML += '<td><input class="form-control" type="text" placeholder="" onchange="storeLogDescription(this)"></td>';
 	row.innerHTML +=
 		'<td><button type="button" class="close" onclick = "deleteLog(this)" aria-label="Close"><i class="fas fa-trash-alt"></i></button></td>';
 	locationUpdateLog.appendChild(row);
@@ -654,10 +632,7 @@ function storeLogItems() {
 }
 
 function storeLogDescription(item) {
-	item.outerHTML =
-		'<td><input class="form-control" type="text" value="' +
-		item.value +
-		'" onchange="storeLogDescription(this)"></td>';
+	item.outerHTML = '<td><input class="form-control" type="text" value="' + item.value + '" onchange="storeLogDescription(this)"></td>';
 	storeLogItems();
 }
 // =====================================No logging data text===============================================
@@ -768,10 +743,7 @@ var numberSessions = 0;
 
 function startNextRound() {
 	//if not time for long break play short break
-	if (
-		currentTab === "pomodoro" &&
-		numberSessions === Number(localStorage.longBreakInterval) - 1
-	) {
+	if (currentTab === "pomodoro" && numberSessions === Number(localStorage.longBreakInterval) - 1) {
 		//play long break
 		numberSessions = 0;
 		currentTab = "long break";
