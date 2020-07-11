@@ -233,6 +233,7 @@ pomodoros.addEventListener("click", function () {
 	resetTimer();
 	buttonsDefaultState();
 	stopBackGroundMusic();
+	numberSessions = 0;
 });
 
 shortBreak.addEventListener("click", function () {
@@ -242,6 +243,7 @@ shortBreak.addEventListener("click", function () {
 	resetTimer();
 	buttonsDefaultState();
 	stopBackGroundMusic();
+	numberSessions = 0;
 });
 
 longBreak.addEventListener("click", function () {
@@ -251,6 +253,7 @@ longBreak.addEventListener("click", function () {
 	resetTimer();
 	buttonsDefaultState();
 	stopBackGroundMusic();
+	numberSessions = 0;
 });
 
 //Function that takes 1 away from timeLeft every 1000ms/1s
