@@ -2,10 +2,7 @@
 <html lang="en" dir="ltr">
 	<head>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script
-			async
-			src="https://www.googletagmanager.com/gtag/js?id=UA-169261747-1"
-		></script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-169261747-1"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
 
@@ -17,19 +14,12 @@
 			gtag("config", "UA-169261747-1");
 		</script>
 		<!-- Adsense Code -->
-		<script
-			data-ad-client="ca-pub-4206825227039724"
-			async
-			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-		></script>
+		<script data-ad-client="ca-pub-4206825227039724" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 		<meta charset="utf-8" />
 		<meta property="og:title" content="PomodoroTimers" />
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://www.pomodorotimers.com" />
-		<meta
-			property="og:image"
-			content="https://www.pomodorotimers.com/assets/img/logo.png"
-		/>
+		<meta property="og:image" content="https://www.pomodorotimers.com/assets/img/logo.png" />
 		<meta
 			name="description"
 			content="PomodoroTimers is a simple and configurable Pomodoro timer. It aims to provide a visually-pleasing and reliable way to track productivity using the Pomodoro Technique."
@@ -47,10 +37,7 @@
 			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 			crossorigin="anonymous"
 		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
-		/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
 		<script
 			src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -58,10 +45,7 @@
 		></script>
 		<link rel="stylesheet" href="css/styles.css" type="text/css" />
 		<link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.png" />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap"
-			rel="stylesheet"
-		/>
+		<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap" rel="stylesheet" />
 	</head>
 
 	<body>
@@ -73,61 +57,31 @@
 			<!-- Alert -->
 			<div class="alert alert-danger alert-dismissible fade show" role="alert">
 				<span id="alertMessage"></span>
-				<button
-					type="button"
-					class="close"
-					onclick="dismissAlert()"
-					aria-label="Close"
-				>
-					<span aria-hidden="true"
-						><i class="fas fa-times fa-lg mt-1"></i
-					></span>
+				<button type="button" class="close" onclick="dismissAlert()" aria-label="Close">
+					<span aria-hidden="true"><i class="fas fa-times fa-lg mt-1"></i></span>
 				</button>
 			</div>
 			<!-- Brand Name -->
-			<div
-				class="d-flex justify-content-center navbar navbar-light bg-light border-bottom"
-			>
-				<nav
-					class="navbar navbar-light bg-light py-0 justify-content-center"
-					id="brand"
-				>
+			<div class="d-flex justify-content-center navbar navbar-light bg-light border-bottom">
+				<nav class="navbar navbar-light bg-light py-0 justify-content-center" id="brand">
 					<a class="navbar-brand" href="/">
-						<img
-							src="assets/img/logo.png"
-							width="50"
-							height="50"
-							class="align-top"
-							alt="PomodoroTimers Logo"
-						/>
+						<img src="assets/img/logo.png" width="50" height="50" class="align-top" alt="PomodoroTimers Logo" />
 						<span id="brandName">PomodoroTimers</span>
 					</a>
 					<!-- Only Visible when small -->
 					<ul class="nav nav-pills justify-content-end">
 						<li class="nav-item">
-							<a
-								class="nav-link px-2 d-md-none button-pressed-no-shadow"
-								data-toggle="modal"
-								data-target="#toDoModal"
-								href="#"
+							<a class="nav-link px-2 d-md-none button-pressed-no-shadow" data-toggle="modal" data-target="#toDoModal" href="#"
 								><i class="fas fa-tasks fa-lg"></i
 							></a>
 						</li>
 						<li class="nav-item pl-2 pr-0">
-							<a
-								class="nav-link px-2 mx-1 d-md-none button-pressed-no-shadow"
-								data-toggle="modal"
-								data-target="#loggingModal"
-								href="#"
+							<a class="nav-link px-2 mx-1 d-md-none button-pressed-no-shadow" data-toggle="modal" data-target="#loggingModal" href="#"
 								><i class="fas fa-chart-bar fa-lg"></i
 							></a>
 						</li>
 						<li class="nav-item">
-							<a
-								class="nav-link pl-2 pr-0 ml-2 d-md-none button-pressed-no-shadow"
-								data-toggle="modal"
-								data-target="#settingsModal"
-								href="#"
+							<a class="nav-link pl-2 pr-0 ml-2 d-md-none button-pressed-no-shadow" data-toggle="modal" data-target="#settingsModal" href="#"
 								><i class="fas fa-cog fa-lg"></i
 							></a>
 						</li>
@@ -140,57 +94,25 @@
 					<div class="col-6 px-0">
 						<ul class="nav nav-pills">
 							<div class="col-lg-4 px-0">
-								<a
-									class="nav-link active pt-2 nav-underline"
-									id="pomodoros"
-									data-toggle="tab"
-									role="tab"
-									aria-selected="false"
-									href="/"
-									>Focus</a
-								>
+								<a class="nav-link active pt-2 nav-underline" id="pomodoros" data-toggle="tab" role="tab" aria-selected="false" href="/">Focus</a>
 							</div>
 							<div class="col-lg-4 px-0">
-								<a
-									class="nav-link pt-2 nav-underline"
-									id="shortBreak"
-									data-toggle="tab"
-									role="tab"
-									aria-selected="false"
-									href="/"
-									>Short Break</a
-								>
+								<a class="nav-link pt-2 nav-underline" id="shortBreak" data-toggle="tab" role="tab" aria-selected="false" href="/">Short Break</a>
 							</div>
 							<div class="col-lg-4 px-0">
-								<a
-									class="nav-link pt-2 nav-underline"
-									id="longBreak"
-									data-toggle="tab"
-									role="tab"
-									aria-selected="false"
-									href="/"
-									>Long Break</a
-								>
+								<a class="nav-link pt-2 nav-underline" id="longBreak" data-toggle="tab" role="tab" aria-selected="false" href="/">Long Break</a>
 							</div>
 						</ul>
 					</div>
 					<div class="col-3">
 						<ul class="nav nav-pills justify-content-end">
 							<li class="nav-item">
-								<a
-									class="nav-link px-2 d-none d-md-block button-pressed-no-shadow"
-									data-toggle="modal"
-									data-target="#toDoModal"
-									href="#"
+								<a class="nav-link px-2 d-none d-md-block button-pressed-no-shadow" data-toggle="modal" data-target="#toDoModal" href="#"
 									><i class="fas fa-tasks fa-lg"></i
 								></a>
 							</li>
 							<li class="nav-item pl-2 pr-0">
-								<a
-									class="nav-link px-2 mx-1 d-none d-md-block button-pressed-no-shadow"
-									data-toggle="modal"
-									data-target="#loggingModal"
-									href="#"
+								<a class="nav-link px-2 mx-1 d-none d-md-block button-pressed-no-shadow" data-toggle="modal" data-target="#loggingModal" href="#"
 									><i class="fas fa-chart-bar fa-lg"></i
 								></a>
 							</li>
@@ -223,29 +145,17 @@
 						<div class="container d-flex justify-content-around">
 							<div class="row">
 								<div class="col-md-4">
-									<button
-										type="button"
-										class="button-pressed-effect btn btn-lg btn-success w-100 mb-3"
-										id="startButton"
-									>
+									<button type="button" class="button-pressed-effect btn btn-lg btn-success w-100 mb-3" id="startButton">
 										Start
 									</button>
 								</div>
 								<div class="col-md-4">
-									<button
-										type="button"
-										class="button-pressed-effect btn btn-danger btn-lg w-100 mb-3"
-										id="stopButton"
-									>
+									<button type="button" class="button-pressed-effect btn btn-danger btn-lg w-100 mb-3" id="stopButton">
 										Stop
 									</button>
 								</div>
 								<div class="col-md-4">
-									<button
-										type="button"
-										class="button-pressed-effect btn btn-secondary btn-lg w-100 mb-3"
-										id="resetButton"
-									>
+									<button type="button" class="button-pressed-effect btn btn-secondary btn-lg w-100 mb-3" id="resetButton">
 										Reset
 									</button>
 								</div>
@@ -266,36 +176,18 @@
 					<div class="section-title-border"></div>
 					<div class="section-content">
 						<p>
-							<strong>PomodoroTimers</strong>&nbspis a simple and configurable
-							Pomodoro timer. It aims to provide a visually-pleasing and
-							reliable way to track productivity using the
-							<a
-								class="red-underline red-link"
-								href="https://francescocirillo.com/pages/pomodoro-technique"
-								target="_blank"
+							<strong>PomodoroTimers</strong>&nbspis a simple and configurable Pomodoro timer. It aims to provide a visually-pleasing and reliable way
+							to track productivity using the
+							<a class="red-underline red-link" href="https://francescocirillo.com/pages/pomodoro-technique" target="_blank"
 								>&nbspPomodoro Technique</a
-							>. It is customizable and works on both desktop and mobile. The
-							app aims to help you focus on any task you are working on be it
-							study, writing, or coding. This app is inspired by the Pomodoro
-							Technique which is a time management method developed by Francesco
-							Cirillo
+							>. It is customizable and works on both desktop and mobile. The app aims to help you focus on any task you are working on be it study,
+							writing, or coding. This app is inspired by the Pomodoro Technique which is a time management method developed by Francesco Cirillo
 						</p>
 						<p>
-							PomodoroTimers is still in its early stages of development so
-							feedbacks and contributions are definitely welcomed.
-							<a
-								class="blue-underline blue-link"
-								href="https://github.com/yeohyuyong/pomodoro"
-								target="_blank"
-								>&nbspHere&nbsp</a
-							>
-							is the link to the source code. Should you have any feedbacks on
-							how I can improve the website, you can drop me an email at&nbsp
-							<a
-								class="blue-underline blue-link"
-								href="mailto: yeoh.yuyong@gmail.com"
-								>yeoh.yuyong@gmail.com</a
-							>
+							PomodoroTimers is still in its early stages of development so feedbacks and contributions are definitely welcomed.
+							<a class="blue-underline blue-link" href="https://github.com/yeohyuyong/pomodoro" target="_blank">&nbspHere&nbsp</a>
+							is the link to the source code. Should you have any feedbacks on how I can improve the website, you can drop me an email at&nbsp
+							<a class="blue-underline blue-link" href="mailto: yeoh.yuyong@gmail.com">yeoh.yuyong@gmail.com</a>
 						</p>
 					</div>
 				</div>
@@ -309,28 +201,15 @@
 					<div class="section-title-border"></div>
 					<div class="section-content">
 						<p>
-							The <strong>Pomodoro Technique</strong> is a time management
-							method developed by
-							<a
-								class="red-underline red-link"
-								href="https://francescocirillo.com"
-								target="_blank"
-								>Francesco Cirillo&nbsp</a
-							>
-							in the late 1980s. The technique uses a timer to break down work
-							into intervals, traditionally 25 minutes in length, separated by
-							short breaks. Each interval is known as a pomodoro, from the
-							Italian word for 'tomato', after the tomato-shaped kitchen timer
-							that Cirillo used as a university student.
+							The <strong>Pomodoro Technique</strong> is a time management method developed by
+							<a class="red-underline red-link" href="https://francescocirillo.com" target="_blank">Francesco Cirillo&nbsp</a>
+							in the late 1980s. The technique uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short
+							breaks. Each interval is known as a pomodoro, from the Italian word for 'tomato', after the tomato-shaped kitchen timer that Cirillo
+							used as a university student.
 						</p>
 						<footer class="blockquote-footer">
 							<cite title="Source Title"
-								><a
-									class="red-underline red-link"
-									href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
-									target="_blank"
-									>Wikipedia</a
-								></cite
+								><a class="red-underline red-link" href="https://en.wikipedia.org/wiki/Pomodoro_Technique" target="_blank">Wikipedia</a></cite
 							>
 						</footer>
 					</div>
@@ -357,8 +236,7 @@
 							</dd>
 							<dt class="col-sm-2">Step 4</dt>
 							<dd class="col-sm-10">
-								Repeat steps 1 to 3 until you have complete 4 sessions. Take a
-								longer 20 minute break
+								Repeat steps 1 to 3 until you have complete 4 sessions. Take a longer 20 minute break
 							</dd>
 							<dt class="col-sm-2">Step 5</dt>
 							<dd class="col-sm-10">
@@ -427,9 +305,7 @@
 		<div class="scrolltop-wrap row">
 			<div class="col-12 d-flex justify-content-center">
 				<!-- <a href="/" role="button" aria-label="Scroll to top"> -->
-				<i
-					class="back-to-top-button fas fa-arrow-circle-up fa-4x button-pressed-no-shadow"
-				></i>
+				<i class="back-to-top-button fas fa-arrow-circle-up fa-4x button-pressed-no-shadow"></i>
 				<!-- </a> -->
 			</div>
 		</div>
@@ -438,18 +314,15 @@
 		<div id="siteFooter" class="row mx-0 pt-4 border-top">
 			<div class="col-12 d-flex justify-content-center">
 				<p>
-					<i class="fas fa-code"></i>&nbspwith&nbsp<i class="fas fa-heart"></i
-					>&nbspby&nbsp<a
+					<i class="fas fa-code"></i>&nbspwith&nbsp<i class="fas fa-heart"></i>&nbspby&nbsp<a
 						class="blue-underline"
-						href="https://yeohyuyong.me/"
+						href="https://www.yeohyuyong.me/"
 						target="_blank"
 						>Yeoh Yu Yong</a
 					>
 				</p>
 			</div>
-			<div
-				class="col-12 d-flex justify-content-center button-pressed-no-shadow"
-			>
+			<div class="col-12 d-flex justify-content-center button-pressed-no-shadow">
 				<style>
 					.bmc-button img {
 						height: 34px !important;
@@ -491,33 +364,22 @@
 						color: #ffffff !important;
 					}
 				</style>
-				<link
-					href="https://fonts.googleapis.com/css?family=Cookie"
-					rel="stylesheet"
-				/><a
+				<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" /><a
 					class="bmc-button"
 					target="_blank"
 					href="https://www.buymeacoffee.com/yeohyuyong"
-					><img
-						src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg"
-						alt="Buy me a coffee"
-					/><span style="margin-left: 5px; font-size: 28px !important;"
+					><img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee" /><span
+						style="margin-left: 5px; font-size: 28px !important;"
 						>Buy me a coffee</span
 					></a
 				>
 			</div>
 			<div class="col-12 d-flex justify-content-center my-3">
-				<a href="https://github.com/yeohyuyong/pomodoro" target="_blank"
-					><i class="fab fa-github fa-2x px-2 social-icon"></i
-				></a>
-				<a
-					href="https://stackexchange.com/users/14223160/yeoh-yu-yong"
-					target="_blank"
+				<a href="https://github.com/yeohyuyong/pomodoro" target="_blank"><i class="fab fa-github fa-2x px-2 social-icon"></i></a>
+				<a href="https://stackexchange.com/users/14223160/yeoh-yu-yong" target="_blank"
 					><i class="fab fa-stack-overflow fa-2x px-2 social-icon"></i
 				></a>
-				<a href="https://yeohyuyong.me" target="_blank"
-					><i class="fas fa-user-circle fa-2x px-2 social-icon"></i
-				></a>
+				<a href="https://www.yeohyuyong.me" target="_blank"><i class="fas fa-user-circle fa-2x px-2 social-icon"></i></a>
 			</div>
 		</div>
 
@@ -536,15 +398,8 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h3 class="modal-title ml-3">Settings</h3>
-						<button
-							type="button"
-							class="close button-pressed-no-shadow"
-							data-dismiss="modal"
-							aria-label="Close"
-						>
-							<span class="modal-close-button mt-2" aria-hidden="true"
-								><i class="fas fa-times fa-lg mt-2 mr-2"></i
-							></span>
+						<button type="button" class="close button-pressed-no-shadow" data-dismiss="modal" aria-label="Close">
+							<span class="modal-close-button mt-2" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
 						</button>
 					</div>
 					<div class="modal-body">
@@ -556,55 +411,25 @@
 							<div class="col-lg-4">
 								<div class="input-group mb-2">
 									<div class="input-group-prepend">
-										<span
-											class="input-group-text"
-											id="inputGroup-sizing-default"
-											>Focus</span
-										>
+										<span class="input-group-text" id="inputGroup-sizing-default">Focus</span>
 									</div>
-									<input
-										id="pomodoroInput"
-										type="number"
-										min="1"
-										step="1"
-										class="form-control"
-									/>
+									<input id="pomodoroInput" type="number" min="1" step="1" class="form-control" />
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="input-group mb-2">
 									<div class="input-group-prepend">
-										<span
-											class="input-group-text"
-											id="inputGroup-sizing-default"
-											>Short Break</span
-										>
+										<span class="input-group-text" id="inputGroup-sizing-default">Short Break</span>
 									</div>
-									<input
-										id="shortBreakInput"
-										type="number"
-										min="1"
-										step="1"
-										class="form-control"
-									/>
+									<input id="shortBreakInput" type="number" min="1" step="1" class="form-control" />
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<div class="input-group mb-2">
 									<div class="input-group-prepend">
-										<span
-											class="input-group-text"
-											id="inputGroup-sizing-default"
-											>Long Break</span
-										>
+										<span class="input-group-text" id="inputGroup-sizing-default">Long Break</span>
 									</div>
-									<input
-										id="longBreakInput"
-										type="number"
-										min="1"
-										step="1"
-										class="form-control"
-									/>
+									<input id="longBreakInput" type="number" min="1" step="1" class="form-control" />
 								</div>
 							</div>
 						</div>
@@ -633,13 +458,7 @@
 								<form>
 									<div class="row">
 										<div class="col">
-											<input
-												type="range"
-												class="custom-range"
-												min="1"
-												max="12"
-												id="longBreakIntervalInput"
-											/>
+											<input type="range" class="custom-range" min="1" max="12" id="longBreakIntervalInput" />
 										</div>
 										<div class="col">
 											<p class="font-weight-bold" id="sliderValue"></p>
@@ -674,17 +493,9 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text notification-text">Last</span>
 									</div>
-									<input
-										id="notificationTextInput"
-										type="number"
-										min="0"
-										step="1"
-										class="form-control col-sm-3"
-									/>
+									<input id="notificationTextInput" type="number" min="0" step="1" class="form-control col-sm-3" />
 									<div class="input-group-prepend">
-										<span class="input-group-text notification-text"
-											>&nbsp&nbspMinutes</span
-										>
+										<span class="input-group-text notification-text">&nbsp&nbspMinutes</span>
 									</div>
 								</div>
 							</div>
@@ -697,11 +508,7 @@
 								<p class="h6 text-muted mt-2">Background Music</p>
 							</div>
 							<div class="col">
-								<select
-									class="form-control custom-select"
-									id="backgroundMusicOptions"
-									style="width: 10rem;"
-								>
+								<select class="form-control custom-select" id="backgroundMusicOptions" style="width: 10rem;">
 									<option>None</option>
 									<option>Rain</option>
 									<option>Ocean</option>
@@ -728,12 +535,7 @@
 					</div>
 					<div class="modal-footer">
 						<div class="container d-flex justify-content-center my-1">
-							<button
-								type="button"
-								class="btn btn-primary button-pressed-no-shadow shadow-none"
-								data-dismiss="modal"
-								id="saveButton"
-							>
+							<button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" data-dismiss="modal" id="saveButton">
 								Save Changes
 							</button>
 						</div>
@@ -742,36 +544,18 @@
 			</div>
 		</div>
 		<!-- Logging Modal -->
-		<div
-			class="modal fade"
-			data-keyboard="true"
-			id="loggingModal"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="loggingModalLabel"
-			aria-hidden="true"
-		>
+		<div class="modal fade" data-keyboard="true" id="loggingModal" tabindex="-1" role="dialog" aria-labelledby="loggingModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-xl">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h3 class="modal-title ml-3">Log</h3>
-						<button
-							type="button"
-							class="close button-pressed-no-shadow"
-							data-dismiss="modal"
-							aria-label="Close"
-						>
-							<span class="modal-close-button" aria-hidden="true"
-								><i class="fas fa-times fa-lg mt-2 mr-2"></i
-							></span>
+						<button type="button" class="close button-pressed-no-shadow" data-dismiss="modal" aria-label="Close">
+							<span class="modal-close-button" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
 						</button>
 					</div>
 					<div class="modal-body">
 						<div class="log-modal-content">
-							<table
-								class="table table-striped table-responsive-md"
-								id="logDataTable"
-							>
+							<table class="table table-striped table-responsive-md" id="logDataTable">
 								<thead>
 									<tr>
 										<th scope="col">Session</th>
@@ -792,11 +576,7 @@
 					</div>
 					<div class="modal-footer">
 						<div class="container d-flex justify-content-center">
-							<button
-								type="button"
-								class="btn btn-primary button-pressed-no-shadow shadow-none"
-								id="clearButton"
-							>
+							<button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="clearButton">
 								Clear Log
 							</button>
 						</div>
@@ -805,28 +585,13 @@
 			</div>
 		</div>
 		<!-- To Do Modal -->
-		<div
-			class="modal fade"
-			data-keyboard="true"
-			id="toDoModal"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="toDoModalLabel"
-			aria-hidden="true"
-		>
+		<div class="modal fade" data-keyboard="true" id="toDoModal" tabindex="-1" role="dialog" aria-labelledby="toDoModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h3 class="modal-title ml-3">Todo</h3>
-						<button
-							type="button"
-							class="close button-pressed-no-shadow"
-							data-dismiss="modal"
-							aria-label="Close"
-						>
-							<span class="modal-close-button" aria-hidden="true"
-								><i class="fas fa-times fa-lg mt-2 mr-2"></i
-							></span>
+						<button type="button" class="close button-pressed-no-shadow" data-dismiss="modal" aria-label="Close">
+							<span class="modal-close-button" aria-hidden="true"><i class="fas fa-times fa-lg mt-2 mr-2"></i></span>
 						</button>
 					</div>
 					<div class="modal-body">
@@ -842,12 +607,7 @@
 									aria-describedby="addTaskButton"
 								/>
 								<div class="input-group-append">
-									<button
-										class="btn btn-outline-secondary button-pressed-no-shadow"
-										id="addTaskButton"
-										onclick="submitTask()"
-										type="button"
-									>
+									<button class="btn btn-outline-secondary button-pressed-no-shadow" id="addTaskButton" onclick="submitTask()" type="button">
 										Add
 									</button>
 								</div>
@@ -861,11 +621,7 @@
 					</div>
 					<div class="modal-footer">
 						<div class="container d-flex justify-content-center">
-							<button
-								type="button"
-								class="btn btn-primary button-pressed-no-shadow shadow-none"
-								id="clearTasksButton"
-							>
+							<button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="clearTasksButton">
 								Clear Tasks
 							</button>
 						</div>
