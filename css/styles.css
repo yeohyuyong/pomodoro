@@ -606,10 +606,6 @@ input:checked + .slider:before {
 }
 
 .progress-value {
-	background-image: -webkit-linear-gradient(
-			left,
-			var(--main-red-color) 50%,
-			transparent 50%
-		),
+	background-image: -webkit-linear-gradient(left, var(--main-red-color) 50%, transparent 50%),
 		-webkit-linear-gradient(left, #ddd 50%, var(--main-red-color) 50%);
 }
