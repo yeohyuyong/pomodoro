@@ -85,11 +85,6 @@ notification = new Howl({
 	volume: 0.3,
 });
 
-buttonClick = new Howl({
-	src: ["assets/sounds/button-click.mp3"],
-	volume: 0.2,
-});
-
 //Background Music
 allBackgroundMusic = {
 	Campfire: new Howl({
@@ -318,21 +313,18 @@ startButton.addEventListener("click", function () {
 		countDown();
 	}
 	makeTimerButtonActive(this);
-	playButtonClickSound(this);
 });
 
 resetButton.addEventListener("click", function () {
 	resetTimer();
 	makeTimerButtonActive(this);
 	stopBackGroundMusic();
-	playButtonClickSound(this);
 });
 
 stopButton.addEventListener("click", function () {
 	stopTimer();
 	makeTimerButtonActive(this);
 	stopBackGroundMusic();
-	playButtonClickSound(this);
 });
 
 function makePillsActive(session) {
@@ -408,13 +400,6 @@ function playTickSound() {
 	if (tickSoundInput.checked) {
 		tick.play();
 	}
-}
-
-function playButtonClickSound(button) {
-	if (button !== timerButtonClicked) {
-		buttonClick.play();
-	}
-	timerButtonClicked = button;
 }
 
 tickSoundInput.addEventListener("change", function () {
