@@ -8,6 +8,27 @@
 	--form-input-bg: #efefef;
 	--lg-border-radius: 2rem;
 	--sm-border-radius: 1rem;
+
+	--color-bg: #ffffff;
+	--color-surface: #ffffff;
+	--color-surface-2: #f8f9fa;
+	--color-text: #111214;
+	--color-muted: #6c757d;
+	--color-border: #dee2e6;
+
+	--progress-track: #ddd;
+}
+
+html[data-theme="dark"] {
+	--color-bg: #0f131a;
+	--color-surface: #171c24;
+	--color-surface-2: #1d232b;
+	--color-text: #ececec;
+	--color-muted: #a19d9d;
+	--color-border: #2a313d;
+
+	--form-input-bg: #2a313d;
+	--progress-track: #2a313d;
 }
 
 * {
@@ -21,6 +42,16 @@ body {
 	padding: 0;
 	margin: 0;
 	font-family: "Arvo", serif;
+}
+
+html {
+	background: var(--color-bg);
+}
+
+body {
+	background: var(--color-bg);
+	color: var(--color-text);
+	transition: background-color 200ms ease, color 200ms ease;
 }
 
 /*============
@@ -42,6 +73,7 @@ body {
 #timeLeft {
 	font-weight: bold;
 	font-size: 5rem;
+	color: var(--color-text);
 }
 
 .alert {
@@ -66,6 +98,7 @@ body {
 #brandName {
 	font-size: 2.5rem;
 	line-height: 3rem;
+	color: var(--color-text);
 }
 
 @media screen and (max-width: 500px) {
@@ -102,7 +135,9 @@ body {
 
 #saveButton,
 #clearButton,
-#clearTasksButton {
+#clearTasksButton,
+#skipButton,
+#exportDataButton {
 	font-size: 1.1rem;
 	padding: 0.8rem 1.6rem;
 	margin: 0.5rem auto;
@@ -111,16 +146,19 @@ body {
 #startButton,
 #stopButton,
 #resetButton,
+#skipButton,
 #saveButton,
 #clearButton,
-#clearTasksButton {
+#clearTasksButton,
+#exportDataButton {
 	border-radius: 2rem;
 	line-height: 2rem;
 }
 
 #startButton,
 #stopButton,
-#resetButton {
+#resetButton,
+#skipButton {
 	box-shadow: 0 9px #999;
 }
 
@@ -152,6 +190,15 @@ body {
 .btn-outline-secondary:not(:disabled):not(.disabled).active:focus,
 .show > .btn-outline-secondary.dropdown-toggle:focus {
 	box-shadow: none;
+}
+
+html[data-theme="dark"] .btn-outline-secondary {
+	color: var(--color-text);
+	border-color: var(--color-border);
+}
+
+html[data-theme="dark"] .btn-outline-secondary:hover {
+	background: var(--color-surface-2);
 }
 
 /*======
@@ -187,6 +234,7 @@ body {
 }
 
 #settingsModal .form-control,
+#settingsModal .form-select,
 #toDoModal .form-control {
 	background-color: var(--form-input-bg);
 	border: none;
@@ -196,6 +244,27 @@ body {
 #loggingModal .form-control {
 	background-color: var(--form-input-bg);
 	border-radius: var(--lg-border-radius);
+}
+
+html[data-theme="dark"] .modal-content {
+	background: var(--color-surface);
+	color: var(--color-text);
+	border: 1px solid var(--color-border);
+}
+
+html[data-theme="dark"] .modal-title {
+	color: var(--color-text);
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select {
+	background-color: var(--form-input-bg) !important;
+	color: var(--color-text) !important;
+	border-color: var(--color-border) !important;
+}
+
+html[data-theme="dark"] .input-group-text {
+	color: var(--color-muted);
 }
 
 #listOfTasks {
@@ -263,7 +332,7 @@ body {
 	font-size: 2rem;
 	padding-top: 2rem;
 	padding-bottom: 2rem;
-	color: #6c757d;
+	color: var(--color-muted);
 }
 
 @media screen and (max-width: 400px) {
@@ -314,12 +383,12 @@ body {
 	border-right: none;
 }
 
-.darkMode {
-	background-color: #1d232b !important;
+html[data-theme="dark"] .bg-light {
+	background-color: var(--color-surface-2) !important;
 }
 
-.text-muted-dark-mode {
-	color: #ececec !important;
+html[data-theme="dark"] .text-muted {
+	color: var(--color-muted) !important;
 }
 
 /* ===============
@@ -327,6 +396,10 @@ body {
   ================ */
 .site-description {
 	background: #9adbb3;
+}
+
+html[data-theme="dark"] .site-description {
+	background: var(--color-bg);
 }
 
 .section-title {
@@ -371,6 +444,10 @@ body {
 	font-size: 1.2rem;
 	line-height: 1.8rem;
 	color: #444a51;
+}
+
+html[data-theme="dark"] .section-content {
+	color: var(--color-muted);
 }
 
 .red-link {
@@ -424,6 +501,73 @@ dd[class="col-sm-10"] {
 .done {
 	text-decoration: line-through;
 	color: rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] .done {
+	color: rgba(236, 236, 236, 0.35);
+}
+
+.task-active {
+	outline: 2px solid var(--main-blue-color);
+	outline-offset: -2px;
+}
+
+.stats-chart {
+	min-height: 140px;
+}
+
+.stats-chart svg {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* ===============
+  Buy me a coffee
+  ================ */
+.bmc-button img {
+	height: 34px !important;
+	width: 35px !important;
+	margin-bottom: 1px !important;
+	box-shadow: none !important;
+	border: none !important;
+	vertical-align: middle !important;
+}
+
+.bmc-button {
+	padding: 7px 15px 7px 10px !important;
+	line-height: 35px !important;
+	height: 51px !important;
+	text-decoration: none !important;
+	display: inline-flex !important;
+	align-items: center;
+	color: #ffffff !important;
+	background-color: #ff813f !important;
+	border-radius: 5px !important;
+	border: 1px solid transparent !important;
+	font-size: 28px !important;
+	letter-spacing: 0.6px !important;
+	box-shadow: 0px 1px 2px rgba(190, 190, 190, 0.5) !important;
+	-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+	margin: 0 auto !important;
+	font-family: "Cookie", cursive !important;
+	-webkit-box-sizing: border-box !important;
+	box-sizing: border-box !important;
+}
+
+.bmc-button:hover,
+.bmc-button:active,
+.bmc-button:focus {
+	-webkit-box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+	text-decoration: none !important;
+	box-shadow: 0px 1px 2px 2px rgba(190, 190, 190, 0.5) !important;
+	opacity: 0.85 !important;
+	color: #ffffff !important;
+}
+
+.bmc-button-text {
+	margin-left: 5px;
+	font-size: 28px !important;
 }
 
 /* ===============
@@ -600,12 +744,24 @@ input:checked + .slider:before {
 	width: 260px;
 	height: 260px;
 	margin: auto;
-	background: #fff;
+	background: var(--color-bg);
 	text-align: center;
 	padding-top: 27%;
 }
 
 .progress-value {
-	background-image: -webkit-linear-gradient(left, var(--main-red-color) 50%, transparent 50%),
-		-webkit-linear-gradient(left, #ddd 50%, var(--main-red-color) 50%);
+	--progress: 0;
+	--progress-color: var(--main-red-color);
+	background: conic-gradient(var(--progress-color) calc(var(--progress) * 1turn), var(--progress-track) 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+	}
 }
