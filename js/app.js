@@ -1,4 +1,4 @@
-import { loadState, saveState, saveStateImmediate } from "./storage.js";
+import { loadState, normalizeImportedState, saveState, saveStateImmediate } from "./storage.js";
 import { migrateV1ToV2IfNeeded } from "./migrate-v1.js";
 import { createTimerEngine } from "./timer-engine.js";
 import { computeStats, buildChartsData } from "./stats.js";
@@ -39,6 +39,8 @@ const elements = {
 		longBreakIntervalValue: document.getElementById("sliderValue"),
 		tickEnabled: document.getElementById("tickSoundInput"),
 		endingNotificationMin: document.getElementById("notificationTextInput"),
+		notificationsEnabled: document.getElementById("desktopNotificationsInput"),
+		notificationsHint: document.getElementById("desktopNotificationsHint"),
 		background: document.getElementById("backgroundMusicOptions"),
 		theme: document.getElementById("themeSelect"),
 		saveButton: document.getElementById("saveButton"),
@@ -175,6 +177,71 @@ function uuid(prefix) {
 	return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
 }
 
+function isDesktopNotifSupported() {
+	return (
+		typeof window !== "undefined" &&
+		"Notification" in window &&
+		typeof Notification === "function" &&
+		typeof Notification.requestPermission === "function" &&
+		typeof Notification.permission === "string"
+	);
+}
+
+function canSendDesktopNotif() {
+	if (!isDesktopNotifSupported()) return false;
+	if (!state?.settings?.notifications?.enabled) return false;
+	if (Notification.permission !== "granted") return false;
+	const isVisible =
+		typeof document.visibilityState === "string" ? document.visibilityState === "visible" : typeof document.hidden === "boolean" ? !document.hidden : true;
+	return !isVisible;
+}
+
+function getActiveTaskTitle() {
+	const taskId = state.runtime.activeTaskId;
+	if (!taskId) return "";
+	const task = state.tasks.find((t) => t.id === taskId);
+	return typeof task?.title === "string" ? task.title : "";
+}
+
+function sendDesktopNotif({ title, body, tag }) {
+	if (!canSendDesktopNotif()) return;
+	try {
+		const notif = new Notification(title, { body, icon: "assets/img/logo.png", tag });
+		notif.onclick = () => {
+			try {
+				window.focus();
+			} catch {
+				// ignore
+			}
+			try {
+				notif.close();
+			} catch {
+				// ignore
+			}
+		};
+	} catch {
+		// ignore
+	}
+}
+
+async function requestDesktopNotifPermission() {
+	if (!isDesktopNotifSupported()) return "unsupported";
+
+	try {
+		const res = Notification.requestPermission();
+		if (typeof res === "string") return res;
+		if (res && typeof res.then === "function") return await res;
+	} catch {
+		// fall through
+	}
+
+	try {
+		return await new Promise((resolve) => Notification.requestPermission((p) => resolve(p)));
+	} catch {
+		return "default";
+	}
+}
+
 function addLog({ type, plannedDurationSec, actualDurationSec, taskId, note }) {
 	const endedAtIso = new Date().toISOString();
 	const startedAtIso = new Date(Date.now() - actualDurationSec * 1000).toISOString();
@@ -213,6 +280,7 @@ function transitionToNextMode() {
 		state.runtime.mode = "focus";
 	}
 
+	resetRoundWarningState();
 	timerEngine.setMode(state.runtime.mode);
 	saveState(state);
 	renderAll();
@@ -225,6 +293,14 @@ function transitionToNextMode() {
 
 const soundController = createSoundController(state.settings);
 
+let lastOnTickRemainingSec = null;
+let warningSentThisRound = false;
+
+function resetRoundWarningState() {
+	lastOnTickRemainingSec = null;
+	warningSentThisRound = false;
+}
+
 const timerEngine = createTimerEngine({
 	onTick: (remainingSec) => {
 		renderTimer(remainingSec);
@@ -236,12 +312,37 @@ const timerEngine = createTimerEngine({
 		} else {
 			soundController.syncRunning(false);
 		}
+
+		if (state.runtime.timerState === "running") {
+			const thresholdSec = Math.round(Math.max(0, notifMin) * 60);
+			if (
+				thresholdSec > 0 &&
+				remainingSec > 0 &&
+				!warningSentThisRound &&
+				typeof lastOnTickRemainingSec === "number" &&
+				lastOnTickRemainingSec > thresholdSec &&
+				remainingSec <= thresholdSec
+			) {
+				const taskTitle = getActiveTaskTitle();
+				const taskPart = taskTitle ? ` — ${taskTitle}` : "";
+				sendDesktopNotif({
+					title: `${modeLabel(state.runtime.mode)} ending soon`,
+					body: `About ${notifMin} min left${taskPart}`,
+					tag: `pomodorotimers:warning:${state.runtime.mode}`,
+				});
+				warningSentThisRound = true;
+			}
+			lastOnTickRemainingSec = remainingSec;
+		} else {
+			lastOnTickRemainingSec = null;
+		}
 	},
 	onFinish: (payload) => {
 		const reason = payload?.reason;
 		soundController.syncRunning(false);
 
 		const type = state.runtime.mode;
+		const nextMode = nextModeAfterComplete(type);
 		const plannedDurationSec = getModeDurationSec(type);
 		const actualDurationSec =
 			reason === "skip"
@@ -253,6 +354,13 @@ const timerEngine = createTimerEngine({
 		}
 
 		if (reason === "complete") {
+			const taskTitle = getActiveTaskTitle();
+			sendDesktopNotif({
+				title: `${modeLabel(type)} complete`,
+				body: `Next: ${modeLabel(nextMode)}.${taskTitle ? ` ${taskTitle}` : ""}`,
+				tag: `pomodorotimers:complete:${type}`,
+			});
+
 			if (type === "focus") {
 				showAlert({ variant: "alert-danger", html: "<strong>Time is up!</strong> Let's take a break" });
 			} else if (type === "shortBreak") {
@@ -296,6 +404,29 @@ function applyResolvedTheme(resolved) {
 	else delete document.documentElement.dataset.bsTheme;
 }
 
+function updateDesktopNotificationsUi() {
+	const input = elements.settings.notificationsEnabled;
+	const hint = elements.settings.notificationsHint;
+	if (!input || !hint) return;
+
+	if (!isDesktopNotifSupported()) {
+		input.disabled = true;
+		input.checked = false;
+		hint.textContent = "Desktop notifications aren't supported in this browser.";
+		return;
+	}
+
+	input.disabled = false;
+	const perm = Notification.permission;
+	if (perm === "denied") {
+		hint.textContent = "Permission is blocked in your browser settings.";
+	} else if (perm === "default") {
+		hint.textContent = "Enable to request permission.";
+	} else {
+		hint.textContent = "";
+	}
+}
+
 const systemThemeMedia = window.matchMedia?.("(prefers-color-scheme: dark)");
 
 function applyThemeSetting() {
@@ -323,8 +454,21 @@ function renderSettings() {
 
 	elements.settings.tickEnabled.checked = s.sounds.tickEnabled;
 	elements.settings.endingNotificationMin.value = s.sounds.endingNotificationMin;
+	if (elements.settings.notificationsEnabled) {
+		const wantsEnabled = Boolean(s.notifications?.enabled);
+		const permitted = isDesktopNotifSupported() && Notification.permission === "granted";
+		if (wantsEnabled && !permitted) {
+			state.settings.notifications.enabled = false;
+			elements.settings.notificationsEnabled.checked = false;
+			saveState(state);
+		} else {
+			elements.settings.notificationsEnabled.checked = wantsEnabled;
+		}
+	}
 	elements.settings.background.value = s.sounds.background;
 	elements.settings.theme.value = s.theme;
+
+	updateDesktopNotificationsUi();
 }
 
 function renderTasks() {
@@ -562,6 +706,7 @@ function setMode(mode) {
 	state.runtime.cycleCountSinceLongBreak = 0;
 	timerEngine.setMode(mode);
 	soundController.syncRunning(false);
+	resetRoundWarningState();
 	saveState(state);
 	renderAll();
 }
@@ -592,11 +737,13 @@ elements.timer.pause.addEventListener("click", () => {
 elements.timer.reset.addEventListener("click", () => {
 	timerEngine.reset();
 	soundController.syncRunning(false);
+	resetRoundWarningState();
 	saveStateImmediate(state);
 });
 
 elements.timer.skip.addEventListener("click", () => {
 	timerEngine.skip();
+	resetRoundWarningState();
 });
 
 elements.alert.dismiss?.addEventListener("click", dismissAlert);
@@ -712,6 +859,45 @@ elements.settings.endingNotificationMin.addEventListener("change", () => {
 	saveState(state);
 });
 
+elements.settings.notificationsEnabled?.addEventListener("change", async () => {
+	if (!isDesktopNotifSupported()) {
+		state.settings.notifications.enabled = false;
+		if (elements.settings.notificationsEnabled) elements.settings.notificationsEnabled.checked = false;
+		saveState(state);
+		updateDesktopNotificationsUi();
+		return;
+	}
+
+	const wantsEnabled = Boolean(elements.settings.notificationsEnabled?.checked);
+	if (!wantsEnabled) {
+		state.settings.notifications.enabled = false;
+		saveState(state);
+		updateDesktopNotificationsUi();
+		return;
+	}
+
+	if (Notification.permission === "granted") {
+		state.settings.notifications.enabled = true;
+		saveState(state);
+		updateDesktopNotificationsUi();
+		return;
+	}
+
+	const perm = await requestDesktopNotifPermission();
+	if (perm === "granted") {
+		state.settings.notifications.enabled = true;
+		saveState(state);
+		updateDesktopNotificationsUi();
+		return;
+	}
+
+	state.settings.notifications.enabled = false;
+	if (elements.settings.notificationsEnabled) elements.settings.notificationsEnabled.checked = false;
+	saveState(state);
+	updateDesktopNotificationsUi();
+	showAlert({ variant: "alert-danger", html: "<strong>Desktop notifications not enabled.</strong> Permission was not granted." });
+});
+
 elements.settings.background.addEventListener("change", () => {
 	state.settings.sounds.background = elements.settings.background.value;
 	soundController.applySettings(state.settings);
@@ -768,20 +954,15 @@ elements.settings.importData.addEventListener("change", async () => {
 	try {
 		const text = await file.text();
 		const parsed = JSON.parse(text);
-		if (
-			!parsed ||
-			parsed.version !== 2 ||
-			typeof parsed.settings !== "object" ||
-			typeof parsed.runtime !== "object" ||
-			!Array.isArray(parsed.tasks) ||
-			!Array.isArray(parsed.logs)
-		) {
+		const normalized = normalizeImportedState(parsed);
+		if (!normalized) {
 			alert("Invalid file: expected pomodorotimers v2 JSON.");
 			return;
 		}
 		if (!confirm("Importing will replace your current data. Continue?")) return;
-		state = parsed;
+		state = normalized;
 		saveStateImmediate(state);
+		resetRoundWarningState();
 		renderAll();
 	} catch {
 		alert("Failed to import data.");

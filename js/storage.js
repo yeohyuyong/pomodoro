@@ -150,6 +150,10 @@ export function loadState() {
 	}
 }
 
+export function normalizeImportedState(parsed) {
+	return normalizeState(parsed);
+}
+
 function writeStateString(stateString) {
 	try {
 		localStorage.setItem(STORAGE_KEY, stateString);
@@ -187,4 +191,3 @@ export function saveStateImmediate(state) {
 export function resetStateToDefaults() {
 	return createDefaultState();
 }
-
