@@ -20,6 +20,8 @@ const elements = {
 		timeLeft: document.getElementById("timeLeft"),
 		progressRing: document.getElementById("progressRing"),
 		cycleIndicator: document.getElementById("cycleIndicator"),
+		activeTaskLink: document.getElementById("activeTaskLink"),
+		clearActiveTaskButton: document.getElementById("clearActiveTaskButton"),
 		start: document.getElementById("startButton"),
 		pause: document.getElementById("stopButton"),
 		reset: document.getElementById("resetButton"),
@@ -42,6 +44,12 @@ const elements = {
 		notificationsEnabled: document.getElementById("desktopNotificationsInput"),
 		notificationsHint: document.getElementById("desktopNotificationsHint"),
 		background: document.getElementById("backgroundMusicOptions"),
+		tickVolume: document.getElementById("tickVolumeInput"),
+		tickVolumeValue: document.getElementById("tickVolumeValue"),
+		alertsVolume: document.getElementById("alertsVolumeInput"),
+		alertsVolumeValue: document.getElementById("alertsVolumeValue"),
+		bgmVolume: document.getElementById("bgmVolumeInput"),
+		bgmVolumeValue: document.getElementById("bgmVolumeValue"),
 		theme: document.getElementById("themeSelect"),
 		saveButton: document.getElementById("saveButton"),
 		exportData: document.getElementById("exportDataButton"),
@@ -151,6 +159,18 @@ function updateCycleIndicator() {
 	elements.timer.cycleIndicator.textContent = `Cycle: ${Math.min(cycleIndex, interval)} / ${interval}`;
 }
 
+function renderActiveTask() {
+	const link = elements.timer.activeTaskLink;
+	const clearBtn = elements.timer.clearActiveTaskButton;
+	if (!link) return;
+
+	const title = getActiveTaskTitle();
+	link.textContent = title ? `Task: ${title}` : "Task: None";
+
+	const hasActive = Boolean(state.runtime.activeTaskId) && Boolean(title);
+	if (clearBtn) clearBtn.disabled = !hasActive;
+}
+
 function updateTimerButtons() {
 	const { timerState } = state.runtime;
 	if (timerState === "paused") {
@@ -168,6 +188,7 @@ function renderTimer(remainingSec = state.runtime.remainingSec) {
 	setNavActive(state.runtime.mode);
 	updateProgressRing(remainingSec);
 	updateCycleIndicator();
+	renderActiveTask();
 	updateTimerButtons();
 	updateDocumentTitle(remainingSec);
 }
@@ -466,6 +487,28 @@ function renderSettings() {
 		}
 	}
 	elements.settings.background.value = s.sounds.background;
+
+	const toPct = (v, fallbackPct) => {
+		const n = Number(v);
+		if (!Number.isFinite(n)) return fallbackPct;
+		return Math.round(Math.max(0, Math.min(1, n)) * 100);
+	};
+	if (elements.settings.tickVolume) {
+		const pct = toPct(s.sounds?.volumes?.tick, 100);
+		elements.settings.tickVolume.value = String(pct);
+		if (elements.settings.tickVolumeValue) elements.settings.tickVolumeValue.textContent = `${pct}%`;
+	}
+	if (elements.settings.alertsVolume) {
+		const pct = toPct(s.sounds?.volumes?.alerts, 100);
+		elements.settings.alertsVolume.value = String(pct);
+		if (elements.settings.alertsVolumeValue) elements.settings.alertsVolumeValue.textContent = `${pct}%`;
+	}
+	if (elements.settings.bgmVolume) {
+		const pct = toPct(s.sounds?.volumes?.bgm, 10);
+		elements.settings.bgmVolume.value = String(pct);
+		if (elements.settings.bgmVolumeValue) elements.settings.bgmVolumeValue.textContent = `${pct}%`;
+	}
+
 	elements.settings.theme.value = s.theme;
 
 	updateDesktopNotificationsUi();
@@ -766,10 +809,12 @@ elements.todo.input.addEventListener("keydown", (e) => {
 });
 
 elements.todo.clear.addEventListener("click", () => {
+	if (!confirm("Clear all tasks? Tip: use Settings → Export data (JSON) to back up first.")) return;
 	state.tasks = [];
 	state.runtime.activeTaskId = null;
 	saveState(state);
 	renderTasks();
+	renderTimer();
 });
 
 elements.todo.list.addEventListener("click", (e) => {
@@ -794,6 +839,7 @@ elements.todo.list.addEventListener("click", (e) => {
 		if (state.runtime.activeTaskId === taskId) state.runtime.activeTaskId = null;
 		saveState(state);
 		renderTasks();
+		renderTimer();
 		return;
 	}
 
@@ -801,11 +847,13 @@ elements.todo.list.addEventListener("click", (e) => {
 		state.runtime.activeTaskId = state.runtime.activeTaskId === taskId ? null : taskId;
 		saveState(state);
 		renderTasks();
+		renderTimer();
 		return;
 	}
 });
 
 elements.log.clear.addEventListener("click", () => {
+	if (!confirm("Clear all log sessions? Tip: use Settings → Export data (JSON) to back up first.")) return;
 	state.logs = [];
 	saveState(state);
 	renderLogs();
@@ -902,6 +950,43 @@ elements.settings.background.addEventListener("change", () => {
 	state.settings.sounds.background = elements.settings.background.value;
 	soundController.applySettings(state.settings);
 	saveState(state);
+});
+
+function clamp01(n, fallback) {
+	const v = Number(n);
+	if (!Number.isFinite(v)) return fallback;
+	return Math.max(0, Math.min(1, v));
+}
+
+function wireVolumeControl({ inputEl, valueEl, setCurrent, fallbackPct }) {
+	if (!inputEl) return;
+	inputEl.addEventListener("input", () => {
+		const pct = Math.max(0, Math.min(100, Number(inputEl.value)));
+		const vol = clamp01(pct / 100, (fallbackPct || 0) / 100);
+		setCurrent(vol);
+		if (valueEl) valueEl.textContent = `${Math.round(vol * 100)}%`;
+		soundController.applySettings(state.settings);
+		saveState(state);
+	});
+}
+
+wireVolumeControl({
+	inputEl: elements.settings.tickVolume,
+	valueEl: elements.settings.tickVolumeValue,
+	setCurrent: (v) => (state.settings.sounds.volumes.tick = v),
+	fallbackPct: 100,
+});
+wireVolumeControl({
+	inputEl: elements.settings.alertsVolume,
+	valueEl: elements.settings.alertsVolumeValue,
+	setCurrent: (v) => (state.settings.sounds.volumes.alerts = v),
+	fallbackPct: 100,
+});
+wireVolumeControl({
+	inputEl: elements.settings.bgmVolume,
+	valueEl: elements.settings.bgmVolumeValue,
+	setCurrent: (v) => (state.settings.sounds.volumes.bgm = v),
+	fallbackPct: 10,
 });
 
 elements.settings.theme.addEventListener("change", () => {
@@ -1001,6 +1086,120 @@ window.addEventListener("scroll", () => {
 
 elements.scroll.backToTop?.addEventListener("click", () => {
 	window.scroll({ top: 0, left: 0, behavior: "smooth" });
+});
+
+elements.timer.clearActiveTaskButton?.addEventListener("click", () => {
+	state.runtime.activeTaskId = null;
+	saveState(state);
+	renderTasks();
+	renderTimer();
+});
+
+function isEditableEventTarget(target) {
+	if (!target || typeof target !== "object") return false;
+	const el = /** @type {HTMLElement} */ (target);
+	if (typeof el.closest !== "function") return false;
+	return Boolean(el.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"], [contenteditable="plaintext-only"]'));
+}
+
+function isInteractiveEventTarget(target) {
+	if (!target || typeof target !== "object") return false;
+	const el = /** @type {HTMLElement} */ (target);
+	if (typeof el.closest !== "function") return false;
+	return Boolean(el.closest('button, a, [role="button"], [role="link"]'));
+}
+
+function openModalById(id) {
+	const el = document.getElementById(id);
+	if (!el) return;
+	try {
+		const Modal = globalThis.bootstrap?.Modal;
+		if (Modal && typeof Modal.getOrCreateInstance === "function") {
+			Modal.getOrCreateInstance(el).show();
+			return;
+		}
+	} catch {
+		// ignore
+	}
+	// Fallback: attempt click on any trigger
+	el.scrollIntoView?.({ block: "center" });
+}
+
+function toggleStartPause() {
+	if (state.runtime.timerState === "running") {
+		timerEngine.pause();
+		saveStateImmediate(state);
+		return;
+	}
+	timerEngine.start();
+	saveStateImmediate(state);
+}
+
+function resetTimerAction() {
+	timerEngine.reset();
+	soundController.syncRunning(false);
+	resetRoundWarningState();
+	saveStateImmediate(state);
+}
+
+function skipTimerAction() {
+	timerEngine.skip();
+	resetRoundWarningState();
+}
+
+document.addEventListener("keydown", (e) => {
+	if (e.ctrlKey || e.metaKey || e.altKey) return;
+	if (isEditableEventTarget(e.target)) return;
+	if (document.querySelector(".modal.show")) return;
+
+	if (e.key === " ") {
+		if (isInteractiveEventTarget(e.target)) return;
+		e.preventDefault();
+		toggleStartPause();
+		return;
+	}
+
+	const key = String(e.key || "").toLowerCase();
+	if (key === "r") {
+		e.preventDefault();
+		resetTimerAction();
+		return;
+	}
+	if (key === "s") {
+		e.preventDefault();
+		skipTimerAction();
+		return;
+	}
+	if (key === "1") {
+		e.preventDefault();
+		setMode("focus");
+		return;
+	}
+	if (key === "2") {
+		e.preventDefault();
+		setMode("shortBreak");
+		return;
+	}
+	if (key === "3") {
+		e.preventDefault();
+		setMode("longBreak");
+		return;
+	}
+	if (key === "t") {
+		e.preventDefault();
+		openModalById("toDoModal");
+		return;
+	}
+	if (key === "l") {
+		e.preventDefault();
+		openModalById("loggingModal");
+		return;
+	}
+	if (e.key === "," || e.key === "<") {
+		e.preventDefault();
+		openModalById("settingsModal");
+		return;
+	}
 });
 
 renderAll();

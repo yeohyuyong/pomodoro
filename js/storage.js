@@ -56,6 +56,12 @@ function clampInt(value, min, max) {
 	return Math.max(min, Math.min(max, n));
 }
 
+function clampNumber(value, min, max, fallback) {
+	const n = Number(value);
+	if (!Number.isFinite(n)) return fallback;
+	return Math.max(min, Math.min(max, n));
+}
+
 export function createDefaultState(nowMs = Date.now()) {
 	const nowIso = new Date(nowMs).toISOString();
 	/** @type {AppState} */
@@ -118,6 +124,9 @@ function normalizeState(state) {
 	next.settings.sounds.endingNotificationMin = clampInt(next.settings.sounds.endingNotificationMin, 0, 120);
 	next.settings.sounds.background = typeof next.settings.sounds.background === "string" ? next.settings.sounds.background : "None";
 	next.settings.sounds.volumes = next.settings.sounds.volumes || { tick: 1.0, alerts: 1.0, bgm: 0.1 };
+	next.settings.sounds.volumes.tick = clampNumber(next.settings.sounds.volumes.tick, 0, 1, 1.0);
+	next.settings.sounds.volumes.alerts = clampNumber(next.settings.sounds.volumes.alerts, 0, 1, 1.0);
+	next.settings.sounds.volumes.bgm = clampNumber(next.settings.sounds.volumes.bgm, 0, 1, 0.1);
 
 	next.settings.theme =
 		next.settings.theme === "dark" || next.settings.theme === "light" || next.settings.theme === "system" ? next.settings.theme : "system";

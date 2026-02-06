@@ -59,7 +59,8 @@ export function createSoundController(settings) {
 		tickSound?.volume?.(vols.tick);
 		notificationSound?.volume?.(vols.alerts);
 		for (const s of Object.values(backgroundMusic)) s?.volume?.(vols.bgm);
-		setBackground(nextSettings.sounds.background);
+		const nextBackground = nextSettings.sounds.background || "None";
+		if (nextBackground !== currentBackground) setBackground(nextBackground);
 	}
 
 	function playAlert(mode) {

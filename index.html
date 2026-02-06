@@ -112,10 +112,27 @@
 				<div class="row">
 					<!-- Time Left and Progress Bar -->
 					<div class="col-12 pt-0 d-flex justify-content-center">
-						<div class="radial-progress-bar progress-value" id="progressRing">
+							<div class="radial-progress-bar progress-value" id="progressRing">
 							<div class="overlay">
 								<h1 id="timeLeft"></h1>
 								<div class="small text-muted mt-1" id="cycleIndicator"></div>
+								<div class="d-flex align-items-center justify-content-center gap-2 small mt-1" id="activeTaskRow">
+									<button
+										type="button"
+										class="btn btn-link p-0 text-muted text-decoration-none"
+										id="activeTaskLink"
+										data-bs-toggle="modal"
+										data-bs-target="#toDoModal"
+									></button>
+									<button
+										type="button"
+										class="btn btn-sm btn-outline-secondary button-pressed-no-shadow shadow-none py-0 px-2"
+										id="clearActiveTaskButton"
+										aria-label="Clear active task"
+									>
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -431,6 +448,35 @@
 						</div>
 
 						<hr />
+						<!-- Volumes -->
+						<div class="row ms-1">
+							<div class="col-12">
+								<p class="h6 text-muted mt-2">Volumes</p>
+							</div>
+							<div class="col-12 mb-2">
+								<label class="form-label small text-muted mb-1" for="tickVolumeInput">Tick</label>
+								<div class="d-flex align-items-center gap-2">
+									<input type="range" class="form-range flex-grow-1" min="0" max="100" step="1" id="tickVolumeInput" />
+									<span class="small text-muted" style="min-width: 3.5rem" id="tickVolumeValue">100%</span>
+								</div>
+							</div>
+							<div class="col-12 mb-2">
+								<label class="form-label small text-muted mb-1" for="alertsVolumeInput">Alerts</label>
+								<div class="d-flex align-items-center gap-2">
+									<input type="range" class="form-range flex-grow-1" min="0" max="100" step="1" id="alertsVolumeInput" />
+									<span class="small text-muted" style="min-width: 3.5rem" id="alertsVolumeValue">100%</span>
+								</div>
+							</div>
+							<div class="col-12">
+								<label class="form-label small text-muted mb-1" for="bgmVolumeInput">Background</label>
+								<div class="d-flex align-items-center gap-2">
+									<input type="range" class="form-range flex-grow-1" min="0" max="100" step="1" id="bgmVolumeInput" />
+									<span class="small text-muted" style="min-width: 3.5rem" id="bgmVolumeValue">10%</span>
+								</div>
+							</div>
+						</div>
+
+						<hr />
 						<!-- Theme -->
 						<div class="row ms-1">
 							<div class="col">
@@ -449,6 +495,9 @@
 						<div class="row ms-1">
 							<div class="col-12">
 								<p class="h6 text-muted mt-2">Data</p>
+								<div class="small text-muted mt-1">
+									Shortcuts: Space (start/pause), R (reset), S (skip), 1/2/3 (modes), T (todo), L (log), , (settings)
+								</div>
 							</div>
 							<div class="col-12 d-flex gap-2 flex-wrap">
 								<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="exportDataButton">
