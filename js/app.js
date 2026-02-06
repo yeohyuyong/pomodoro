@@ -3,6 +3,7 @@ import { migrateV1ToV2IfNeeded } from "./migrate-v1.js";
 import { createTimerEngine } from "./timer-engine.js";
 import { computeStats, buildChartsData } from "./stats.js";
 import { createSoundController } from "./sounds.js";
+import { planTimeblocks } from "./ai-timeblocking.js";
 
 /** @typedef {"focus"|"shortBreak"|"longBreak"} Mode */
 
@@ -74,6 +75,7 @@ const elements = {
 		today: document.getElementById("calendarToday"),
 		viewWeek: document.getElementById("calendarViewWeek"),
 		viewDay: document.getElementById("calendarViewDay"),
+		aiPlanButton: document.getElementById("calendarAiPlanButton"),
 	},
 	timeblock: {
 		modal: document.getElementById("timeblockModal"),
@@ -84,6 +86,18 @@ const elements = {
 		note: document.getElementById("timeblockNote"),
 		save: document.getElementById("timeblockSave"),
 		del: document.getElementById("timeblockDelete"),
+	},
+	aiPlan: {
+		modal: document.getElementById("aiTimeblockModal"),
+		rangeLabel: document.getElementById("aiPlanRangeLabel"),
+		tasksContainer: document.getElementById("aiPlanTasksContainer"),
+		missingEstimates: document.getElementById("aiPlanMissingEstimates"),
+		maxBlockInput: document.getElementById("aiPlanMaxBlockInput"),
+		previewSummary: document.getElementById("aiPlanPreviewSummary"),
+		previewContainer: document.getElementById("aiPlanPreviewContainer"),
+		previewButton: document.getElementById("aiPlanPreviewButton"),
+		applyButton: document.getElementById("aiPlanApplyButton"),
+		undoButton: document.getElementById("aiPlanUndoButton"),
 	},
 	log: {
 		clear: document.getElementById("clearButton"),
@@ -129,6 +143,8 @@ const CALENDAR_SLOT_HEIGHT = 28;
 let calendarEditingBlockId = null;
 let calendarNowLineTimerId = null;
 let calendarNowLineContext = null;
+let aiDraftPlan = null;
+let aiLastAppliedBlockIds = [];
 
 function getModeDurationSec(mode) {
 	const mins = state.settings.durationsMin;
@@ -825,6 +841,419 @@ function overlapsBlock(dayKey, startMin, endMin, excludeId) {
 
 function clampMinutes(value, min, max) {
 	return Math.max(min, Math.min(max, value));
+}
+
+function ceilToMultiple(value, multiple) {
+	if (!Number.isFinite(value) || !Number.isFinite(multiple) || multiple <= 0) return value;
+	return Math.ceil(value / multiple) * multiple;
+}
+
+function floorToMultiple(value, multiple) {
+	if (!Number.isFinite(value) || !Number.isFinite(multiple) || multiple <= 0) return value;
+	return Math.floor(value / multiple) * multiple;
+}
+
+function getPlanningDaysForCurrentView() {
+	return getCalendarDays();
+}
+
+function computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, dayStartMin, dayEndMin) {
+	/** @type {Map<string, number>} */
+	const byTaskId = new Map();
+	for (const block of state.timeBlocks || []) {
+		if (!block || typeof block !== "object") continue;
+		if (typeof block.taskId !== "string" || !block.taskId) continue;
+
+		const m = blockMinutes(block);
+		if (!dayKeysSet.has(m.dayKey)) continue;
+
+		const clippedStart = Math.max(m.startMin, dayStartMin);
+		const clippedEnd = Math.min(m.endMin, dayEndMin);
+		const dur = clippedEnd - clippedStart;
+		if (dur <= 0) continue;
+
+		byTaskId.set(block.taskId, (byTaskId.get(block.taskId) || 0) + dur);
+	}
+	for (const [taskId, minutes] of byTaskId.entries()) {
+		byTaskId.set(taskId, Math.round(minutes));
+	}
+	return byTaskId;
+}
+
+function computeFreeIntervalsByDayKey(dayKeysInOrder, { dayStartMin, dayEndMin, slotMinutes }) {
+	/** @type {Map<string, Array<{ startMin: number, endMin: number }>>} */
+	const busyByDayKey = new Map();
+	const dayKeysSet = new Set(dayKeysInOrder);
+	for (const dayKey of dayKeysInOrder) busyByDayKey.set(dayKey, []);
+
+	for (const block of state.timeBlocks || []) {
+		if (!block || typeof block !== "object") continue;
+		const m = blockMinutes(block);
+		if (!dayKeysSet.has(m.dayKey)) continue;
+
+		const clippedStart = Math.max(m.startMin, dayStartMin);
+		const clippedEnd = Math.min(m.endMin, dayEndMin);
+		if (clippedEnd <= clippedStart) continue;
+
+		busyByDayKey.get(m.dayKey)?.push({ startMin: clippedStart, endMin: clippedEnd });
+	}
+
+	/** @type {Record<string, Array<{ startMin: number, endMin: number }>>} */
+	const freeByDayKey = {};
+
+	for (const dayKey of dayKeysInOrder) {
+		const busy = busyByDayKey.get(dayKey) || [];
+		busy.sort((a, b) => a.startMin - b.startMin || a.endMin - b.endMin);
+
+		/** @type {Array<{ startMin: number, endMin: number }>} */
+		const merged = [];
+		for (const interval of busy) {
+			const last = merged[merged.length - 1];
+			if (!last || interval.startMin > last.endMin) {
+				merged.push({ startMin: interval.startMin, endMin: interval.endMin });
+			} else {
+				last.endMin = Math.max(last.endMin, interval.endMin);
+			}
+		}
+
+		/** @type {Array<{ startMin: number, endMin: number }>} */
+		const free = [];
+		let cursor = dayStartMin;
+		for (const interval of merged) {
+			if (interval.startMin > cursor) free.push({ startMin: cursor, endMin: interval.startMin });
+			cursor = Math.max(cursor, interval.endMin);
+		}
+		if (cursor < dayEndMin) free.push({ startMin: cursor, endMin: dayEndMin });
+
+		const snapped = free
+			.map((f) => ({
+				startMin: ceilToMultiple(f.startMin, slotMinutes),
+				endMin: floorToMultiple(f.endMin, slotMinutes),
+			}))
+			.filter((f) => f.endMin - f.startMin >= slotMinutes);
+
+		freeByDayKey[dayKey] = snapped;
+	}
+
+	return freeByDayKey;
+}
+
+function buildAiPlanModel() {
+	const settings = getCalendarSettings();
+	const dayStartMin = settings.dayStartHour * 60;
+	const dayEndMin = settings.dayEndHour * 60;
+	const slotMinutes = settings.slotMinutes;
+	const maxBlockMin = typeof state.settings?.calendar?.aiMaxBlockMin === "number" ? state.settings.calendar.aiMaxBlockMin : 90;
+
+	const days = getPlanningDaysForCurrentView();
+	const dayKeysInOrder = days.map((d) => toLocalDayKey(d));
+	const dayKeysSet = new Set(dayKeysInOrder);
+
+	const plannedMinByTaskId = computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, dayStartMin, dayEndMin);
+
+	const tasksSorted = [...state.tasks].sort((a, b) => a.order - b.order);
+	const schedulable = [];
+	const missingEstimates = [];
+
+	for (const task of tasksSorted) {
+		if (!task || typeof task !== "object") continue;
+		if (task.done) continue;
+
+		if (typeof task.estimateMin !== "number") {
+			missingEstimates.push({ id: task.id, title: task.title });
+			continue;
+		}
+
+		const estimateMin = Number(task.estimateMin);
+		const spentFocusMin = getTaskFocusMinutes(task.id);
+		const workRemainingMin = Math.max(0, Math.round(estimateMin) - spentFocusMin);
+		const alreadyPlannedMin = plannedMinByTaskId.get(task.id) || 0;
+		const toPlanMin = Math.max(0, workRemainingMin - alreadyPlannedMin);
+
+		schedulable.push({
+			id: task.id,
+			title: task.title,
+			toPlanMin,
+		});
+	}
+
+	return {
+		days,
+		dayKeysInOrder,
+		rangeLabel: calendarRangeLabel(days),
+		slotMinutes,
+		dayStartMin,
+		dayEndMin,
+		maxBlockMin,
+		schedulable,
+		missingEstimates,
+	};
+}
+
+function clearAiPlanPreview() {
+	const ai = elements.aiPlan;
+	aiDraftPlan = null;
+	if (ai.previewSummary) ai.previewSummary.textContent = "";
+	if (ai.previewContainer) ai.previewContainer.innerHTML = "";
+	if (ai.applyButton) ai.applyButton.disabled = true;
+}
+
+function renderAiPlanPreview({ proposed, unscheduled, dayKeysInOrder }) {
+	const ai = elements.aiPlan;
+	if (!ai.previewContainer) return;
+	ai.previewContainer.innerHTML = "";
+
+	const taskTitleById = new Map(state.tasks.map((t) => [t.id, t.title]));
+
+	const totalMin = proposed.reduce((sum, b) => sum + (b.endMin - b.startMin), 0);
+	if (ai.previewSummary) {
+		ai.previewSummary.textContent = proposed.length ? `${proposed.length} blocks · ${totalMin} min` : "No blocks";
+	}
+
+	if (proposed.length === 0) {
+		const empty = document.createElement("div");
+		empty.className = "small text-muted mt-2";
+		empty.textContent = "No free time to schedule (or nothing selected).";
+		ai.previewContainer.appendChild(empty);
+		return;
+	}
+
+	/** @type {Map<string, Array<{ dayKey: string, startMin: number, endMin: number, taskId: string }>>} */
+	const byDay = new Map();
+	for (const b of proposed) {
+		if (!byDay.has(b.dayKey)) byDay.set(b.dayKey, []);
+		byDay.get(b.dayKey).push(b);
+	}
+	for (const [dayKey, blocks] of byDay.entries()) {
+		blocks.sort((a, b) => a.startMin - b.startMin || a.endMin - b.endMin);
+		byDay.set(dayKey, blocks);
+	}
+
+	for (const dayKey of dayKeysInOrder) {
+		const blocks = byDay.get(dayKey);
+		if (!blocks || blocks.length === 0) continue;
+
+		const section = document.createElement("div");
+		section.className = "mb-3";
+		const title = document.createElement("div");
+		title.className = "fw-semibold";
+		title.textContent = calendarDayLabel(dateFromDayKey(dayKey));
+		section.appendChild(title);
+
+		const list = document.createElement("ul");
+		list.className = "list-group mt-2";
+		for (const b of blocks) {
+			const li = document.createElement("li");
+			li.className = "list-group-item d-flex justify-content-between align-items-start gap-2";
+			const left = document.createElement("div");
+			left.className = "flex-grow-1";
+			const taskTitle = taskTitleById.get(b.taskId) || "Task";
+			left.textContent = taskTitle;
+
+			const right = document.createElement("div");
+			right.className = "small text-muted text-nowrap";
+			right.textContent = `${formatTimeLabel(b.startMin)}-${formatTimeLabel(b.endMin)}`;
+
+			li.append(left, right);
+			list.appendChild(li);
+		}
+		section.appendChild(list);
+		ai.previewContainer.appendChild(section);
+	}
+
+	if (unscheduled.length) {
+		const wrap = document.createElement("div");
+		wrap.className = "small text-muted mt-2";
+		const parts = unscheduled
+			.map((u) => {
+				const t = taskTitleById.get(u.taskId) || u.taskId;
+				return `${t}: ${u.remainingMin} min`;
+			})
+			.join(" · ");
+		wrap.textContent = `Unscheduled: ${parts}`;
+		ai.previewContainer.appendChild(wrap);
+	}
+}
+
+function renderAiPlanModal() {
+	const ai = elements.aiPlan;
+	if (!ai.modal || !ai.tasksContainer || !ai.missingEstimates || !ai.maxBlockInput || !ai.rangeLabel) return;
+
+	clearAiPlanPreview();
+
+	const model = buildAiPlanModel();
+	ai.rangeLabel.textContent = model.rangeLabel;
+
+	ai.maxBlockInput.min = String(model.slotMinutes);
+	ai.maxBlockInput.max = "240";
+	ai.maxBlockInput.step = String(model.slotMinutes);
+	ai.maxBlockInput.value = String(model.maxBlockMin);
+
+	ai.tasksContainer.innerHTML = "";
+	for (const t of model.schedulable) {
+		const id = `aiPlanTask_${t.id}`;
+
+		const row = document.createElement("div");
+		row.className = "form-check d-flex align-items-center justify-content-between gap-2";
+
+		const left = document.createElement("div");
+		left.className = "d-flex align-items-center gap-2 flex-grow-1";
+
+		const input = document.createElement("input");
+		input.type = "checkbox";
+		input.className = "form-check-input";
+		input.id = id;
+		input.dataset.taskId = t.id;
+		input.dataset.toPlanMin = String(t.toPlanMin);
+		input.checked = t.toPlanMin > 0;
+		input.disabled = t.toPlanMin <= 0;
+		input.addEventListener("change", clearAiPlanPreview);
+
+		const label = document.createElement("label");
+		label.className = "form-check-label";
+		label.setAttribute("for", id);
+		label.textContent = t.title;
+
+		left.append(input, label);
+
+		const right = document.createElement("span");
+		right.className = "small text-muted text-nowrap";
+		right.textContent = `${t.toPlanMin} min`;
+
+		row.append(left, right);
+		ai.tasksContainer.appendChild(row);
+	}
+
+	if (model.schedulable.length === 0) {
+		const empty = document.createElement("div");
+		empty.className = "small text-muted";
+		empty.textContent = "No tasks with estimates yet.";
+		ai.tasksContainer.appendChild(empty);
+	}
+
+	if (model.missingEstimates.length === 0) {
+		ai.missingEstimates.textContent = "None";
+	} else {
+		ai.missingEstimates.innerHTML = "";
+		const ul = document.createElement("ul");
+		ul.className = "mb-0";
+		for (const t of model.missingEstimates) {
+			const li = document.createElement("li");
+			li.textContent = t.title;
+			ul.appendChild(li);
+		}
+		ai.missingEstimates.appendChild(ul);
+	}
+
+	if (ai.undoButton) ai.undoButton.disabled = aiLastAppliedBlockIds.length === 0;
+}
+
+function getAiPlanSelectedTasks() {
+	const ai = elements.aiPlan;
+	if (!ai.tasksContainer) return [];
+	const inputs = [...ai.tasksContainer.querySelectorAll('input[type="checkbox"][data-task-id]')];
+	return inputs
+		.filter((el) => el instanceof HTMLInputElement && el.checked && !el.disabled)
+		.map((el) => ({
+			taskId: el.dataset.taskId,
+			toPlanMin: Number(el.dataset.toPlanMin || 0),
+		}))
+		.filter((t) => typeof t.taskId === "string" && t.taskId && Number.isFinite(t.toPlanMin) && t.toPlanMin > 0);
+}
+
+function generateAiDraftPlan() {
+	const ai = elements.aiPlan;
+	if (!ai.applyButton) return;
+
+	clearAiPlanPreview();
+
+	const model = buildAiPlanModel();
+	const tasksToPlan = getAiPlanSelectedTasks();
+	if (tasksToPlan.length === 0) {
+		renderAiPlanPreview({ proposed: [], unscheduled: [], dayKeysInOrder: model.dayKeysInOrder });
+		return;
+	}
+
+	const freeIntervalsByDayKey = computeFreeIntervalsByDayKey(model.dayKeysInOrder, {
+		dayStartMin: model.dayStartMin,
+		dayEndMin: model.dayEndMin,
+		slotMinutes: model.slotMinutes,
+	});
+
+	const { proposed, unscheduled } = planTimeblocks({
+		dayKeysInOrder: model.dayKeysInOrder,
+		freeIntervalsByDayKey,
+		tasksToPlan,
+		slotMinutes: model.slotMinutes,
+		maxBlockMin: model.maxBlockMin,
+	});
+
+	aiDraftPlan = {
+		createdAtIso: new Date().toISOString(),
+		dayKeysInOrder: model.dayKeysInOrder,
+		dayStartMin: model.dayStartMin,
+		dayEndMin: model.dayEndMin,
+		slotMinutes: model.slotMinutes,
+		proposed,
+		unscheduled,
+	};
+
+	renderAiPlanPreview({ proposed, unscheduled, dayKeysInOrder: model.dayKeysInOrder });
+	ai.applyButton.disabled = proposed.length === 0;
+}
+
+function applyAiDraftPlan() {
+	if (!aiDraftPlan || !aiDraftPlan.proposed?.length) return;
+
+	const stamp = new Date().toISOString();
+	const note = `[AI plan] ${stamp}`;
+
+	// Validate against current calendar in case it changed after preview.
+	for (const p of aiDraftPlan.proposed) {
+		if (overlapsBlock(p.dayKey, p.startMin, p.endMin, null)) {
+			showAlert({ variant: "alert-danger", html: "<strong>Calendar changed.</strong> Please preview again before applying." });
+			clearAiPlanPreview();
+			return;
+		}
+	}
+
+	const newBlocks = aiDraftPlan.proposed.map((p) => {
+		const dayDate = dateFromDayKey(p.dayKey);
+		return {
+			id: uuid("block"),
+			taskId: p.taskId,
+			label: "",
+			startAtIso: minutesToIso(dayDate, p.startMin),
+			endAtIso: minutesToIso(dayDate, p.endMin),
+			note,
+		};
+	});
+
+	state.timeBlocks = [...newBlocks, ...(state.timeBlocks || [])];
+	aiLastAppliedBlockIds = newBlocks.map((b) => b.id);
+	saveState(state);
+	renderCalendar();
+
+	const modal = globalThis.bootstrap?.Modal?.getOrCreateInstance?.(elements.aiPlan.modal);
+	modal?.hide();
+
+	const totalMin = aiDraftPlan.proposed.reduce((sum, p) => sum + (p.endMin - p.startMin), 0);
+	showAlert({
+		variant: "alert-success",
+		html: `<strong>AI plan applied.</strong> Added ${newBlocks.length} block${newBlocks.length === 1 ? "" : "s"} (${totalMin} min).`,
+	});
+}
+
+function undoLastAiApply() {
+	if (!aiLastAppliedBlockIds.length) return;
+	const ids = new Set(aiLastAppliedBlockIds);
+	state.timeBlocks = (state.timeBlocks || []).filter((b) => !ids.has(b.id));
+	aiLastAppliedBlockIds = [];
+	saveState(state);
+	renderCalendar();
+	clearAiPlanPreview();
+	if (elements.aiPlan.undoButton) elements.aiPlan.undoButton.disabled = true;
+	showAlert({ variant: "alert-success", html: "<strong>Undone.</strong> Removed last AI plan blocks." });
 }
 
 function heatLevelFromMinutes(focusMin) {
@@ -2120,6 +2549,41 @@ elements.calendar.today?.addEventListener("click", () => {
 	calendarCursorDate = new Date();
 	renderCalendar();
 });
+
+function normalizeAiMaxBlockMin(raw, slotMinutes) {
+	const parsed = Number.parseInt(String(raw), 10);
+	if (Number.isNaN(parsed)) return null;
+	const slot = Math.max(1, slotMinutes);
+	let ai = Math.max(slot, Math.min(240, parsed));
+	ai = Math.round(ai / slot) * slot;
+	ai = Math.max(slot, Math.min(240, ai));
+	return ai;
+}
+
+elements.calendar.aiPlanButton?.addEventListener("click", () => {
+	renderAiPlanModal();
+	const modal = globalThis.bootstrap?.Modal?.getOrCreateInstance?.(elements.aiPlan.modal);
+	modal?.show();
+});
+
+elements.aiPlan.maxBlockInput?.addEventListener("change", () => {
+	const settings = getCalendarSettings();
+	const slotMinutes = settings.slotMinutes;
+	const next = normalizeAiMaxBlockMin(elements.aiPlan.maxBlockInput.value, slotMinutes);
+	if (next === null) {
+		elements.aiPlan.maxBlockInput.value = String(state.settings?.calendar?.aiMaxBlockMin || 90);
+		showAlert({ variant: "alert-danger", html: "<strong>Invalid number.</strong> Please enter a valid max block length." });
+		return;
+	}
+	state.settings.calendar.aiMaxBlockMin = next;
+	elements.aiPlan.maxBlockInput.value = String(next);
+	saveState(state);
+	clearAiPlanPreview();
+});
+
+elements.aiPlan.previewButton?.addEventListener("click", generateAiDraftPlan);
+elements.aiPlan.applyButton?.addEventListener("click", applyAiDraftPlan);
+elements.aiPlan.undoButton?.addEventListener("click", undoLastAiApply);
 
 elements.timeblock.save?.addEventListener("click", () => {
 	const blockId = calendarEditingBlockId;

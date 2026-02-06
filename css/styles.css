@@ -1226,7 +1226,8 @@ html[data-theme="dark"] .icon-btn {
 }
 
 .calendar-nav,
-.calendar-view {
+.calendar-view,
+.calendar-ai {
 	display: flex;
 	gap: var(--space-2);
 	align-items: center;

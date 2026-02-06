@@ -144,9 +144,9 @@
 					</div>
 				</section>
 			</div>
-		</div>
-
-		<section id="calendarSection" class="calendar-section">
+			</div>
+	
+			<section id="calendarSection" class="calendar-section">
 				<div class="calendar-shell">
 					<div class="calendar-header">
 						<div class="calendar-nav">
@@ -161,14 +161,24 @@
 							<label class="small text-muted" for="calendarEndTime">End</label>
 							<input type="time" class="form-control form-control-sm" id="calendarEndTime" step="3600" />
 						</div>
+						<div class="calendar-ai">
+							<button
+								type="button"
+								class="btn btn-outline-secondary button-pressed-no-shadow shadow-none"
+								id="calendarAiPlanButton"
+								aria-label="AI plan timeblocks"
+							>
+								AI Plan
+							</button>
+						</div>
 						<div class="calendar-view">
 							<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none active" id="calendarViewWeek">Week</button>
 							<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarViewDay">Day</button>
 						</div>
 					</div>
-				<div id="calendarGrid" class="calendar-grid" aria-label="Timeblocking calendar"></div>
-			</div>
-		</section>
+					<div id="calendarGrid" class="calendar-grid" aria-label="Timeblocking calendar"></div>
+				</div>
+			</section>
 
 		<!-- Description of PomodoroTimers -->
 		<section class="site-description">
@@ -311,67 +321,123 @@
 			</div>
 		</div>
 
-		<!-- Modals -->
-		<!-- Timeblock Modal -->
-		<div
-			class="modal fade"
-			data-bs-keyboard="true"
-			id="timeblockModal"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="timeblockModalLabel"
-			aria-hidden="true"
-		>
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3 class="modal-title ms-3" id="timeblockModalLabel">Timeblock</h3>
-						<button type="button" class="btn-close button-pressed-no-shadow" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="row g-3">
-							<div class="col-12">
-								<label class="form-label">Task</label>
-								<select class="form-select" id="timeblockTaskSelect"></select>
-							</div>
-							<div class="col-12">
-								<label class="form-label">Event name</label>
-								<input type="text" class="form-control" id="timeblockLabel" placeholder="Event name" />
-							</div>
-							<div class="col-6">
-								<label class="form-label">Start</label>
-								<input type="time" class="form-control" id="timeblockStart" />
-							</div>
-							<div class="col-6">
-								<label class="form-label">End</label>
-								<input type="time" class="form-control" id="timeblockEnd" />
-							</div>
-							<div class="col-12">
-								<label class="form-label">Note</label>
-								<textarea class="form-control" id="timeblockNote" rows="2"></textarea>
+			<!-- Modals -->
+			<!-- Timeblock Modal -->
+			<div
+				class="modal fade"
+				data-bs-keyboard="true"
+				id="timeblockModal"
+				tabindex="-1"
+				role="dialog"
+				aria-labelledby="timeblockModalLabel"
+				aria-hidden="true"
+			>
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title ms-3" id="timeblockModalLabel">Timeblock</h3>
+							<button type="button" class="btn-close button-pressed-no-shadow" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="row g-3">
+								<div class="col-12">
+									<label class="form-label">Task</label>
+									<select class="form-select" id="timeblockTaskSelect"></select>
+								</div>
+								<div class="col-12">
+									<label class="form-label">Event name</label>
+									<input type="text" class="form-control" id="timeblockLabel" placeholder="Event name" />
+								</div>
+								<div class="col-6">
+									<label class="form-label">Start</label>
+									<input type="time" class="form-control" id="timeblockStart" />
+								</div>
+								<div class="col-6">
+									<label class="form-label">End</label>
+									<input type="time" class="form-control" id="timeblockEnd" />
+								</div>
+								<div class="col-12">
+									<label class="form-label">Note</label>
+									<textarea class="form-control" id="timeblockNote" rows="2"></textarea>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<div class="container d-flex justify-content-between align-items-center">
-							<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="timeblockDelete">Delete</button>
-							<button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="timeblockSave">Save</button>
+						<div class="modal-footer">
+							<div class="container d-flex justify-content-between align-items-center">
+								<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="timeblockDelete">Delete</button>
+								<button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="timeblockSave">Save</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Settings Modal -->
-		<div
-			class="modal fade"
-			data-bs-keyboard="true"
-			id="settingsModal"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="settingsModalLabel"
-			aria-hidden="true"
-		>
+			<!-- AI Timeblock Modal -->
+			<div
+				class="modal fade"
+				data-bs-keyboard="true"
+				id="aiTimeblockModal"
+				tabindex="-1"
+				role="dialog"
+				aria-labelledby="aiTimeblockModalLabel"
+				aria-hidden="true"
+			>
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title ms-3" id="aiTimeblockModalLabel">AI Timeblocking</h3>
+							<button type="button" class="btn-close button-pressed-no-shadow" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="small text-muted mb-3">
+								Planning range: <span id="aiPlanRangeLabel"></span>
+							</div>
+							<div class="row g-3">
+								<div class="col-12 col-lg-5">
+									<label class="form-label" for="aiPlanMaxBlockInput">Max block length (min)</label>
+									<input type="number" class="form-control" id="aiPlanMaxBlockInput" min="15" step="15" />
+									<div class="small text-muted mt-1">Snaps to your calendar slot size.</div>
+									<hr class="my-3" />
+									<div class="h6 mb-2">Tasks to schedule</div>
+									<div id="aiPlanTasksContainer" class="d-flex flex-column gap-2"></div>
+									<hr class="my-3" />
+									<div class="h6 mb-2">Missing estimates</div>
+									<div id="aiPlanMissingEstimates" class="small text-muted"></div>
+								</div>
+								<div class="col-12 col-lg-7">
+									<div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+										<div class="h6 mb-0">Preview</div>
+										<div class="small text-muted" id="aiPlanPreviewSummary"></div>
+									</div>
+									<div id="aiPlanPreviewContainer" class="mt-2"></div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+								<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="aiPlanUndoButton" disabled>
+									Undo last apply
+								</button>
+								<div class="d-flex gap-2">
+									<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="aiPlanPreviewButton">Preview</button>
+									<button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="aiPlanApplyButton" disabled>Apply</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Settings Modal -->
+			<div
+				class="modal fade"
+				data-bs-keyboard="true"
+				id="settingsModal"
+				tabindex="-1"
+				role="dialog"
+				aria-labelledby="settingsModalLabel"
+				aria-hidden="true"
+			>
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">

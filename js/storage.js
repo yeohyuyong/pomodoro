@@ -49,7 +49,15 @@
  *
  * @typedef {{
  *   version: 2,
- *   settings: Settings & { calendar?: { weekStart: "mon"|"sun"|"sat", dayStartHour: number, dayEndHour: number, slotMinutes: 15|30|60 } },
+ *   settings: Settings & {
+ *     calendar?: {
+ *       weekStart: "mon"|"sun"|"sat",
+ *       dayStartHour: number,
+ *       dayEndHour: number,
+ *       slotMinutes: 15|30|60,
+ *       aiMaxBlockMin: number
+ *     }
+ *   },
  *   runtime: Runtime,
  *   tasks: Task[],
  *   logs: LogItem[],
@@ -89,7 +97,7 @@ export function createDefaultState(nowMs = Date.now()) {
 			},
 			theme: "system",
 			notifications: { enabled: false },
-			calendar: { weekStart: "mon", dayStartHour: 7, dayEndHour: 24, slotMinutes: 30 },
+			calendar: { weekStart: "mon", dayStartHour: 7, dayEndHour: 24, slotMinutes: 30, aiMaxBlockMin: 90 },
 		},
 		runtime: {
 			mode: "focus",
@@ -145,7 +153,7 @@ function normalizeState(state) {
 
 	next.settings.notifications = next.settings.notifications || { enabled: false };
 	next.settings.notifications.enabled = Boolean(next.settings.notifications.enabled);
-	next.settings.calendar = next.settings.calendar || { weekStart: "mon", dayStartHour: 7, dayEndHour: 24, slotMinutes: 30 };
+	next.settings.calendar = next.settings.calendar || { weekStart: "mon", dayStartHour: 7, dayEndHour: 24, slotMinutes: 30, aiMaxBlockMin: 90 };
 	if (next.settings.calendar.weekStart !== "sun" && next.settings.calendar.weekStart !== "sat" && next.settings.calendar.weekStart !== "mon") {
 		next.settings.calendar.weekStart = "mon";
 	}
@@ -156,6 +164,15 @@ function normalizeState(state) {
 	}
 	const slot = Number(next.settings.calendar.slotMinutes);
 	next.settings.calendar.slotMinutes = slot === 15 || slot === 60 ? slot : 30;
+	{
+		const defaultAi = 90;
+		const rawAi = Number(next.settings.calendar.aiMaxBlockMin);
+		let ai = Number.isFinite(rawAi) ? clampInt(rawAi, 30, 240) : defaultAi;
+		const slotMin = next.settings.calendar.slotMinutes;
+		ai = Math.round(ai / slotMin) * slotMin;
+		ai = clampInt(ai, slotMin, 240);
+		next.settings.calendar.aiMaxBlockMin = ai;
+	}
 
 	next.runtime.mode = next.runtime.mode === "focus" || next.runtime.mode === "shortBreak" || next.runtime.mode === "longBreak" ? next.runtime.mode : "focus";
 	next.runtime.timerState =
