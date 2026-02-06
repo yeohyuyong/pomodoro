@@ -23,6 +23,10 @@ export function computeStats(logs, { nowMs }) {
 	let focusSessions = 0;
 	/** @type {Record<string, number>} */
 	const byDayFocusSec = {};
+	/** @type {Record<string, number>} */
+	const byTaskFocusSec = {};
+	/** @type {Record<string, number>} */
+	const byTaskFocusSessions = {};
 
 	for (const log of logs) {
 		if (!log || typeof log !== "object") continue;
@@ -36,6 +40,10 @@ export function computeStats(logs, { nowMs }) {
 			focusSec += dur;
 			focusSessions += 1;
 			byDayFocusSec[dayKey] = (byDayFocusSec[dayKey] || 0) + dur;
+
+			const taskKey = typeof log.taskId === "string" && log.taskId ? log.taskId : "__none__";
+			byTaskFocusSec[taskKey] = (byTaskFocusSec[taskKey] || 0) + dur;
+			byTaskFocusSessions[taskKey] = (byTaskFocusSessions[taskKey] || 0) + 1;
 		} else if (type === "shortBreak" || type === "longBreak") {
 			breakSec += dur;
 		}
@@ -47,6 +55,8 @@ export function computeStats(logs, { nowMs }) {
 		totalSec: focusSec + breakSec,
 		focusSessions,
 		byDayFocusSec,
+		byTaskFocusSec,
+		byTaskFocusSessions,
 	};
 }
 
@@ -60,4 +70,3 @@ export function buildChartsData(stats) {
 		donut: { focusSec: stats.focusSec, breakSec: stats.breakSec },
 	};
 }
-

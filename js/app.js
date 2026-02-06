@@ -76,6 +76,10 @@ const elements = {
 		totalTime: document.getElementById("statsTotalTime"),
 		bar: document.getElementById("statsBarChart"),
 		donut: document.getElementById("statsDonutChart"),
+		heatmap: document.getElementById("statsHeatmap"),
+		heatmapHint: document.getElementById("statsHeatmapHint"),
+		tasksBody: document.getElementById("statsTasksBody"),
+		tasksEmpty: document.getElementById("statsTasksEmpty"),
 	},
 	scroll: {
 		indicator: document.getElementById("scrollIndicator"),
@@ -628,6 +632,118 @@ function formatMinutes(sec) {
 	return `${Math.round(sec / 60)} min`;
 }
 
+function toLocalDayKey(date) {
+	const y = date.getFullYear();
+	const m = String(date.getMonth() + 1).padStart(2, "0");
+	const d = String(date.getDate()).padStart(2, "0");
+	return `${y}-${m}-${d}`;
+}
+
+function rangeDaysToShow(range) {
+	if (range === "today") return 1;
+	if (range === "7d") return 7;
+	if (range === "30d") return 30;
+	return 365;
+}
+
+function startOfLocalDay(date) {
+	return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+}
+
+function addLocalDays(date, days) {
+	const d = new Date(date);
+	d.setDate(d.getDate() + days);
+	return d;
+}
+
+function heatLevelFromMinutes(focusMin) {
+	const m = Number(focusMin) || 0;
+	if (m <= 0) return 0;
+	if (m < 15) return 1;
+	if (m < 30) return 2;
+	if (m < 60) return 3;
+	return 4;
+}
+
+function renderHeatmap(container, stats, { range, nowMs }) {
+	if (!container) return;
+	container.innerHTML = "";
+
+	const daysInRange = rangeDaysToShow(range);
+	const end = startOfLocalDay(new Date(nowMs));
+	const startRange = addLocalDays(end, -(daysInRange - 1));
+
+	const alignedStart = addLocalDays(startRange, -startRange.getDay());
+	const alignedEnd = addLocalDays(end, 6 - end.getDay());
+
+	if (elements.stats.heatmapHint) {
+		const fromKey = toLocalDayKey(startRange);
+		const toKey = toLocalDayKey(end);
+		elements.stats.heatmapHint.textContent = fromKey === toKey ? fromKey : `${fromKey} → ${toKey}`;
+	}
+
+	for (let date = new Date(alignedStart); date <= alignedEnd; date = addLocalDays(date, 1)) {
+		const dayKey = toLocalDayKey(date);
+
+		const inRange = date >= startRange && date <= end;
+		const focusSec = stats.byDayFocusSec?.[dayKey] || 0;
+		const focusMin = Math.round(focusSec / 60);
+		const level = inRange ? heatLevelFromMinutes(focusMin) : 0;
+
+		const cell = document.createElement("div");
+		cell.className = `heatmap-cell heat-${level}${inRange ? "" : " heat-out"}`;
+		cell.title = `${dayKey}: ${focusMin} min focus`;
+		cell.setAttribute("aria-label", `${dayKey}: ${focusMin} minutes focus`);
+		container.appendChild(cell);
+	}
+}
+
+function renderTaskStats(tbody, emptyEl, stats) {
+	if (!tbody) return;
+	tbody.innerHTML = "";
+
+	const taskTitleById = new Map(state.tasks.map((t) => [t.id, t.title]));
+	const entries = Object.keys(stats.byTaskFocusSec || {})
+		.map((taskId) => ({
+			taskId,
+			focusSec: Number(stats.byTaskFocusSec[taskId] || 0),
+			sessions: Number(stats.byTaskFocusSessions?.[taskId] || 0),
+		}))
+		.filter((e) => e.focusSec > 0)
+		.sort((a, b) => b.focusSec - a.focusSec);
+
+	if (entries.length === 0) {
+		if (emptyEl) emptyEl.style.display = "block";
+		return;
+	}
+	if (emptyEl) emptyEl.style.display = "none";
+
+	for (const e of entries.slice(0, 10)) {
+		const label =
+			e.taskId === "__none__"
+				? "Unassigned"
+				: typeof taskTitleById.get(e.taskId) === "string"
+					? taskTitleById.get(e.taskId)
+					: "[Deleted task]";
+		const min = Math.round(e.focusSec / 60);
+
+		const tr = document.createElement("tr");
+		const tdLabel = document.createElement("td");
+		tdLabel.textContent = label;
+
+		const tdMin = document.createElement("td");
+		tdMin.className = "text-end";
+		tdMin.textContent = String(min);
+
+		const tdSessions = document.createElement("td");
+		tdSessions.className = "text-end";
+		tdSessions.textContent = String(Math.round(e.sessions));
+
+		tr.append(tdLabel, tdMin, tdSessions);
+		tbody.appendChild(tr);
+	}
+}
+
 function renderStats() {
 	if (!elements.stats.panel) return;
 
@@ -643,6 +759,8 @@ function renderStats() {
 
 	renderBarChart(elements.stats.bar, charts.bar);
 	renderDonutChart(elements.stats.donut, charts.donut);
+	renderHeatmap(elements.stats.heatmap, stats, { range: statsRange, nowMs: Date.now() });
+	renderTaskStats(elements.stats.tasksBody, elements.stats.tasksEmpty, stats);
 
 	for (const btn of elements.stats.panel.querySelectorAll("[data-stats-range]")) {
 		btn.classList.toggle("active", btn.getAttribute("data-stats-range") === statsRange);

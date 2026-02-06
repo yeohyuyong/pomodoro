@@ -522,6 +522,64 @@ html[data-theme="dark"] .done {
 	display: block;
 }
 
+.stats-heatmap {
+	--heat-cell: 12px;
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-rows: repeat(7, var(--heat-cell));
+	grid-auto-columns: var(--heat-cell);
+	gap: 4px;
+	overflow-x: auto;
+	padding-bottom: 4px;
+}
+
+.stats-heatmap .heatmap-cell {
+	width: var(--heat-cell);
+	height: var(--heat-cell);
+	border-radius: 3px;
+	background: var(--heat-0, #ebedf0);
+	border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+html[data-theme="dark"] .stats-heatmap .heatmap-cell {
+	border-color: rgba(255, 255, 255, 0.06);
+}
+
+.stats-heatmap .heat-0 {
+	background: var(--heat-0, #ebedf0);
+}
+.stats-heatmap .heat-1 {
+	background: var(--heat-1, #c6e48b);
+}
+.stats-heatmap .heat-2 {
+	background: var(--heat-2, #7bc96f);
+}
+.stats-heatmap .heat-3 {
+	background: var(--heat-3, #239a3b);
+}
+.stats-heatmap .heat-4 {
+	background: var(--heat-4, #196127);
+}
+
+.stats-heatmap .heat-out {
+	opacity: 0.35;
+}
+
+html[data-theme="dark"] {
+	--heat-0: #2a313d;
+	--heat-1: #0e4429;
+	--heat-2: #006d32;
+	--heat-3: #26a641;
+	--heat-4: #39d353;
+}
+
+@media screen and (max-width: 500px) {
+	.stats-heatmap {
+		--heat-cell: 10px;
+		gap: 3px;
+	}
+}
+
 /* ===============
   Buy me a coffee
   ================ */

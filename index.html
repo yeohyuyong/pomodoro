@@ -600,6 +600,39 @@
 										</div>
 									</div>
 								</div>
+								<div class="row g-2 mt-2">
+									<div class="col-12 col-lg-8">
+										<div class="card h-100">
+											<div class="card-body">
+												<div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+													<div class="small text-muted">Focus heatmap</div>
+													<div class="small text-muted" id="statsHeatmapHint"></div>
+												</div>
+												<div id="statsHeatmap" class="stats-heatmap mt-2" aria-label="Focus heatmap"></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-12 col-lg-4">
+										<div class="card h-100">
+											<div class="card-body">
+												<div class="small text-muted">Focus by task</div>
+												<div id="statsTasksEmpty" class="small text-muted mt-2">No focus task data yet.</div>
+												<div class="table-responsive mt-2">
+													<table class="table table-sm mb-0" aria-label="Focus by task">
+														<thead>
+															<tr>
+																<th scope="col">Task</th>
+																<th scope="col" class="text-end">Min</th>
+																<th scope="col" class="text-end">Sessions</th>
+															</tr>
+														</thead>
+														<tbody id="statsTasksBody"></tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="table-responsive-md">
 								<table class="table table-striped" id="logDataTable">
