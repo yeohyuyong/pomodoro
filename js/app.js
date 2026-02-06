@@ -853,13 +853,25 @@ function floorToMultiple(value, multiple) {
 	return Math.floor(value / multiple) * multiple;
 }
 
+function getEligibleStartMinForDayKey(dayKey, { todayKey, nowMin, dayStartMin, dayEndMin, slotMinutes }) {
+	if (typeof dayKey !== "string" || !dayKey) return dayStartMin;
+	if (dayKey < todayKey) return dayEndMin;
+	if (dayKey > todayKey) return dayStartMin;
+	const base = Math.max(dayStartMin, nowMin);
+	const eligible = ceilToMultiple(base, slotMinutes);
+	return Math.min(dayEndMin, eligible);
+}
+
 function getPlanningDaysForCurrentView() {
 	return getCalendarDays();
 }
 
-function computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, dayStartMin, dayEndMin) {
+function computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, { dayStartMin, dayEndMin, slotMinutes }) {
 	/** @type {Map<string, number>} */
 	const byTaskId = new Map();
+	const now = new Date();
+	const todayKey = toLocalDayKey(now);
+	const nowMin = now.getHours() * 60 + now.getMinutes();
 	for (const block of state.timeBlocks || []) {
 		if (!block || typeof block !== "object") continue;
 		if (typeof block.taskId !== "string" || !block.taskId) continue;
@@ -867,7 +879,8 @@ function computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, dayStartMin, dayEnd
 		const m = blockMinutes(block);
 		if (!dayKeysSet.has(m.dayKey)) continue;
 
-		const clippedStart = Math.max(m.startMin, dayStartMin);
+		const eligibleStartMin = getEligibleStartMinForDayKey(m.dayKey, { todayKey, nowMin, dayStartMin, dayEndMin, slotMinutes });
+		const clippedStart = Math.max(m.startMin, eligibleStartMin);
 		const clippedEnd = Math.min(m.endMin, dayEndMin);
 		const dur = clippedEnd - clippedStart;
 		if (dur <= 0) continue;
@@ -886,12 +899,23 @@ function computeFreeIntervalsByDayKey(dayKeysInOrder, { dayStartMin, dayEndMin, 
 	const dayKeysSet = new Set(dayKeysInOrder);
 	for (const dayKey of dayKeysInOrder) busyByDayKey.set(dayKey, []);
 
+	const now = new Date();
+	const todayKey = toLocalDayKey(now);
+	const nowMin = now.getHours() * 60 + now.getMinutes();
+	/** @type {Map<string, number>} */
+	const eligibleStartByDayKey = new Map();
+	for (const dayKey of dayKeysInOrder) {
+		eligibleStartByDayKey.set(dayKey, getEligibleStartMinForDayKey(dayKey, { todayKey, nowMin, dayStartMin, dayEndMin, slotMinutes }));
+	}
+
 	for (const block of state.timeBlocks || []) {
 		if (!block || typeof block !== "object") continue;
 		const m = blockMinutes(block);
 		if (!dayKeysSet.has(m.dayKey)) continue;
 
-		const clippedStart = Math.max(m.startMin, dayStartMin);
+		const eligibleStartMin = eligibleStartByDayKey.get(m.dayKey);
+		if (eligibleStartMin === undefined || eligibleStartMin >= dayEndMin) continue;
+		const clippedStart = Math.max(m.startMin, eligibleStartMin);
 		const clippedEnd = Math.min(m.endMin, dayEndMin);
 		if (clippedEnd <= clippedStart) continue;
 
@@ -902,6 +926,12 @@ function computeFreeIntervalsByDayKey(dayKeysInOrder, { dayStartMin, dayEndMin, 
 	const freeByDayKey = {};
 
 	for (const dayKey of dayKeysInOrder) {
+		const eligibleStartMin = eligibleStartByDayKey.get(dayKey) ?? dayStartMin;
+		if (eligibleStartMin >= dayEndMin) {
+			freeByDayKey[dayKey] = [];
+			continue;
+		}
+
 		const busy = busyByDayKey.get(dayKey) || [];
 		busy.sort((a, b) => a.startMin - b.startMin || a.endMin - b.endMin);
 
@@ -918,7 +948,7 @@ function computeFreeIntervalsByDayKey(dayKeysInOrder, { dayStartMin, dayEndMin, 
 
 		/** @type {Array<{ startMin: number, endMin: number }>} */
 		const free = [];
-		let cursor = dayStartMin;
+		let cursor = eligibleStartMin;
 		for (const interval of merged) {
 			if (interval.startMin > cursor) free.push({ startMin: cursor, endMin: interval.startMin });
 			cursor = Math.max(cursor, interval.endMin);
@@ -949,7 +979,7 @@ function buildAiPlanModel() {
 	const dayKeysInOrder = days.map((d) => toLocalDayKey(d));
 	const dayKeysSet = new Set(dayKeysInOrder);
 
-	const plannedMinByTaskId = computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, dayStartMin, dayEndMin);
+	const plannedMinByTaskId = computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, { dayStartMin, dayEndMin, slotMinutes });
 
 	const tasksSorted = [...state.tasks].sort((a, b) => a.order - b.order);
 	const schedulable = [];
@@ -1205,8 +1235,26 @@ function generateAiDraftPlan() {
 function applyAiDraftPlan() {
 	if (!aiDraftPlan || !aiDraftPlan.proposed?.length) return;
 
+	const settings = getCalendarSettings();
+	const dayStartMin = settings.dayStartHour * 60;
+	const dayEndMin = settings.dayEndHour * 60;
+	const slotMinutes = settings.slotMinutes;
+	const now = new Date();
+	const todayKey = toLocalDayKey(now);
+	const nowMin = now.getHours() * 60 + now.getMinutes();
+	const eligibleStartToday = getEligibleStartMinForDayKey(todayKey, { todayKey, nowMin, dayStartMin, dayEndMin, slotMinutes });
+
 	const stamp = new Date().toISOString();
 	const note = `[AI plan] ${stamp}`;
+
+	// Validate that we are not applying blocks in the past.
+	for (const p of aiDraftPlan.proposed) {
+		if (p.dayKey < todayKey || (p.dayKey === todayKey && p.startMin < eligibleStartToday)) {
+			showAlert({ variant: "alert-danger", html: "<strong>Time has passed.</strong> Please preview again before applying." });
+			clearAiPlanPreview();
+			return;
+		}
+	}
 
 	// Validate against current calendar in case it changed after preview.
 	for (const p of aiDraftPlan.proposed) {
