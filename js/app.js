@@ -57,10 +57,30 @@ const elements = {
 	},
 	todo: {
 		input: document.getElementById("taskInput"),
+		estimateInput: document.getElementById("taskEstimateInput"),
 		add: document.getElementById("addTaskButton"),
 		clear: document.getElementById("clearTasksButton"),
 		list: document.getElementById("listOfTasks"),
 		emptyText: document.getElementById("NoTaskTodayText"),
+	},
+	calendar: {
+		section: document.getElementById("calendarSection"),
+		grid: document.getElementById("calendarGrid"),
+		headerLabel: document.getElementById("calendarHeaderLabel"),
+		prev: document.getElementById("calendarPrev"),
+		next: document.getElementById("calendarNext"),
+		today: document.getElementById("calendarToday"),
+		viewWeek: document.getElementById("calendarViewWeek"),
+		viewDay: document.getElementById("calendarViewDay"),
+	},
+	timeblock: {
+		modal: document.getElementById("timeblockModal"),
+		taskSelect: document.getElementById("timeblockTaskSelect"),
+		start: document.getElementById("timeblockStart"),
+		end: document.getElementById("timeblockEnd"),
+		note: document.getElementById("timeblockNote"),
+		save: document.getElementById("timeblockSave"),
+		del: document.getElementById("timeblockDelete"),
 	},
 	log: {
 		clear: document.getElementById("clearButton"),
@@ -81,6 +101,12 @@ const elements = {
 		tasksBody: document.getElementById("statsTasksBody"),
 		tasksEmpty: document.getElementById("statsTasksEmpty"),
 	},
+	summary: {
+		text: document.getElementById("summaryText"),
+		focusMinutes: document.getElementById("summaryFocusMinutes"),
+		focusSessions: document.getElementById("summaryFocusSessions"),
+		activeTask: document.getElementById("summaryActiveTask"),
+	},
 	scroll: {
 		indicator: document.getElementById("scrollIndicator"),
 		backToTop: document.querySelector(".back-to-top-button"),
@@ -89,10 +115,15 @@ const elements = {
 };
 
 const modeColors = {
-	focus: "#dc3545",
-	shortBreak: "#28a745",
-	longBreak: "#007bff",
+	focus: "#d96b4f",
+	shortBreak: "#3f6d5b",
+	longBreak: "#f0b45b",
 };
+
+let calendarView = "week";
+let calendarCursorDate = new Date();
+const CALENDAR_SLOT_HEIGHT = 28;
+let calendarEditingBlockId = null;
 
 function getModeDurationSec(mode) {
 	const mins = state.settings.durationsMin;
@@ -518,6 +549,28 @@ function renderSettings() {
 	updateDesktopNotificationsUi();
 }
 
+function logDurationSec(log) {
+	const actual = Number(log?.actualDurationSec);
+	if (Number.isFinite(actual) && actual >= 0) return actual;
+	const planned = Number(log?.plannedDurationSec);
+	if (Number.isFinite(planned) && planned >= 0) return planned;
+	const started = Date.parse(log?.startedAtIso);
+	const ended = Date.parse(log?.endedAtIso);
+	if (Number.isFinite(started) && Number.isFinite(ended) && ended >= started) return Math.round((ended - started) / 1000);
+	return 0;
+}
+
+function getTaskFocusMinutes(taskId) {
+	let totalSec = 0;
+	for (const log of state.logs) {
+		if (!log || typeof log !== "object") continue;
+		if (log.type !== "focus") continue;
+		if (log.taskId !== taskId) continue;
+		totalSec += logDurationSec(log);
+	}
+	return Math.round(totalSec / 60);
+}
+
 function renderTasks() {
 	const tasks = [...state.tasks].sort((a, b) => a.order - b.order);
 	elements.todo.list.innerHTML = "";
@@ -548,6 +601,16 @@ function renderTasks() {
 		title.dataset.action = "select-task";
 		title.textContent = task.title;
 
+		const meta = document.createElement("div");
+		meta.className = "task-meta";
+		if (typeof task.estimateMin === "number") {
+			const spent = getTaskFocusMinutes(task.id);
+			const remaining = Math.max(0, task.estimateMin - spent);
+			meta.textContent = `Est ${task.estimateMin} min · ${remaining} min left`;
+		} else {
+			meta.textContent = "No estimate";
+		}
+
 		const del = document.createElement("button");
 		del.type = "button";
 		del.className = "btn btn-sm btn-outline-secondary";
@@ -555,9 +618,12 @@ function renderTasks() {
 		del.setAttribute("aria-label", "Delete task");
 		del.innerHTML = '<i class="fas fa-trash-alt"></i>';
 
-		li.append(toggle, title, del);
+		li.append(toggle, title, meta, del);
 		elements.todo.list.appendChild(li);
 	}
+
+	renderSummaryCard();
+	renderCalendar();
 }
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, { year: "numeric", month: "short", day: "2-digit" });
@@ -598,6 +664,7 @@ function renderLogs() {
 	}
 
 	renderStats();
+	renderSummaryCard();
 }
 
 function escapeAttribute(value) {
@@ -654,6 +721,91 @@ function addLocalDays(date, days) {
 	const d = new Date(date);
 	d.setDate(d.getDate() + days);
 	return d;
+}
+
+function getCalendarSettings() {
+	const c = state.settings?.calendar || { weekStart: "mon", dayStartHour: 7, dayEndHour: 24, slotMinutes: 30 };
+	return {
+		weekStart: c.weekStart === "sun" || c.weekStart === "sat" || c.weekStart === "mon" ? c.weekStart : "mon",
+		dayStartHour: Number.isFinite(Number(c.dayStartHour)) ? Number(c.dayStartHour) : 7,
+		dayEndHour: Number.isFinite(Number(c.dayEndHour)) ? Number(c.dayEndHour) : 24,
+		slotMinutes: c.slotMinutes === 15 || c.slotMinutes === 60 ? c.slotMinutes : 30,
+	};
+}
+
+function startOfWeek(date, weekStart) {
+	const day = startOfLocalDay(date);
+	const dow = day.getDay();
+	let offset = 0;
+	if (weekStart === "mon") offset = (dow + 6) % 7;
+	if (weekStart === "sun") offset = dow;
+	if (weekStart === "sat") offset = (dow + 1) % 7;
+	return addLocalDays(day, -offset);
+}
+
+function formatTimeLabel(minutes) {
+	const h = Math.floor(minutes / 60);
+	const m = minutes % 60;
+	if (h === 24 && m === 0) return "24:00";
+	return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
+function minutesFromTimeInput(value, allowMidnight) {
+	if (!value || typeof value !== "string") return null;
+	const match = value.match(/^(\d{2}):(\d{2})$/);
+	if (!match) return null;
+	const h = Number(match[1]);
+	const m = Number(match[2]);
+	if (!Number.isFinite(h) || !Number.isFinite(m)) return null;
+	if (allowMidnight && h === 0 && m === 0) return 24 * 60;
+	return Math.min(24 * 60, h * 60 + m);
+}
+
+function timeInputFromMinutes(minutes) {
+	if (minutes >= 24 * 60) return "00:00";
+	const h = Math.floor(minutes / 60);
+	const m = minutes % 60;
+	return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
+function dateFromDayKey(dayKey) {
+	const [y, m, d] = String(dayKey).split("-").map((v) => Number(v));
+	if (!Number.isFinite(y) || !Number.isFinite(m) || !Number.isFinite(d)) return new Date();
+	return new Date(y, m - 1, d, 0, 0, 0, 0);
+}
+
+function minutesToIso(dayDate, minutes) {
+	if (minutes >= 24 * 60) {
+		const nextDay = addLocalDays(dayDate, 1);
+		return new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 0, 0, 0, 0).toISOString();
+	}
+	const h = Math.floor(minutes / 60);
+	const m = minutes % 60;
+	return new Date(dayDate.getFullYear(), dayDate.getMonth(), dayDate.getDate(), h, m, 0, 0).toISOString();
+}
+
+function blockMinutes(block) {
+	const start = new Date(block.startAtIso);
+	const end = new Date(block.endAtIso);
+	const dayKey = toLocalDayKey(start);
+	const startMin = start.getHours() * 60 + start.getMinutes();
+	let endMin = end.getHours() * 60 + end.getMinutes();
+	if (toLocalDayKey(end) !== dayKey && endMin === 0) endMin = 24 * 60;
+	return { dayKey, startMin, endMin };
+}
+
+function overlapsBlock(dayKey, startMin, endMin, excludeId) {
+	for (const block of state.timeBlocks || []) {
+		if (!block || block.id === excludeId) continue;
+		const m = blockMinutes(block);
+		if (m.dayKey !== dayKey) continue;
+		if (Math.max(startMin, m.startMin) < Math.min(endMin, m.endMin)) return true;
+	}
+	return false;
+}
+
+function clampMinutes(value, min, max) {
+	return Math.max(min, Math.min(max, value));
 }
 
 function heatLevelFromMinutes(focusMin) {
@@ -744,6 +896,509 @@ function renderTaskStats(tbody, emptyEl, stats) {
 	}
 }
 
+function renderSummaryCard() {
+	const summary = elements.summary;
+	if (!summary?.focusMinutes || !summary?.focusSessions || !summary?.activeTask) return;
+
+	const todayLogs = filterLogsByRange("today");
+	const stats = computeStats(todayLogs, { nowMs: Date.now() });
+
+	const focusMin = Math.round((stats.focusSec || 0) / 60);
+	const sessions = stats.focusSessions || 0;
+
+	summary.focusMinutes.textContent = `${focusMin} min`;
+	summary.focusSessions.textContent = String(sessions);
+	summary.activeTask.textContent = getActiveTaskTitle() || "None";
+
+	if (summary.text) {
+		summary.text.textContent = `You've focused ${focusMin} min across ${sessions} session${sessions === 1 ? "" : "s"} today.`;
+	}
+}
+
+function calendarDayLabel(date) {
+	return new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" }).format(date);
+}
+
+function calendarRangeLabel(days) {
+	if (!days.length) return "";
+	if (days.length === 1) {
+		return new Intl.DateTimeFormat(undefined, { weekday: "long", month: "short", day: "numeric", year: "numeric" }).format(days[0]);
+	}
+	const start = days[0];
+	const end = days[days.length - 1];
+	const sameMonth = start.getMonth() === end.getMonth();
+	const startFmt = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" }).format(start);
+	const endFmt = new Intl.DateTimeFormat(undefined, { month: sameMonth ? "short" : "short", day: "numeric", year: "numeric" }).format(end);
+	return `${startFmt} - ${endFmt}`;
+}
+
+function getCalendarDays() {
+	const settings = getCalendarSettings();
+	const view = calendarView === "day" ? "day" : "week";
+	const cursor = startOfLocalDay(calendarCursorDate);
+	if (view === "day") return [cursor];
+	const start = startOfWeek(cursor, settings.weekStart);
+	return Array.from({ length: 7 }, (_, i) => addLocalDays(start, i));
+}
+
+function renderCalendarHeader(days) {
+	if (!elements.calendar.headerLabel) return;
+	elements.calendar.headerLabel.textContent = calendarRangeLabel(days);
+}
+
+function renderCalendar() {
+	const grid = elements.calendar.grid;
+	if (!grid) return;
+
+	const settings = getCalendarSettings();
+	const dayStartMin = settings.dayStartHour * 60;
+	const dayEndMin = settings.dayEndHour * 60;
+	const slotMinutes = settings.slotMinutes;
+	const slots = Math.ceil((dayEndMin - dayStartMin) / slotMinutes);
+
+	const days = getCalendarDays();
+	grid.style.setProperty("--slot-height", `${CALENDAR_SLOT_HEIGHT}px`);
+	grid.style.setProperty("--day-count", String(days.length));
+	grid.style.setProperty("--slots", String(slots));
+
+	grid.innerHTML = "";
+
+	const headerRow = document.createElement("div");
+	headerRow.className = "calendar-header-row";
+	const corner = document.createElement("div");
+	corner.className = "calendar-corner";
+	const dayHeaders = document.createElement("div");
+	dayHeaders.className = "calendar-day-headers";
+
+	const todayKey = toLocalDayKey(new Date());
+	for (const day of days) {
+		const key = toLocalDayKey(day);
+		const header = document.createElement("div");
+		header.className = "calendar-day-header";
+		if (key === todayKey) header.classList.add("today");
+		header.textContent = calendarDayLabel(day);
+		dayHeaders.appendChild(header);
+	}
+
+	headerRow.append(corner, dayHeaders);
+	grid.appendChild(headerRow);
+
+	const body = document.createElement("div");
+	body.className = "calendar-body";
+
+	const timeAxis = document.createElement("div");
+	timeAxis.className = "calendar-time-axis";
+	for (let m = dayStartMin; m <= dayEndMin; m += 60) {
+		const label = document.createElement("div");
+		label.className = "calendar-time-label";
+		label.style.top = `${((m - dayStartMin) / slotMinutes) * CALENDAR_SLOT_HEIGHT}px`;
+		label.textContent = formatTimeLabel(m);
+		timeAxis.appendChild(label);
+	}
+
+	const columns = document.createElement("div");
+	columns.className = "calendar-day-columns";
+	for (const day of days) {
+		const col = document.createElement("div");
+		col.className = "calendar-day-column";
+		col.dataset.dayKey = toLocalDayKey(day);
+		col.dataset.dayIso = day.toISOString();
+		columns.appendChild(col);
+	}
+
+	body.append(timeAxis, columns);
+	grid.appendChild(body);
+
+	renderTimeBlocks(days, { dayStartMin, dayEndMin, slotMinutes });
+	renderCalendarHeader(days);
+
+	bindCalendarEvents();
+}
+
+function renderTimeBlocks(days, { dayStartMin, dayEndMin, slotMinutes }) {
+	const grid = elements.calendar.grid;
+	if (!grid) return;
+	const columns = grid.querySelector(".calendar-day-columns");
+	if (!columns) return;
+
+	const dayKeys = new Set(days.map((d) => toLocalDayKey(d)));
+	const blocks = state.timeBlocks || [];
+
+	for (const block of blocks) {
+		const m = blockMinutes(block);
+		if (!dayKeys.has(m.dayKey)) continue;
+		if (m.endMin <= dayStartMin || m.startMin >= dayEndMin) continue;
+
+		const col = columns.querySelector(`[data-day-key="${m.dayKey}"]`);
+		if (!col) continue;
+
+		const clippedStart = Math.max(m.startMin, dayStartMin);
+		const clippedEnd = Math.min(m.endMin, dayEndMin);
+		const top = ((clippedStart - dayStartMin) / slotMinutes) * CALENDAR_SLOT_HEIGHT;
+		const height = ((clippedEnd - clippedStart) / slotMinutes) * CALENDAR_SLOT_HEIGHT;
+		if (height <= 0) continue;
+
+		const el = document.createElement("div");
+		el.className = "timeblock";
+		el.dataset.blockId = block.id;
+		el.style.top = `${top}px`;
+		el.style.height = `${height}px`;
+
+		const title = document.createElement("div");
+		title.className = "timeblock-title";
+		const task = block.taskId ? state.tasks.find((t) => t.id === block.taskId) : null;
+		title.textContent = task?.title || block.label || "Unassigned";
+
+		const meta = document.createElement("div");
+		meta.className = "timeblock-meta";
+		meta.textContent = `${formatTimeLabel(m.startMin)}-${formatTimeLabel(m.endMin)}`;
+
+		const editBtn = document.createElement("button");
+		editBtn.type = "button";
+		editBtn.className = "timeblock-edit";
+		editBtn.dataset.action = "edit-block";
+		editBtn.innerHTML = '<i class="fas fa-pen"></i>';
+
+		const handleStart = document.createElement("div");
+		handleStart.className = "timeblock-handle start";
+		handleStart.dataset.action = "resize-start";
+
+		const handleEnd = document.createElement("div");
+		handleEnd.className = "timeblock-handle end";
+		handleEnd.dataset.action = "resize-end";
+
+		el.append(handleStart, handleEnd, title, meta, editBtn);
+		col.appendChild(el);
+	}
+}
+
+let calendarEventsBound = false;
+let calendarDragState = null;
+let calendarIgnoreClickUntil = 0;
+
+function bindCalendarEvents() {
+	if (calendarEventsBound || !elements.calendar.grid) return;
+	calendarEventsBound = true;
+
+	elements.calendar.grid.addEventListener("pointerdown", onCalendarPointerDown);
+	elements.calendar.grid.addEventListener("click", onCalendarClick);
+}
+
+function onCalendarClick(e) {
+	if (Date.now() < calendarIgnoreClickUntil) return;
+	const edit = e.target.closest('[data-action="edit-block"]');
+	if (edit) {
+		const blockEl = edit.closest(".timeblock");
+		if (blockEl?.dataset.blockId) openTimeblockModal(blockEl.dataset.blockId);
+		return;
+	}
+
+	const blockEl = e.target.closest(".timeblock");
+	if (blockEl?.dataset.blockId) {
+		const block = state.timeBlocks.find((b) => b.id === blockEl.dataset.blockId);
+		if (block?.taskId) {
+			state.runtime.activeTaskId = block.taskId;
+			saveState(state);
+			renderTasks();
+			renderTimer();
+		}
+	}
+}
+
+function onCalendarPointerDown(e) {
+	const grid = elements.calendar.grid;
+	if (!grid) return;
+
+	const handle = e.target.closest(".timeblock-handle");
+	const blockEl = e.target.closest(".timeblock");
+	const column = e.target.closest(".calendar-day-column");
+
+	if (handle && blockEl) {
+		e.preventDefault();
+		startResizeBlock(e, blockEl, handle.dataset.action === "resize-start" ? "start" : "end");
+		return;
+	}
+	if (blockEl) {
+		if (e.target.closest('[data-action="edit-block"]')) return;
+		e.preventDefault();
+		startMoveBlock(e, blockEl);
+		return;
+	}
+	if (column) {
+		e.preventDefault();
+		startCreateBlock(e, column);
+		return;
+	}
+}
+
+function minutesFromY(y, dayStartMin, slotMinutes, snap) {
+	const raw = y / CALENDAR_SLOT_HEIGHT;
+	let snapped = Math.round(raw);
+	if (snap === "floor") snapped = Math.floor(raw);
+	if (snap === "ceil") snapped = Math.ceil(raw);
+	return dayStartMin + snapped * slotMinutes;
+}
+
+function startCreateBlock(e, column) {
+	const settings = getCalendarSettings();
+	const dayStartMin = settings.dayStartHour * 60;
+	const dayEndMin = settings.dayEndHour * 60;
+	const slotMinutes = settings.slotMinutes;
+
+	const rect = column.getBoundingClientRect();
+	const startY = e.clientY - rect.top;
+	const startMin = clampMinutes(minutesFromY(startY, dayStartMin, slotMinutes, "floor"), dayStartMin, dayEndMin - slotMinutes);
+
+	const ghost = document.createElement("div");
+	ghost.className = "timeblock ghost";
+	column.appendChild(ghost);
+
+	calendarDragState = {
+		type: "create",
+		column,
+		dayKey: column.dataset.dayKey,
+		anchorMin: startMin,
+		startMin,
+		endMin: startMin + slotMinutes,
+		dayStartMin,
+		dayEndMin,
+		slotMinutes,
+		startY,
+		ghost,
+	};
+
+	updateGhostBlock(calendarDragState);
+
+	window.addEventListener("pointermove", onCalendarPointerMove);
+	window.addEventListener("pointerup", onCalendarPointerUp, { once: true });
+}
+
+function startMoveBlock(e, blockEl) {
+	const settings = getCalendarSettings();
+	const dayStartMin = settings.dayStartHour * 60;
+	const dayEndMin = settings.dayEndHour * 60;
+	const slotMinutes = settings.slotMinutes;
+
+	const blockId = blockEl.dataset.blockId;
+	const block = state.timeBlocks.find((b) => b.id === blockId);
+	if (!block) return;
+
+	const m = blockMinutes(block);
+	const column = blockEl.closest(".calendar-day-column");
+	if (!column) return;
+
+	const rect = column.getBoundingClientRect();
+	const startY = e.clientY - rect.top;
+
+	calendarDragState = {
+		type: "move",
+		blockId,
+		column,
+		dayKey: m.dayKey,
+		startMin: m.startMin,
+		endMin: m.endMin,
+		dayStartMin,
+		dayEndMin,
+		slotMinutes,
+		startY,
+		el: blockEl,
+	};
+
+	window.addEventListener("pointermove", onCalendarPointerMove);
+	window.addEventListener("pointerup", onCalendarPointerUp, { once: true });
+}
+
+function startResizeBlock(e, blockEl, edge) {
+	const settings = getCalendarSettings();
+	const dayStartMin = settings.dayStartHour * 60;
+	const dayEndMin = settings.dayEndHour * 60;
+	const slotMinutes = settings.slotMinutes;
+
+	const blockId = blockEl.dataset.blockId;
+	const block = state.timeBlocks.find((b) => b.id === blockId);
+	if (!block) return;
+
+	const m = blockMinutes(block);
+	const column = blockEl.closest(".calendar-day-column");
+	if (!column) return;
+
+	const rect = column.getBoundingClientRect();
+	const startY = e.clientY - rect.top;
+
+	calendarDragState = {
+		type: edge === "start" ? "resize-start" : "resize-end",
+		blockId,
+		column,
+		dayKey: m.dayKey,
+		startMin: m.startMin,
+		endMin: m.endMin,
+		dayStartMin,
+		dayEndMin,
+		slotMinutes,
+		startY,
+		el: blockEl,
+	};
+
+	window.addEventListener("pointermove", onCalendarPointerMove);
+	window.addEventListener("pointerup", onCalendarPointerUp, { once: true });
+}
+
+function onCalendarPointerMove(e) {
+	const stateDrag = calendarDragState;
+	if (!stateDrag) return;
+	const { dayStartMin, dayEndMin, slotMinutes, startY } = stateDrag;
+	const rect = stateDrag.column.getBoundingClientRect();
+	const currentY = e.clientY - rect.top;
+	const deltaSlots = Math.round((currentY - startY) / CALENDAR_SLOT_HEIGHT);
+	const deltaMin = deltaSlots * slotMinutes;
+
+	let startMin = stateDrag.startMin;
+	let endMin = stateDrag.endMin;
+
+	if (stateDrag.type === "create") {
+		const rawMin = clampMinutes(minutesFromY(currentY, dayStartMin, slotMinutes, "round"), dayStartMin, dayEndMin);
+		startMin = Math.min(stateDrag.anchorMin, rawMin);
+		endMin = Math.max(stateDrag.anchorMin, rawMin);
+		if (endMin - startMin < slotMinutes) endMin = startMin + slotMinutes;
+		endMin = clampMinutes(endMin, dayStartMin + slotMinutes, dayEndMin);
+		stateDrag.startMin = startMin;
+		stateDrag.endMin = endMin;
+		updateGhostBlock(stateDrag);
+		return;
+	}
+
+	if (stateDrag.type === "move") {
+		const duration = stateDrag.endMin - stateDrag.startMin;
+		startMin = clampMinutes(stateDrag.startMin + deltaMin, dayStartMin, dayEndMin - duration);
+		endMin = startMin + duration;
+		stateDrag.nextStartMin = startMin;
+		stateDrag.nextEndMin = endMin;
+		updateDragBlock(stateDrag);
+		return;
+	}
+
+	if (stateDrag.type === "resize-start") {
+		startMin = clampMinutes(stateDrag.startMin + deltaMin, dayStartMin, stateDrag.endMin - slotMinutes);
+		stateDrag.nextStartMin = startMin;
+		updateDragBlock(stateDrag);
+		return;
+	}
+
+	if (stateDrag.type === "resize-end") {
+		endMin = clampMinutes(stateDrag.endMin + deltaMin, stateDrag.startMin + slotMinutes, dayEndMin);
+		stateDrag.nextEndMin = endMin;
+		updateDragBlock(stateDrag);
+	}
+}
+
+function updateGhostBlock(stateDrag) {
+	const { ghost, dayStartMin, slotMinutes, startMin, endMin } = stateDrag;
+	if (!ghost) return;
+	const top = ((startMin - dayStartMin) / slotMinutes) * CALENDAR_SLOT_HEIGHT;
+	const height = ((endMin - startMin) / slotMinutes) * CALENDAR_SLOT_HEIGHT;
+	ghost.style.top = `${top}px`;
+	ghost.style.height = `${height}px`;
+}
+
+function updateDragBlock(stateDrag) {
+	const el = stateDrag.el;
+	if (!el) return;
+	const startMin = stateDrag.nextStartMin ?? stateDrag.startMin;
+	const endMin = stateDrag.nextEndMin ?? stateDrag.endMin;
+	const top = ((startMin - stateDrag.dayStartMin) / stateDrag.slotMinutes) * CALENDAR_SLOT_HEIGHT;
+	const height = ((endMin - startMin) / stateDrag.slotMinutes) * CALENDAR_SLOT_HEIGHT;
+	el.style.top = `${top}px`;
+	el.style.height = `${height}px`;
+	const hasOverlap = overlapsBlock(stateDrag.dayKey, startMin, endMin, stateDrag.blockId);
+	el.classList.toggle("invalid", hasOverlap);
+}
+
+function onCalendarPointerUp() {
+	const stateDrag = calendarDragState;
+	if (!stateDrag) return;
+	calendarDragState = null;
+	calendarIgnoreClickUntil = Date.now() + 200;
+
+	window.removeEventListener("pointermove", onCalendarPointerMove);
+
+	if (stateDrag.type === "create") {
+		stateDrag.ghost?.remove();
+		const startMin = stateDrag.startMin;
+		const endMin = stateDrag.endMin;
+		if (overlapsBlock(stateDrag.dayKey, startMin, endMin, null)) {
+			showAlert({ variant: "alert-danger", html: "<strong>Overlap not allowed.</strong> Adjust the time range." });
+			renderCalendar();
+			return;
+		}
+		const dayDate = dateFromDayKey(stateDrag.dayKey);
+		const newBlock = {
+			id: uuid("block"),
+			taskId: state.runtime.activeTaskId || null,
+			label: "",
+			startAtIso: minutesToIso(dayDate, startMin),
+			endAtIso: minutesToIso(dayDate, endMin),
+			note: "",
+		};
+		state.timeBlocks = [newBlock, ...(state.timeBlocks || [])];
+		saveState(state);
+		renderCalendar();
+		openTimeblockModal(newBlock.id);
+		return;
+	}
+
+	const blockId = stateDrag.blockId;
+	if (!blockId) return;
+	const startMin = stateDrag.nextStartMin ?? stateDrag.startMin;
+	const endMin = stateDrag.nextEndMin ?? stateDrag.endMin;
+	if (overlapsBlock(stateDrag.dayKey, startMin, endMin, blockId)) {
+		showAlert({ variant: "alert-danger", html: "<strong>Overlap not allowed.</strong> Adjust the time range." });
+		renderCalendar();
+		return;
+	}
+	const block = state.timeBlocks.find((b) => b.id === blockId);
+	if (!block) {
+		renderCalendar();
+		return;
+	}
+	const dayDate = dateFromDayKey(stateDrag.dayKey);
+	block.startAtIso = minutesToIso(dayDate, startMin);
+	block.endAtIso = minutesToIso(dayDate, endMin);
+	saveState(state);
+	renderCalendar();
+}
+
+function openTimeblockModal(blockId) {
+	const block = state.timeBlocks.find((b) => b.id === blockId);
+	if (!block || !elements.timeblock.modal) return;
+
+	calendarEditingBlockId = blockId;
+	const select = elements.timeblock.taskSelect;
+	if (select) {
+		select.innerHTML = "";
+		const optNone = new Option("Unassigned", "");
+		select.appendChild(optNone);
+		for (const task of state.tasks) {
+			const opt = new Option(task.title, task.id);
+			select.appendChild(opt);
+		}
+		select.value = block.taskId || "";
+	}
+
+	const m = blockMinutes(block);
+	if (elements.timeblock.start) elements.timeblock.start.value = timeInputFromMinutes(m.startMin);
+	if (elements.timeblock.end) elements.timeblock.end.value = timeInputFromMinutes(m.endMin);
+	if (elements.timeblock.note) elements.timeblock.note.value = block.note || "";
+
+	const modal = globalThis.bootstrap?.Modal?.getOrCreateInstance?.(elements.timeblock.modal);
+	modal?.show();
+}
+
+function closeTimeblockModal() {
+	if (!elements.timeblock.modal) return;
+	const modal = globalThis.bootstrap?.Modal?.getOrCreateInstance?.(elements.timeblock.modal);
+	modal?.hide();
+	calendarEditingBlockId = null;
+}
 function renderStats() {
 	if (!elements.stats.panel) return;
 
@@ -858,6 +1513,7 @@ function renderAll() {
 	renderTimer(state.runtime.remainingSec);
 	renderTasks();
 	renderLogs();
+	renderSummaryCard();
 }
 
 function setMode(mode) {
@@ -913,8 +1569,19 @@ elements.todo.add.addEventListener("click", () => {
 	const title = elements.todo.input.value.trim();
 	if (!title) return;
 	const order = state.tasks.length ? Math.max(...state.tasks.map((t) => t.order)) + 1 : 0;
-	state.tasks.push({ id: uuid("task"), title, done: false, createdAtIso: new Date().toISOString(), order });
+	const rawEstimate = elements.todo.estimateInput?.value;
+	const parsedEstimate = Number(rawEstimate);
+	const estimateMin = Number.isFinite(parsedEstimate) ? Math.max(0, Math.min(9999, parsedEstimate)) : null;
+	state.tasks.push({
+		id: uuid("task"),
+		title,
+		done: false,
+		createdAtIso: new Date().toISOString(),
+		order,
+		estimateMin,
+	});
 	elements.todo.input.value = "";
+	if (elements.todo.estimateInput) elements.todo.estimateInput.value = "";
 	saveState(state);
 	renderTasks();
 });
@@ -926,10 +1593,20 @@ elements.todo.input.addEventListener("keydown", (e) => {
 	}
 });
 
+elements.todo.estimateInput?.addEventListener("keydown", (e) => {
+	if (e.key === "Enter") {
+		e.preventDefault();
+		elements.todo.add.click();
+	}
+});
+
 elements.todo.clear.addEventListener("click", () => {
 	if (!confirm("Clear all tasks? Tip: use Settings → Export data (JSON) to back up first.")) return;
 	state.tasks = [];
 	state.runtime.activeTaskId = null;
+	for (const block of state.timeBlocks || []) {
+		if (block) block.taskId = null;
+	}
 	saveState(state);
 	renderTasks();
 	renderTimer();
@@ -955,6 +1632,9 @@ elements.todo.list.addEventListener("click", (e) => {
 	if (action === "delete-task") {
 		state.tasks = state.tasks.filter((t) => t.id !== taskId);
 		if (state.runtime.activeTaskId === taskId) state.runtime.activeTaskId = null;
+		for (const block of state.timeBlocks || []) {
+			if (block?.taskId === taskId) block.taskId = null;
+		}
 		saveState(state);
 		renderTasks();
 		renderTimer();
@@ -1318,6 +1998,81 @@ document.addEventListener("keydown", (e) => {
 		openModalById("settingsModal");
 		return;
 	}
+});
+
+function setCalendarView(view) {
+	calendarView = view === "day" ? "day" : "week";
+	if (elements.calendar.viewWeek) elements.calendar.viewWeek.classList.toggle("active", calendarView === "week");
+	if (elements.calendar.viewDay) elements.calendar.viewDay.classList.toggle("active", calendarView === "day");
+	renderCalendar();
+}
+
+elements.calendar.viewWeek?.addEventListener("click", () => setCalendarView("week"));
+elements.calendar.viewDay?.addEventListener("click", () => setCalendarView("day"));
+
+elements.calendar.prev?.addEventListener("click", () => {
+	const delta = calendarView === "week" ? -7 : -1;
+	calendarCursorDate = addLocalDays(calendarCursorDate, delta);
+	renderCalendar();
+});
+
+elements.calendar.next?.addEventListener("click", () => {
+	const delta = calendarView === "week" ? 7 : 1;
+	calendarCursorDate = addLocalDays(calendarCursorDate, delta);
+	renderCalendar();
+});
+
+elements.calendar.today?.addEventListener("click", () => {
+	calendarCursorDate = new Date();
+	renderCalendar();
+});
+
+elements.timeblock.save?.addEventListener("click", () => {
+	const blockId = calendarEditingBlockId;
+	if (!blockId) return;
+	const block = state.timeBlocks.find((b) => b.id === blockId);
+	if (!block) return;
+
+	const settings = getCalendarSettings();
+	const dayStartMin = settings.dayStartHour * 60;
+	const dayEndMin = settings.dayEndHour * 60;
+
+	const m = blockMinutes(block);
+	const dayDate = dateFromDayKey(m.dayKey);
+
+	let startMin = minutesFromTimeInput(elements.timeblock.start?.value, false);
+	let endMin = minutesFromTimeInput(elements.timeblock.end?.value, true);
+	if (startMin === null || endMin === null) {
+		showAlert({ variant: "alert-danger", html: "<strong>Invalid time.</strong> Please check start and end." });
+		return;
+	}
+	startMin = clampMinutes(startMin, dayStartMin, dayEndMin - settings.slotMinutes);
+	endMin = clampMinutes(endMin, dayStartMin + settings.slotMinutes, dayEndMin);
+	if (endMin <= startMin) {
+		showAlert({ variant: "alert-danger", html: "<strong>End time must be after start.</strong>" });
+		return;
+	}
+	if (overlapsBlock(m.dayKey, startMin, endMin, blockId)) {
+		showAlert({ variant: "alert-danger", html: "<strong>Overlap not allowed.</strong> Adjust the time range." });
+		return;
+	}
+
+	block.taskId = elements.timeblock.taskSelect?.value || null;
+	block.note = elements.timeblock.note?.value || "";
+	block.startAtIso = minutesToIso(dayDate, startMin);
+	block.endAtIso = minutesToIso(dayDate, endMin);
+	saveState(state);
+	closeTimeblockModal();
+	renderCalendar();
+});
+
+elements.timeblock.del?.addEventListener("click", () => {
+	const blockId = calendarEditingBlockId;
+	if (!blockId) return;
+	state.timeBlocks = (state.timeBlocks || []).filter((b) => b.id !== blockId);
+	saveState(state);
+	closeTimeblockModal();
+	renderCalendar();
 });
 
 renderAll();

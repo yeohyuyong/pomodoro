@@ -25,7 +25,16 @@
  *   activeTaskId: string|null
  * }} Runtime
  *
- * @typedef {{ id: string, title: string, done: boolean, createdAtIso: string, order: number }} Task
+ * @typedef {{ id: string, title: string, done: boolean, createdAtIso: string, order: number, estimateMin: number|null }} Task
+ *
+ * @typedef {{
+ *   id: string,
+ *   taskId: string|null,
+ *   label: string,
+ *   startAtIso: string,
+ *   endAtIso: string,
+ *   note: string
+ * }} TimeBlock
  *
  * @typedef {{
  *   id: string,
@@ -40,10 +49,11 @@
  *
  * @typedef {{
  *   version: 2,
- *   settings: Settings,
+ *   settings: Settings & { calendar?: { weekStart: "mon"|"sun"|"sat", dayStartHour: number, dayEndHour: number, slotMinutes: 15|30|60 } },
  *   runtime: Runtime,
  *   tasks: Task[],
- *   logs: LogItem[]
+ *   logs: LogItem[],
+ *   timeBlocks: TimeBlock[]
  * }} AppState
  */
 
@@ -79,6 +89,7 @@ export function createDefaultState(nowMs = Date.now()) {
 			},
 			theme: "system",
 			notifications: { enabled: false },
+			calendar: { weekStart: "mon", dayStartHour: 7, dayEndHour: 24, slotMinutes: 30 },
 		},
 		runtime: {
 			mode: "focus",
@@ -90,6 +101,7 @@ export function createDefaultState(nowMs = Date.now()) {
 		},
 		tasks: [],
 		logs: [],
+		timeBlocks: [],
 	};
 
 	// Keep eslint/formatters happy if introduced later; use nowIso in case we add defaults.
@@ -133,6 +145,17 @@ function normalizeState(state) {
 
 	next.settings.notifications = next.settings.notifications || { enabled: false };
 	next.settings.notifications.enabled = Boolean(next.settings.notifications.enabled);
+	next.settings.calendar = next.settings.calendar || { weekStart: "mon", dayStartHour: 7, dayEndHour: 24, slotMinutes: 30 };
+	if (next.settings.calendar.weekStart !== "sun" && next.settings.calendar.weekStart !== "sat" && next.settings.calendar.weekStart !== "mon") {
+		next.settings.calendar.weekStart = "mon";
+	}
+	next.settings.calendar.dayStartHour = clampInt(next.settings.calendar.dayStartHour, 0, 23);
+	next.settings.calendar.dayEndHour = clampInt(next.settings.calendar.dayEndHour, 1, 24);
+	if (next.settings.calendar.dayEndHour <= next.settings.calendar.dayStartHour) {
+		next.settings.calendar.dayEndHour = Math.min(24, next.settings.calendar.dayStartHour + 1);
+	}
+	const slot = Number(next.settings.calendar.slotMinutes);
+	next.settings.calendar.slotMinutes = slot === 15 || slot === 60 ? slot : 30;
 
 	next.runtime.mode = next.runtime.mode === "focus" || next.runtime.mode === "shortBreak" || next.runtime.mode === "longBreak" ? next.runtime.mode : "focus";
 	next.runtime.timerState =
@@ -143,7 +166,25 @@ function normalizeState(state) {
 	next.runtime.activeTaskId = typeof next.runtime.activeTaskId === "string" ? next.runtime.activeTaskId : null;
 
 	next.tasks = Array.isArray(next.tasks) ? next.tasks : [];
+	for (const task of next.tasks) {
+		if (!isObject(task)) continue;
+		const est = Number(task.estimateMin);
+		task.estimateMin = Number.isFinite(est) ? clampInt(est, 0, 9999) : null;
+	}
 	next.logs = Array.isArray(next.logs) ? next.logs : [];
+	next.timeBlocks = Array.isArray(next.timeBlocks) ? next.timeBlocks : [];
+	next.timeBlocks = next.timeBlocks.filter((block) => {
+		if (!isObject(block)) return false;
+		if (typeof block.id !== "string") return false;
+		if (typeof block.startAtIso !== "string" || typeof block.endAtIso !== "string") return false;
+		const startMs = Date.parse(block.startAtIso);
+		const endMs = Date.parse(block.endAtIso);
+		if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) return false;
+		block.taskId = typeof block.taskId === "string" ? block.taskId : null;
+		block.label = typeof block.label === "string" ? block.label : "";
+		block.note = typeof block.note === "string" ? block.note : "";
+		return true;
+	});
 
 	return next;
 }

@@ -24,146 +24,151 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
 		<link rel="stylesheet" href="css/styles.css" type="text/css" />
 		<link rel="shortcut icon" type="image/x-icon" href="assets/img/logo.png" />
-		<link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap" rel="stylesheet" />
-		<link href="https://fonts.googleapis.com/css?family=Cookie&display=swap" rel="stylesheet" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 
 	<body>
 		<!-- Scroll Indicator -->
 		<div class="line" id="scrollIndicator"></div>
+		<div class="bg-orb orb-1" aria-hidden="true"></div>
+		<div class="bg-orb orb-2" aria-hidden="true"></div>
+		<div class="bg-orb orb-3" aria-hidden="true"></div>
+		<div class="bg-grain" aria-hidden="true"></div>
 
 		<!-- Main Content -->
-			<div class="border-bottom" id="mainPage">
+		<div class="app-shell">
+			<div class="app-hero" id="mainPage">
 				<!-- Alert -->
 				<div class="alert alert-danger alert-dismissible fade show" role="alert">
 					<span id="alertMessage"></span>
 					<button type="button" class="btn-close" id="dismissAlertButton" aria-label="Close"></button>
 				</div>
-			<!-- Brand Name -->
-			<div class="d-flex justify-content-center navbar navbar-light bg-light border-bottom">
-				<nav class="navbar navbar-light bg-light py-0 justify-content-center" id="brand">
-					<a class="navbar-brand" href="/">
-						<img src="assets/img/logo.png" width="50" height="50" class="align-top" alt="PomodoroTimers Logo" />
-						<span id="brandName">PomodoroTimers</span>
-					</a>
-					<!-- Only Visible when small -->
-					<ul class="nav nav-pills justify-content-end">
-						<li class="nav-item">
-							<a class="nav-link px-2 d-md-none button-pressed-no-shadow" data-bs-toggle="modal" data-bs-target="#toDoModal" href="#"
-								><i class="fas fa-tasks fa-lg"></i
-							></a>
-						</li>
-						<li class="nav-item ps-2 pe-0">
-							<a class="nav-link px-2 mx-1 d-md-none button-pressed-no-shadow" data-bs-toggle="modal" data-bs-target="#loggingModal" href="#"
-								><i class="fas fa-chart-bar fa-lg"></i
-							></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link ps-2 pe-0 ms-2 d-md-none button-pressed-no-shadow" data-bs-toggle="modal" data-bs-target="#settingsModal" href="#"
-								><i class="fas fa-cog fa-lg"></i
-							></a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-			<!-- NAVBAR -->
-			<div class="container mt-3">
-				<div class="row justify-content-end">
-					<div class="col-6 px-0">
-						<ul class="nav nav-pills">
-								<div class="col-lg-4 px-0">
-									<a class="nav-link active pt-2 nav-underline" id="pomodoros" role="tab" aria-selected="false" href="#">Focus</a>
-								</div>
-								<div class="col-lg-4 px-0">
-									<a class="nav-link pt-2 nav-underline" id="shortBreak" role="tab" aria-selected="false" href="#">Short Break</a>
-								</div>
-								<div class="col-lg-4 px-0">
-									<a class="nav-link pt-2 nav-underline" id="longBreak" role="tab" aria-selected="false" href="#">Long Break</a>
-								</div>
-						</ul>
+				<!-- Header -->
+				<header class="app-header">
+					<div id="brand" class="brand-block">
+						<a class="brand-link" href="/">
+							<img src="assets/img/logo.png" width="46" height="46" class="align-top" alt="PomodoroTimers Logo" />
+							<span id="brandName">PomodoroTimers</span>
+						</a>
 					</div>
-						<div class="col-3">
-							<ul class="nav nav-pills justify-content-end">
-								<li class="nav-item">
-									<a class="nav-link px-2 d-none d-md-block button-pressed-no-shadow" data-bs-toggle="modal" data-bs-target="#toDoModal" href="#"
-										><i class="fas fa-tasks fa-lg"></i
-									></a>
-								</li>
-								<li class="nav-item ps-2 pe-0">
-									<a class="nav-link px-2 mx-1 d-none d-md-block button-pressed-no-shadow" data-bs-toggle="modal" data-bs-target="#loggingModal" href="#"
-										><i class="fas fa-chart-bar fa-lg"></i
-									></a>
-								</li>
-								<li class="nav-item">
-									<a
-										class="nav-link ps-2 pe-0 ms-2 d-none d-md-block button-pressed-no-shadow"
-										data-bs-toggle="modal"
-										data-bs-target="#settingsModal"
-										href="#"
-										><i class="fas fa-cog fa-lg"></i
-									></a>
-								</li>
-						</ul>
+					<div class="header-actions">
+						<button type="button" class="icon-btn" data-bs-toggle="modal" data-bs-target="#toDoModal" aria-label="Open todo">
+							<i class="fas fa-tasks"></i>
+						</button>
+						<button type="button" class="icon-btn" data-bs-toggle="modal" data-bs-target="#loggingModal" aria-label="Open log">
+							<i class="fas fa-chart-bar"></i>
+						</button>
+						<button type="button" class="icon-btn" data-bs-toggle="modal" data-bs-target="#settingsModal" aria-label="Open settings">
+							<i class="fas fa-cog"></i>
+						</button>
 					</div>
-				</div>
-			</div>
-			<!-- Timer and Buttons -->
-			<div class="container-fluid">
-				<div class="row">
-					<!-- Time Left and Progress Bar -->
-					<div class="col-12 pt-0 d-flex justify-content-center">
+				</header>
+
+				<section class="hero-grid">
+					<div class="hero-left">
+						<div class="timer-card">
 							<div class="radial-progress-bar progress-value" id="progressRing">
-							<div class="overlay">
-								<h1 id="timeLeft"></h1>
-								<div class="small text-muted mt-1" id="cycleIndicator"></div>
-								<div class="d-flex align-items-center justify-content-center gap-2 small mt-1" id="activeTaskRow">
-									<button
-										type="button"
-										class="btn btn-link p-0 text-muted text-decoration-none"
-										id="activeTaskLink"
-										data-bs-toggle="modal"
-										data-bs-target="#toDoModal"
-									></button>
-									<button
-										type="button"
-										class="btn btn-sm btn-outline-secondary button-pressed-no-shadow shadow-none py-0 px-2"
-										id="clearActiveTaskButton"
-										aria-label="Clear active task"
-									>
-										<i class="fas fa-times"></i>
-									</button>
+								<div class="overlay">
+									<h1 id="timeLeft"></h1>
+									<div class="small text-muted mt-1" id="cycleIndicator"></div>
+									<div class="d-flex align-items-center justify-content-center gap-2 small mt-1" id="activeTaskRow">
+										<button
+											type="button"
+											class="btn btn-link p-0 text-muted text-decoration-none"
+											id="activeTaskLink"
+											data-bs-toggle="modal"
+											data-bs-target="#toDoModal"
+										></button>
+										<button
+											type="button"
+											class="btn btn-sm btn-outline-secondary button-pressed-no-shadow shadow-none py-0 px-2"
+											id="clearActiveTaskButton"
+											aria-label="Clear active task"
+										>
+											<i class="fas fa-times"></i>
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<!-- Start, Stop, Reset Buttons -->
-					<div class="col-12">
-						<div class="container d-flex justify-content-around">
-							<div class="row">
-								<div class="col-6 col-md-3">
-									<button type="button" class="button-pressed-effect btn btn-lg btn-success w-100 mb-3" id="startButton">Start</button>
-								</div>
-								<div class="col-6 col-md-3">
-									<button type="button" class="button-pressed-effect btn btn-danger btn-lg w-100 mb-3" id="stopButton">Pause</button>
-								</div>
-								<div class="col-6 col-md-3">
-									<button type="button" class="button-pressed-effect btn btn-secondary btn-lg w-100 mb-3" id="resetButton">Reset</button>
-								</div>
-								<div class="col-6 col-md-3">
-									<button type="button" class="button-pressed-effect btn btn-outline-secondary btn-lg w-100 mb-3" id="skipButton">Skip</button>
-								</div>
-							</div>
+
+						<div class="controls-grid">
+							<button type="button" class="button-pressed-effect btn btn-lg btn-success w-100" id="startButton">Start</button>
+							<button type="button" class="button-pressed-effect btn btn-danger btn-lg w-100" id="stopButton">Pause</button>
+							<button type="button" class="button-pressed-effect btn btn-secondary btn-lg w-100" id="resetButton">Reset</button>
+							<button type="button" class="button-pressed-effect btn btn-outline-secondary btn-lg w-100" id="skipButton">Skip</button>
 						</div>
 					</div>
-				</div>
+
+					<div class="hero-right">
+						<div class="mode-pills" role="tablist">
+							<a class="nav-link active nav-underline" id="pomodoros" role="tab" aria-selected="false" href="#">Focus</a>
+							<a class="nav-link nav-underline" id="shortBreak" role="tab" aria-selected="false" href="#">Short Break</a>
+							<a class="nav-link nav-underline" id="longBreak" role="tab" aria-selected="false" href="#">Long Break</a>
+						</div>
+
+						<div class="summary-card">
+							<div class="summary-header">
+								<h3>Today's focus</h3>
+								<span class="summary-pill">Warm rhythm</span>
+							</div>
+							<p class="summary-text" id="summaryText">Tracking today's focus in real time.</p>
+							<div class="summary-metrics">
+								<div class="metric">
+									<div class="metric-label">Focus minutes</div>
+									<div class="metric-value" id="summaryFocusMinutes">0 min</div>
+								</div>
+								<div class="metric">
+									<div class="metric-label">Focus sessions</div>
+									<div class="metric-value" id="summaryFocusSessions">0</div>
+								</div>
+								<div class="metric">
+									<div class="metric-label">Active task</div>
+									<div class="metric-value" id="summaryActiveTask">None</div>
+								</div>
+							</div>
+							<button
+								type="button"
+								class="btn btn-outline-secondary button-pressed-no-shadow shadow-none"
+								data-bs-toggle="modal"
+								data-bs-target="#settingsModal"
+							>
+								Tune settings
+							</button>
+						</div>
+					</div>
+				</section>
 			</div>
 		</div>
 
+		<section id="calendarSection" class="calendar-section">
+			<div class="calendar-shell">
+				<div class="calendar-header">
+					<div class="calendar-nav">
+						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarPrev">Prev</button>
+						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarToday">Today</button>
+						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarNext">Next</button>
+					</div>
+					<div class="calendar-title" id="calendarHeaderLabel"></div>
+					<div class="calendar-view">
+						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none active" id="calendarViewWeek">Week</button>
+						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarViewDay">Day</button>
+					</div>
+				</div>
+				<div id="calendarGrid" class="calendar-grid" aria-label="Timeblocking calendar"></div>
+			</div>
+		</section>
+
 		<!-- Description of PomodoroTimers -->
-		<div class="site-description container-fluid">
-			<div class="description-section row justify-content-center">
-				<div class="col-10 col-lg-7 mb-4">
-					<h1 class="section-title text-center pb-3">What is PomodoroTimers?</h1>
+		<section class="site-description">
+			<div class="container info-stack">
+				<section class="info-card">
+					<h2 class="section-title">What is PomodoroTimers?</h2>
 					<div class="section-title-border"></div>
 					<div class="section-content">
 						<p>
@@ -181,12 +186,10 @@
 							<a class="blue-underline blue-link" href="mailto: yeoh.yuyong@gmail.com">yeoh.yuyong@gmail.com</a>
 						</p>
 					</div>
-				</div>
-			</div>
+				</section>
 
-			<div class="description-section row justify-content-center">
-				<div class="col-10 col-lg-7 mb-4">
-					<h1 class="section-title text-center pb-3">About Pomodoro Technique</h1>
+				<section class="info-card">
+					<h2 class="section-title">About Pomodoro Technique</h2>
 					<div class="section-title-border"></div>
 					<div class="section-content">
 						<p>
@@ -202,12 +205,10 @@
 							>
 						</footer>
 					</div>
-				</div>
-			</div>
+				</section>
 
-			<div class="description-section row justify-content-center">
-				<div class="col-10 col-lg-7 mb-4">
-					<h1 class="section-title text-center pb-3">How to use PomodoroTimers?</h1>
+				<section class="info-card">
+					<h2 class="section-title">How to use PomodoroTimers?</h2>
 					<div class="section-title-border"></div>
 					<div class="section-content">
 						<dl class="row">
@@ -223,12 +224,10 @@
 							<dd class="col-sm-10">Go back to step 1 and repeat the process until task is complete</dd>
 						</dl>
 					</div>
-				</div>
-			</div>
+				</section>
 
-			<div class="description-section row justify-content-center pb-5">
-				<div class="col-10 col-lg-7">
-					<h1 class="section-title text-center pb-3">Why use PomodoroTimers?</h1>
+				<section class="info-card">
+					<h2 class="section-title">Why use PomodoroTimers?</h2>
 					<div class="section-title-border"></div>
 					<div class="section-content">
 						<dl class="row">
@@ -266,9 +265,9 @@
 							<dd class="col-sm-11 pb-3">Dark Mode (optional)</dd>
 						</dl>
 					</div>
-				</div>
+				</section>
 			</div>
-		</div>
+		</section>
 
 		<!-- Back to top button -->
 		<div class="scrolltop-wrap row">
@@ -307,6 +306,52 @@
 		</div>
 
 		<!-- Modals -->
+		<!-- Timeblock Modal -->
+		<div
+			class="modal fade"
+			data-bs-keyboard="true"
+			id="timeblockModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="timeblockModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title ms-3" id="timeblockModalLabel">Timeblock</h3>
+						<button type="button" class="btn-close button-pressed-no-shadow" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="row g-3">
+							<div class="col-12">
+								<label class="form-label">Task</label>
+								<select class="form-select" id="timeblockTaskSelect"></select>
+							</div>
+							<div class="col-6">
+								<label class="form-label">Start</label>
+								<input type="time" class="form-control" id="timeblockStart" />
+							</div>
+							<div class="col-6">
+								<label class="form-label">End</label>
+								<input type="time" class="form-control" id="timeblockEnd" />
+							</div>
+							<div class="col-12">
+								<label class="form-label">Note</label>
+								<textarea class="form-control" id="timeblockNote" rows="2"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="container d-flex justify-content-between align-items-center">
+							<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="timeblockDelete">Delete</button>
+							<button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="timeblockSave">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Settings Modal -->
 		<div
 			class="modal fade"
@@ -690,6 +735,15 @@
 									placeholder="Task Description"
 									aria-label="Task name"
 									aria-describedby="addTaskButton"
+								/>
+								<input
+									id="taskEstimateInput"
+									type="number"
+									min="0"
+									step="5"
+									class="form-control"
+									placeholder="Est (min)"
+									aria-label="Task estimate"
 								/>
 								<button class="btn btn-outline-secondary button-pressed-no-shadow" id="addTaskButton" type="button">Add</button>
 							</div>
