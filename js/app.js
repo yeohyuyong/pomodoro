@@ -67,6 +67,8 @@ const elements = {
 		section: document.getElementById("calendarSection"),
 		grid: document.getElementById("calendarGrid"),
 		headerLabel: document.getElementById("calendarHeaderLabel"),
+		startTime: document.getElementById("calendarStartTime"),
+		endTime: document.getElementById("calendarEndTime"),
 		prev: document.getElementById("calendarPrev"),
 		next: document.getElementById("calendarNext"),
 		today: document.getElementById("calendarToday"),
@@ -76,6 +78,7 @@ const elements = {
 	timeblock: {
 		modal: document.getElementById("timeblockModal"),
 		taskSelect: document.getElementById("timeblockTaskSelect"),
+		label: document.getElementById("timeblockLabel"),
 		start: document.getElementById("timeblockStart"),
 		end: document.getElementById("timeblockEnd"),
 		note: document.getElementById("timeblockNote"),
@@ -124,6 +127,8 @@ let calendarView = "week";
 let calendarCursorDate = new Date();
 const CALENDAR_SLOT_HEIGHT = 28;
 let calendarEditingBlockId = null;
+let calendarNowLineTimerId = null;
+let calendarNowLineContext = null;
 
 function getModeDurationSec(mode) {
 	const mins = state.settings.durationsMin;
@@ -768,6 +773,20 @@ function timeInputFromMinutes(minutes) {
 	return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
+function hourFromTimeInput(value, allowMidnight) {
+	const min = minutesFromTimeInput(value, allowMidnight);
+	if (min === null) return null;
+	return Math.floor(min / 60);
+}
+
+function syncCalendarHourInputs(settings) {
+	if (!elements.calendar.startTime || !elements.calendar.endTime) return;
+	const startMin = settings.dayStartHour * 60;
+	const endMin = settings.dayEndHour * 60;
+	elements.calendar.startTime.value = timeInputFromMinutes(startMin);
+	elements.calendar.endTime.value = timeInputFromMinutes(endMin);
+}
+
 function dateFromDayKey(dayKey) {
 	const [y, m, d] = String(dayKey).split("-").map((v) => Number(v));
 	if (!Number.isFinite(y) || !Number.isFinite(m) || !Number.isFinite(d)) return new Date();
@@ -955,6 +974,7 @@ function renderCalendar() {
 	const dayEndMin = settings.dayEndHour * 60;
 	const slotMinutes = settings.slotMinutes;
 	const slots = Math.ceil((dayEndMin - dayStartMin) / slotMinutes);
+	syncCalendarHourInputs(settings);
 
 	const days = getCalendarDays();
 	grid.style.setProperty("--slot-height", `${CALENDAR_SLOT_HEIGHT}px`);
@@ -1011,6 +1031,9 @@ function renderCalendar() {
 
 	renderTimeBlocks(days, { dayStartMin, dayEndMin, slotMinutes });
 	renderCalendarHeader(days);
+	calendarNowLineContext = { days, dayStartMin, dayEndMin, slotMinutes };
+	renderNowLine(calendarNowLineContext);
+	ensureNowLineTimer();
 
 	bindCalendarEvents();
 }
@@ -1047,7 +1070,12 @@ function renderTimeBlocks(days, { dayStartMin, dayEndMin, slotMinutes }) {
 		const title = document.createElement("div");
 		title.className = "timeblock-title";
 		const task = block.taskId ? state.tasks.find((t) => t.id === block.taskId) : null;
-		title.textContent = task?.title || block.label || "Unassigned";
+		if (task) {
+			title.textContent = task.title;
+		} else {
+			el.classList.add("timeblock-event");
+			title.textContent = block.label || "Untitled event";
+		}
 
 		const meta = document.createElement("div");
 		meta.className = "timeblock-meta";
@@ -1070,6 +1098,44 @@ function renderTimeBlocks(days, { dayStartMin, dayEndMin, slotMinutes }) {
 		el.append(handleStart, handleEnd, title, meta, editBtn);
 		col.appendChild(el);
 	}
+}
+
+function renderNowLine(context) {
+	const grid = elements.calendar.grid;
+	if (!grid || !context) return;
+	const columns = grid.querySelector(".calendar-day-columns");
+	if (!columns) return;
+
+	columns.querySelectorAll(".calendar-now-line").forEach((el) => el.remove());
+
+	const { days, dayStartMin, dayEndMin, slotMinutes } = context;
+	const todayKey = toLocalDayKey(new Date());
+	const todayInView = days.some((d) => toLocalDayKey(d) === todayKey);
+	if (!todayInView) return;
+
+	const now = new Date();
+	const nowMin = now.getHours() * 60 + now.getMinutes();
+	if (nowMin < dayStartMin || nowMin > dayEndMin) return;
+
+	const col = columns.querySelector(`[data-day-key="${todayKey}"]`);
+	if (!col) return;
+
+	const top = ((nowMin - dayStartMin) / slotMinutes) * CALENDAR_SLOT_HEIGHT;
+	const line = document.createElement("div");
+	line.className = "calendar-now-line";
+	line.style.top = `${top}px`;
+	const dot = document.createElement("span");
+	dot.className = "calendar-now-dot";
+	line.appendChild(dot);
+	col.appendChild(line);
+}
+
+function ensureNowLineTimer() {
+	if (calendarNowLineTimerId !== null) return;
+	calendarNowLineTimerId = window.setInterval(() => {
+		if (!calendarNowLineContext) return;
+		renderNowLine(calendarNowLineContext);
+	}, 60 * 1000);
 }
 
 let calendarEventsBound = false;
@@ -1387,6 +1453,7 @@ function openTimeblockModal(blockId) {
 	const m = blockMinutes(block);
 	if (elements.timeblock.start) elements.timeblock.start.value = timeInputFromMinutes(m.startMin);
 	if (elements.timeblock.end) elements.timeblock.end.value = timeInputFromMinutes(m.endMin);
+	if (elements.timeblock.label) elements.timeblock.label.value = block.label || "";
 	if (elements.timeblock.note) elements.timeblock.note.value = block.note || "";
 
 	const modal = globalThis.bootstrap?.Modal?.getOrCreateInstance?.(elements.timeblock.modal);
@@ -2007,8 +2074,35 @@ function setCalendarView(view) {
 	renderCalendar();
 }
 
+function handleCalendarHoursChange() {
+	const settings = getCalendarSettings();
+	const startHour = hourFromTimeInput(elements.calendar.startTime?.value, false);
+	const endHour = hourFromTimeInput(elements.calendar.endTime?.value, true);
+
+	if (startHour === null || endHour === null) {
+		showAlert({ variant: "alert-danger", html: "<strong>Invalid time.</strong> Please check start and end." });
+		syncCalendarHourInputs(settings);
+		return;
+	}
+	if (endHour !== 24 && endHour <= startHour) {
+		showAlert({ variant: "alert-danger", html: "<strong>End time must be after start.</strong>" });
+		syncCalendarHourInputs(settings);
+		return;
+	}
+
+	state.settings.calendar.dayStartHour = Math.max(0, Math.min(23, startHour));
+	state.settings.calendar.dayEndHour = Math.max(1, Math.min(24, endHour));
+	if (state.settings.calendar.dayEndHour <= state.settings.calendar.dayStartHour) {
+		state.settings.calendar.dayEndHour = Math.min(24, state.settings.calendar.dayStartHour + 1);
+	}
+	saveState(state);
+	renderCalendar();
+}
+
 elements.calendar.viewWeek?.addEventListener("click", () => setCalendarView("week"));
 elements.calendar.viewDay?.addEventListener("click", () => setCalendarView("day"));
+elements.calendar.startTime?.addEventListener("change", handleCalendarHoursChange);
+elements.calendar.endTime?.addEventListener("change", handleCalendarHoursChange);
 
 elements.calendar.prev?.addEventListener("click", () => {
 	const delta = calendarView === "week" ? -7 : -1;
@@ -2057,6 +2151,7 @@ elements.timeblock.save?.addEventListener("click", () => {
 		return;
 	}
 
+	block.label = elements.timeblock.label?.value.trim() || "";
 	block.taskId = elements.timeblock.taskSelect?.value || null;
 	block.note = elements.timeblock.note?.value || "";
 	block.startAtIso = minutesToIso(dayDate, startMin);

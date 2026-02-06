@@ -147,19 +147,25 @@
 		</div>
 
 		<section id="calendarSection" class="calendar-section">
-			<div class="calendar-shell">
-				<div class="calendar-header">
-					<div class="calendar-nav">
-						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarPrev">Prev</button>
-						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarToday">Today</button>
-						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarNext">Next</button>
+				<div class="calendar-shell">
+					<div class="calendar-header">
+						<div class="calendar-nav">
+							<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarPrev">Prev</button>
+							<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarToday">Today</button>
+							<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarNext">Next</button>
+						</div>
+						<div class="calendar-title" id="calendarHeaderLabel"></div>
+						<div class="calendar-hours">
+							<label class="small text-muted" for="calendarStartTime">Start</label>
+							<input type="time" class="form-control form-control-sm" id="calendarStartTime" step="3600" />
+							<label class="small text-muted" for="calendarEndTime">End</label>
+							<input type="time" class="form-control form-control-sm" id="calendarEndTime" step="3600" />
+						</div>
+						<div class="calendar-view">
+							<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none active" id="calendarViewWeek">Week</button>
+							<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarViewDay">Day</button>
+						</div>
 					</div>
-					<div class="calendar-title" id="calendarHeaderLabel"></div>
-					<div class="calendar-view">
-						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none active" id="calendarViewWeek">Week</button>
-						<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="calendarViewDay">Day</button>
-					</div>
-				</div>
 				<div id="calendarGrid" class="calendar-grid" aria-label="Timeblocking calendar"></div>
 			</div>
 		</section>
@@ -327,6 +333,10 @@
 							<div class="col-12">
 								<label class="form-label">Task</label>
 								<select class="form-select" id="timeblockTaskSelect"></select>
+							</div>
+							<div class="col-12">
+								<label class="form-label">Event name</label>
+								<input type="text" class="form-control" id="timeblockLabel" placeholder="Event name" />
 							</div>
 							<div class="col-6">
 								<label class="form-label">Start</label>

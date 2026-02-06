@@ -1232,6 +1232,20 @@ html[data-theme="dark"] .icon-btn {
 	align-items: center;
 }
 
+.calendar-hours {
+	display: flex;
+	gap: var(--space-2);
+	align-items: center;
+}
+
+.calendar-hours label {
+	margin: 0;
+}
+
+.calendar-hours .form-control {
+	width: 6.5rem;
+}
+
 .calendar-title {
 	font-family: var(--font-display);
 	font-size: 1.4rem;
@@ -1342,11 +1356,22 @@ html[data-theme="dark"] .calendar-day-column {
 	cursor: grab;
 	box-shadow: 0 6px 12px rgba(34, 22, 15, 0.12);
 	user-select: none;
+	z-index: 1;
 }
 
 html[data-theme="dark"] .timeblock {
 	background: rgba(224, 123, 95, 0.18);
 	border-color: rgba(224, 123, 95, 0.5);
+}
+
+.timeblock-event {
+	background: rgba(63, 109, 91, 0.14);
+	border-color: rgba(63, 109, 91, 0.45);
+}
+
+html[data-theme="dark"] .timeblock-event {
+	background: rgba(122, 160, 138, 0.2);
+	border-color: rgba(122, 160, 138, 0.55);
 }
 
 .timeblock .timeblock-title {
@@ -1392,6 +1417,28 @@ html[data-theme="dark"] .timeblock {
 	color: inherit;
 	font-size: 0.8rem;
 	cursor: pointer;
+}
+
+.calendar-now-line {
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: var(--accent-2);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.calendar-now-dot {
+	position: absolute;
+	left: -4px;
+	top: 50%;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	transform: translateY(-50%);
+	background: var(--accent-2);
+	box-shadow: 0 0 0 2px var(--color-surface);
 }
 
 .task-meta {
