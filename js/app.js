@@ -282,9 +282,7 @@ function canSendDesktopNotif() {
 	if (!isDesktopNotifSupported()) return false;
 	if (!state?.settings?.notifications?.enabled) return false;
 	if (Notification.permission !== "granted") return false;
-	const isVisible =
-		typeof document.visibilityState === "string" ? document.visibilityState === "visible" : typeof document.hidden === "boolean" ? !document.hidden : true;
-	return !isVisible;
+	return true;
 }
 
 function getActiveTaskTitle() {
@@ -396,16 +394,21 @@ const timerEngine = createTimerEngine({
 	onTick: (remainingSec) => {
 		renderTimer(remainingSec);
 		const notifMin = Number(state.settings.sounds.endingNotificationMin || 0);
+		const thresholdSec = Math.round(Math.max(0, notifMin) * 60);
 		if (state.runtime.timerState === "running") {
 			soundController.syncRunning(true);
 			soundController.playTick(state.settings.sounds.tickEnabled && remainingSec > 0);
-			if (notifMin > 0 && remainingSec === notifMin * 60) soundController.playNotification();
+			if (thresholdSec > 0 && remainingSec > 0) {
+				const crossedIntoThreshold =
+					remainingSec === thresholdSec ||
+					(typeof lastOnTickRemainingSec === "number" && lastOnTickRemainingSec > thresholdSec && remainingSec < thresholdSec);
+				if (crossedIntoThreshold) soundController.playNotification();
+			}
 		} else {
 			soundController.syncRunning(false);
 		}
 
 		if (state.runtime.timerState === "running") {
-			const thresholdSec = Math.round(Math.max(0, notifMin) * 60);
 			if (
 				thresholdSec > 0 &&
 				remainingSec > 0 &&
@@ -2557,6 +2560,11 @@ elements.settings.notificationsEnabled?.addEventListener("change", async () => {
 		state.settings.notifications.enabled = true;
 		saveState(state);
 		updateDesktopNotificationsUi();
+		sendDesktopNotif({
+			title: "Desktop notifications enabled",
+			body: "You'll get alerts when a timer is ending soon and when it completes.",
+			tag: "pomodorotimers:test:enabled",
+		});
 		return;
 	}
 
@@ -2565,6 +2573,11 @@ elements.settings.notificationsEnabled?.addEventListener("change", async () => {
 		state.settings.notifications.enabled = true;
 		saveState(state);
 		updateDesktopNotificationsUi();
+		sendDesktopNotif({
+			title: "Desktop notifications enabled",
+			body: "You'll get alerts when a timer is ending soon and when it completes.",
+			tag: "pomodorotimers:test:enabled",
+		});
 		return;
 	}
 
