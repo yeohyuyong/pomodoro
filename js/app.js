@@ -75,6 +75,7 @@ const elements = {
 		today: document.getElementById("calendarToday"),
 		viewWeek: document.getElementById("calendarViewWeek"),
 		viewDay: document.getElementById("calendarViewDay"),
+		workHoursButton: document.getElementById("calendarWorkHoursButton"),
 		aiPlanButton: document.getElementById("calendarAiPlanButton"),
 	},
 	timeblock: {
@@ -98,6 +99,11 @@ const elements = {
 		previewButton: document.getElementById("aiPlanPreviewButton"),
 		applyButton: document.getElementById("aiPlanApplyButton"),
 		undoButton: document.getElementById("aiPlanUndoButton"),
+	},
+	workHours: {
+		modal: document.getElementById("workHoursModal"),
+		rows: document.getElementById("workHoursRows"),
+		save: document.getElementById("workHoursSaveButton"),
 	},
 	log: {
 		clear: document.getElementById("clearButton"),
@@ -136,6 +142,14 @@ const modeColors = {
 	shortBreak: "#3f6d5b",
 	longBreak: "#f0b45b",
 };
+
+const DOW_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+function orderedDowIndices(weekStart) {
+	if (weekStart === "sun") return [0, 1, 2, 3, 4, 5, 6];
+	if (weekStart === "sat") return [6, 0, 1, 2, 3, 4, 5];
+	return [1, 2, 3, 4, 5, 6, 0];
+}
 
 let calendarView = "week";
 let calendarCursorDate = new Date();
@@ -862,16 +876,79 @@ function getEligibleStartMinForDayKey(dayKey, { todayKey, nowMin, dayStartMin, d
 	return Math.min(dayEndMin, eligible);
 }
 
+function getWorkHoursByDow(calendar) {
+	const settings = getCalendarSettings();
+	const dayStartMin = settings.dayStartHour * 60;
+	const dayEndMin = settings.dayEndHour * 60;
+	const slotMinutes = settings.slotMinutes;
+	const raw = Array.isArray(calendar?.workHoursByDow) ? calendar.workHoursByDow : [];
+
+	const normalized = [];
+	for (let i = 0; i < 7; i++) {
+		const r = raw[i] && typeof raw[i] === "object" ? raw[i] : {};
+		const enabled = r.enabled === undefined ? true : Boolean(r.enabled);
+		const rawStart = Number(r.startMin);
+		const rawEnd = Number(r.endMin);
+		let startMin = Number.isFinite(rawStart) ? clampMinutes(Math.round(rawStart), 0, 24 * 60) : dayStartMin;
+		let endMin = Number.isFinite(rawEnd) ? clampMinutes(Math.round(rawEnd), 0, 24 * 60) : dayEndMin;
+
+		startMin = Math.round(startMin / slotMinutes) * slotMinutes;
+		endMin = Math.round(endMin / slotMinutes) * slotMinutes;
+		startMin = clampMinutes(startMin, 0, 24 * 60);
+		endMin = clampMinutes(endMin, 0, 24 * 60);
+		if (enabled && endMin <= startMin) endMin = Math.min(24 * 60, startMin + slotMinutes);
+
+		normalized[i] = { enabled, startMin, endMin };
+	}
+	return normalized;
+}
+
+function displayWindowFromSettings(settings) {
+	const dayStartMin = settings.dayStartHour * 60;
+	const dayEndMin = settings.dayEndHour * 60;
+	return { startMin: dayStartMin, endMin: dayEndMin };
+}
+
+function workWindowForDayKey(dayKey, { workHoursByDow }) {
+	const date = dateFromDayKey(dayKey);
+	const dow = date.getDay();
+	const entry = Array.isArray(workHoursByDow) ? workHoursByDow[dow] : null;
+	if (!entry || !entry.enabled) return null;
+	const startMin = Number(entry.startMin);
+	const endMin = Number(entry.endMin);
+	if (!Number.isFinite(startMin) || !Number.isFinite(endMin) || endMin <= startMin) return null;
+	return { startMin, endMin };
+}
+
+function taskSchedulingWindowForDayKey(dayKey, { calendar, now }) {
+	const settings = getCalendarSettings();
+	const slotMinutes = settings.slotMinutes;
+	const todayKey = toLocalDayKey(now);
+	const nowMin = now.getHours() * 60 + now.getMinutes();
+
+	const workHoursByDow = getWorkHoursByDow(calendar);
+	const workWindow = workWindowForDayKey(dayKey, { workHoursByDow });
+	if (!workWindow) return null;
+
+	const displayWindow = displayWindowFromSettings(settings);
+	const baseStart = Math.max(displayWindow.startMin, workWindow.startMin);
+	const baseEnd = Math.min(displayWindow.endMin, workWindow.endMin);
+	if (baseEnd <= baseStart) return null;
+
+	const startMin = getEligibleStartMinForDayKey(dayKey, { todayKey, nowMin, dayStartMin: baseStart, dayEndMin: baseEnd, slotMinutes });
+	const endMin = baseEnd;
+	if (startMin >= endMin) return null;
+
+	return { startMin, endMin };
+}
+
 function getPlanningDaysForCurrentView() {
 	return getCalendarDays();
 }
 
-function computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, { dayStartMin, dayEndMin, slotMinutes }) {
+function computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, { getWindowForDayKey }) {
 	/** @type {Map<string, number>} */
 	const byTaskId = new Map();
-	const now = new Date();
-	const todayKey = toLocalDayKey(now);
-	const nowMin = now.getHours() * 60 + now.getMinutes();
 	for (const block of state.timeBlocks || []) {
 		if (!block || typeof block !== "object") continue;
 		if (typeof block.taskId !== "string" || !block.taskId) continue;
@@ -879,9 +956,10 @@ function computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, { dayStartMin, dayE
 		const m = blockMinutes(block);
 		if (!dayKeysSet.has(m.dayKey)) continue;
 
-		const eligibleStartMin = getEligibleStartMinForDayKey(m.dayKey, { todayKey, nowMin, dayStartMin, dayEndMin, slotMinutes });
-		const clippedStart = Math.max(m.startMin, eligibleStartMin);
-		const clippedEnd = Math.min(m.endMin, dayEndMin);
+		const window = getWindowForDayKey(m.dayKey);
+		if (!window) continue;
+		const clippedStart = Math.max(m.startMin, window.startMin);
+		const clippedEnd = Math.min(m.endMin, window.endMin);
 		const dur = clippedEnd - clippedStart;
 		if (dur <= 0) continue;
 
@@ -893,30 +971,21 @@ function computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, { dayStartMin, dayE
 	return byTaskId;
 }
 
-function computeFreeIntervalsByDayKey(dayKeysInOrder, { dayStartMin, dayEndMin, slotMinutes }) {
+function computeFreeIntervalsByDayKey(dayKeysInOrder, { slotMinutes, getWindowForDayKey }) {
 	/** @type {Map<string, Array<{ startMin: number, endMin: number }>>} */
 	const busyByDayKey = new Map();
 	const dayKeysSet = new Set(dayKeysInOrder);
 	for (const dayKey of dayKeysInOrder) busyByDayKey.set(dayKey, []);
-
-	const now = new Date();
-	const todayKey = toLocalDayKey(now);
-	const nowMin = now.getHours() * 60 + now.getMinutes();
-	/** @type {Map<string, number>} */
-	const eligibleStartByDayKey = new Map();
-	for (const dayKey of dayKeysInOrder) {
-		eligibleStartByDayKey.set(dayKey, getEligibleStartMinForDayKey(dayKey, { todayKey, nowMin, dayStartMin, dayEndMin, slotMinutes }));
-	}
 
 	for (const block of state.timeBlocks || []) {
 		if (!block || typeof block !== "object") continue;
 		const m = blockMinutes(block);
 		if (!dayKeysSet.has(m.dayKey)) continue;
 
-		const eligibleStartMin = eligibleStartByDayKey.get(m.dayKey);
-		if (eligibleStartMin === undefined || eligibleStartMin >= dayEndMin) continue;
-		const clippedStart = Math.max(m.startMin, eligibleStartMin);
-		const clippedEnd = Math.min(m.endMin, dayEndMin);
+		const window = getWindowForDayKey(m.dayKey);
+		if (!window) continue;
+		const clippedStart = Math.max(m.startMin, window.startMin);
+		const clippedEnd = Math.min(m.endMin, window.endMin);
 		if (clippedEnd <= clippedStart) continue;
 
 		busyByDayKey.get(m.dayKey)?.push({ startMin: clippedStart, endMin: clippedEnd });
@@ -926,8 +995,8 @@ function computeFreeIntervalsByDayKey(dayKeysInOrder, { dayStartMin, dayEndMin, 
 	const freeByDayKey = {};
 
 	for (const dayKey of dayKeysInOrder) {
-		const eligibleStartMin = eligibleStartByDayKey.get(dayKey) ?? dayStartMin;
-		if (eligibleStartMin >= dayEndMin) {
+		const window = getWindowForDayKey(dayKey);
+		if (!window || window.startMin >= window.endMin) {
 			freeByDayKey[dayKey] = [];
 			continue;
 		}
@@ -948,12 +1017,12 @@ function computeFreeIntervalsByDayKey(dayKeysInOrder, { dayStartMin, dayEndMin, 
 
 		/** @type {Array<{ startMin: number, endMin: number }>} */
 		const free = [];
-		let cursor = eligibleStartMin;
+		let cursor = window.startMin;
 		for (const interval of merged) {
 			if (interval.startMin > cursor) free.push({ startMin: cursor, endMin: interval.startMin });
 			cursor = Math.max(cursor, interval.endMin);
 		}
-		if (cursor < dayEndMin) free.push({ startMin: cursor, endMin: dayEndMin });
+		if (cursor < window.endMin) free.push({ startMin: cursor, endMin: window.endMin });
 
 		const snapped = free
 			.map((f) => ({
@@ -970,8 +1039,6 @@ function computeFreeIntervalsByDayKey(dayKeysInOrder, { dayStartMin, dayEndMin, 
 
 function buildAiPlanModel() {
 	const settings = getCalendarSettings();
-	const dayStartMin = settings.dayStartHour * 60;
-	const dayEndMin = settings.dayEndHour * 60;
 	const slotMinutes = settings.slotMinutes;
 	const maxBlockMin = typeof state.settings?.calendar?.aiMaxBlockMin === "number" ? state.settings.calendar.aiMaxBlockMin : 90;
 
@@ -979,7 +1046,10 @@ function buildAiPlanModel() {
 	const dayKeysInOrder = days.map((d) => toLocalDayKey(d));
 	const dayKeysSet = new Set(dayKeysInOrder);
 
-	const plannedMinByTaskId = computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, { dayStartMin, dayEndMin, slotMinutes });
+	const now = new Date();
+	const calendar = state.settings?.calendar || {};
+	const getWindowForDayKey = (dayKey) => taskSchedulingWindowForDayKey(dayKey, { calendar, now });
+	const plannedMinByTaskId = computeAlreadyPlannedMinByTaskIdInRange(dayKeysSet, { getWindowForDayKey });
 
 	const tasksSorted = [...state.tasks].sort((a, b) => a.order - b.order);
 	const schedulable = [];
@@ -1008,12 +1078,12 @@ function buildAiPlanModel() {
 	}
 
 	return {
+		now,
+		calendar,
 		days,
 		dayKeysInOrder,
 		rangeLabel: calendarRangeLabel(days),
 		slotMinutes,
-		dayStartMin,
-		dayEndMin,
 		maxBlockMin,
 		schedulable,
 		missingEstimates,
@@ -1204,10 +1274,10 @@ function generateAiDraftPlan() {
 		return;
 	}
 
+	const getWindowForDayKey = (dayKey) => taskSchedulingWindowForDayKey(dayKey, { calendar: model.calendar, now: model.now });
 	const freeIntervalsByDayKey = computeFreeIntervalsByDayKey(model.dayKeysInOrder, {
-		dayStartMin: model.dayStartMin,
-		dayEndMin: model.dayEndMin,
 		slotMinutes: model.slotMinutes,
+		getWindowForDayKey,
 	});
 
 	const { proposed, unscheduled } = planTimeblocks({
@@ -1221,8 +1291,6 @@ function generateAiDraftPlan() {
 	aiDraftPlan = {
 		createdAtIso: new Date().toISOString(),
 		dayKeysInOrder: model.dayKeysInOrder,
-		dayStartMin: model.dayStartMin,
-		dayEndMin: model.dayEndMin,
 		slotMinutes: model.slotMinutes,
 		proposed,
 		unscheduled,
@@ -1235,22 +1303,21 @@ function generateAiDraftPlan() {
 function applyAiDraftPlan() {
 	if (!aiDraftPlan || !aiDraftPlan.proposed?.length) return;
 
-	const settings = getCalendarSettings();
-	const dayStartMin = settings.dayStartHour * 60;
-	const dayEndMin = settings.dayEndHour * 60;
-	const slotMinutes = settings.slotMinutes;
 	const now = new Date();
-	const todayKey = toLocalDayKey(now);
-	const nowMin = now.getHours() * 60 + now.getMinutes();
-	const eligibleStartToday = getEligibleStartMinForDayKey(todayKey, { todayKey, nowMin, dayStartMin, dayEndMin, slotMinutes });
+	const calendar = state.settings?.calendar || {};
+	const getWindowForDayKey = (dayKey) => taskSchedulingWindowForDayKey(dayKey, { calendar, now });
 
 	const stamp = new Date().toISOString();
 	const note = `[AI plan] ${stamp}`;
 
-	// Validate that we are not applying blocks in the past.
+	// Validate that we are still within working hours / not in the past.
 	for (const p of aiDraftPlan.proposed) {
-		if (p.dayKey < todayKey || (p.dayKey === todayKey && p.startMin < eligibleStartToday)) {
-			showAlert({ variant: "alert-danger", html: "<strong>Time has passed.</strong> Please preview again before applying." });
+		const window = getWindowForDayKey(p.dayKey);
+		if (!window || p.startMin < window.startMin || p.endMin > window.endMin) {
+			showAlert({
+				variant: "alert-danger",
+				html: "<strong>Working hours/time changed.</strong> Please preview again before applying.",
+			});
 			clearAiPlanPreview();
 			return;
 		}
@@ -1302,6 +1369,226 @@ function undoLastAiApply() {
 	clearAiPlanPreview();
 	if (elements.aiPlan.undoButton) elements.aiPlan.undoButton.disabled = true;
 	showAlert({ variant: "alert-success", html: "<strong>Undone.</strong> Removed last AI plan blocks." });
+}
+
+function isAiPlannedBlock(block) {
+	return Boolean(block && typeof block === "object" && typeof block.note === "string" && block.note.startsWith("[AI plan]") && typeof block.taskId === "string");
+}
+
+function renderWorkHoursModal() {
+	const wh = elements.workHours;
+	if (!wh?.rows) return;
+
+	const settings = getCalendarSettings();
+	const slotMinutes = settings.slotMinutes;
+	const stepSec = slotMinutes * 60;
+	const order = orderedDowIndices(settings.weekStart);
+
+	const calendar = state.settings?.calendar || {};
+	const workHoursByDow = getWorkHoursByDow(calendar);
+
+	wh.rows.innerHTML = "";
+	for (const dow of order) {
+		const entry = workHoursByDow[dow] || { enabled: true, startMin: settings.dayStartHour * 60, endMin: settings.dayEndHour * 60 };
+
+		const row = document.createElement("div");
+		row.className = "d-flex align-items-center justify-content-between gap-2 flex-wrap border rounded p-2";
+		row.dataset.dow = String(dow);
+
+		const label = document.createElement("div");
+		label.className = "fw-semibold";
+		label.textContent = DOW_LABELS[dow] || `Day ${dow}`;
+
+		const enabledWrap = document.createElement("div");
+		enabledWrap.className = "form-check form-switch m-0";
+		const enabled = document.createElement("input");
+		enabled.type = "checkbox";
+		enabled.className = "form-check-input";
+		enabled.checked = Boolean(entry.enabled);
+		enabled.dataset.role = "enabled";
+		enabledWrap.appendChild(enabled);
+
+		const times = document.createElement("div");
+		times.className = "d-flex align-items-center gap-2";
+
+		const start = document.createElement("input");
+		start.type = "time";
+		start.className = "form-control form-control-sm";
+		start.step = String(stepSec);
+		start.value = timeInputFromMinutes(Number(entry.startMin) || 0);
+		start.dataset.role = "start";
+
+		const sep = document.createElement("span");
+		sep.className = "small text-muted";
+		sep.textContent = "to";
+
+		const end = document.createElement("input");
+		end.type = "time";
+		end.className = "form-control form-control-sm";
+		end.step = String(stepSec);
+		end.value = timeInputFromMinutes(Number(entry.endMin) || 0);
+		end.dataset.role = "end";
+
+		const updateDisabled = () => {
+			const dis = !enabled.checked;
+			start.disabled = dis;
+			end.disabled = dis;
+		};
+		enabled.addEventListener("change", updateDisabled);
+		updateDisabled();
+
+		times.append(start, sep, end);
+		row.append(label, enabledWrap, times);
+		wh.rows.appendChild(row);
+	}
+}
+
+function saveWorkHoursFromModal() {
+	const wh = elements.workHours;
+	if (!wh?.rows) return;
+
+	const settings = getCalendarSettings();
+	const slotMinutes = settings.slotMinutes;
+
+	const rows = [...wh.rows.querySelectorAll("[data-dow]")];
+	if (rows.length === 0) return;
+
+	const snap = (min) => clampMinutes(Math.round(min / slotMinutes) * slotMinutes, 0, 24 * 60);
+
+	/** @type {Array<{ enabled: boolean, startMin: number, endMin: number }>} */
+	const next = Array.from({ length: 7 }, () => ({ enabled: true, startMin: settings.dayStartHour * 60, endMin: settings.dayEndHour * 60 }));
+
+	for (const row of rows) {
+		const dow = Number(row.getAttribute("data-dow"));
+		if (!Number.isFinite(dow) || dow < 0 || dow > 6) continue;
+
+		const enabledEl = row.querySelector('input[data-role="enabled"]');
+		const startEl = row.querySelector('input[data-role="start"]');
+		const endEl = row.querySelector('input[data-role="end"]');
+		if (!(enabledEl instanceof HTMLInputElement) || !(startEl instanceof HTMLInputElement) || !(endEl instanceof HTMLInputElement)) continue;
+
+		const enabled = Boolean(enabledEl.checked);
+		let startMin = minutesFromTimeInput(startEl.value, false);
+		let endMin = minutesFromTimeInput(endEl.value, true);
+
+		if (enabled) {
+			if (startMin === null || endMin === null) {
+				showAlert({ variant: "alert-danger", html: "<strong>Invalid time.</strong> Please check start and end." });
+				return;
+			}
+			startMin = snap(startMin);
+			endMin = snap(endMin);
+			if (endMin <= startMin) {
+				showAlert({ variant: "alert-danger", html: "<strong>End time must be after start.</strong>" });
+				return;
+			}
+		} else {
+			if (startMin === null) startMin = next[dow].startMin;
+			if (endMin === null) endMin = next[dow].endMin;
+			startMin = snap(startMin);
+			endMin = snap(endMin);
+			if (endMin <= startMin) endMin = Math.min(24 * 60, startMin + slotMinutes);
+		}
+
+		next[dow] = { enabled, startMin, endMin };
+	}
+
+	// Expand the visible calendar grid to cover working hours (expand-only).
+	const enabledEntries = next.filter((e) => e.enabled);
+	if (enabledEntries.length) {
+		const minStart = Math.min(...enabledEntries.map((e) => e.startMin));
+		const maxEnd = Math.max(...enabledEntries.map((e) => e.endMin));
+		const desiredStartHour = Math.floor(minStart / 60);
+		const desiredEndHour = Math.ceil(maxEnd / 60);
+
+		state.settings.calendar.dayStartHour = Math.min(state.settings.calendar.dayStartHour, clampMinutes(desiredStartHour, 0, 23));
+		state.settings.calendar.dayEndHour = Math.max(state.settings.calendar.dayEndHour, clampMinutes(desiredEndHour, 1, 24));
+		if (state.settings.calendar.dayEndHour <= state.settings.calendar.dayStartHour) {
+			state.settings.calendar.dayEndHour = Math.min(24, state.settings.calendar.dayStartHour + 1);
+		}
+	}
+
+	state.settings.calendar.workHoursByDow = next;
+	saveState(state);
+	renderCalendar();
+	clearAiPlanPreview();
+
+	const modal = globalThis.bootstrap?.Modal?.getOrCreateInstance?.(wh.modal);
+	modal?.hide();
+
+	rescheduleAiBlocksInCurrentViewToWorkingHours();
+}
+
+function rescheduleAiBlocksInCurrentViewToWorkingHours() {
+	const now = new Date();
+	const todayKey = toLocalDayKey(now);
+	const nowMin = now.getHours() * 60 + now.getMinutes();
+	const settings = getCalendarSettings();
+	const slotMinutes = settings.slotMinutes;
+	const calendar = state.settings?.calendar || {};
+
+	const days = getPlanningDaysForCurrentView();
+	const dayKeysInOrder = days.map((d) => toLocalDayKey(d));
+	const dayKeysSet = new Set(dayKeysInOrder);
+	const targetDayKeys = dayKeysInOrder.filter((k) => k >= todayKey);
+	if (!targetDayKeys.length) return;
+
+	const candidates = [];
+	for (const block of state.timeBlocks || []) {
+		if (!isAiPlannedBlock(block)) continue;
+		const m = blockMinutes(block);
+		if (!dayKeysSet.has(m.dayKey)) continue;
+		if (m.dayKey < todayKey) continue;
+		if (m.dayKey === todayKey && m.endMin <= nowMin) continue;
+		if (m.dayKey === todayKey && m.startMin < nowMin) continue;
+		candidates.push({ block, ...m });
+	}
+
+	candidates.sort((a, b) => a.dayKey.localeCompare(b.dayKey) || a.startMin - b.startMin);
+
+	let moved = 0;
+	let stuck = 0;
+
+	for (const c of candidates) {
+		const duration = c.endMin - c.startMin;
+		if (duration <= 0) continue;
+
+		const currentWindow = taskSchedulingWindowForDayKey(c.dayKey, { calendar, now });
+		if (currentWindow && c.startMin >= currentWindow.startMin && c.endMin <= currentWindow.endMin) continue;
+
+		let placed = false;
+		for (const dayKey of targetDayKeys) {
+			const window = taskSchedulingWindowForDayKey(dayKey, { calendar, now });
+			if (!window) continue;
+			const latestStart = window.endMin - duration;
+			for (let startMin = window.startMin; startMin <= latestStart; startMin += slotMinutes) {
+				const endMin = startMin + duration;
+				if (overlapsBlock(dayKey, startMin, endMin, c.block.id)) continue;
+				const dayDate = dateFromDayKey(dayKey);
+				c.block.startAtIso = minutesToIso(dayDate, startMin);
+				c.block.endAtIso = minutesToIso(dayDate, endMin);
+				moved++;
+				placed = true;
+				break;
+			}
+			if (placed) break;
+		}
+
+		if (!placed) stuck++;
+	}
+
+	if (moved) {
+		saveState(state);
+		renderCalendar();
+	}
+
+	if (moved || stuck) {
+		const variant = stuck ? "alert-primary" : "alert-success";
+		showAlert({
+			variant,
+			html: `<strong>Rescheduled.</strong> Rescheduled ${moved} AI block${moved === 1 ? "" : "s"}.${stuck ? ` ${stuck} couldn’t be moved.` : ""}`,
+		});
+	}
 }
 
 function heatLevelFromMinutes(focusMin) {
@@ -2607,6 +2894,14 @@ function normalizeAiMaxBlockMin(raw, slotMinutes) {
 	ai = Math.max(slot, Math.min(240, ai));
 	return ai;
 }
+
+elements.calendar.workHoursButton?.addEventListener("click", () => {
+	renderWorkHoursModal();
+	const modal = globalThis.bootstrap?.Modal?.getOrCreateInstance?.(elements.workHours.modal);
+	modal?.show();
+});
+
+elements.workHours.save?.addEventListener("click", saveWorkHoursFromModal);
 
 elements.calendar.aiPlanButton?.addEventListener("click", () => {
 	renderAiPlanModal();

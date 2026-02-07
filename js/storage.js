@@ -55,7 +55,8 @@
  *       dayStartHour: number,
  *       dayEndHour: number,
  *       slotMinutes: 15|30|60,
- *       aiMaxBlockMin: number
+ *       aiMaxBlockMin: number,
+ *       workHoursByDow: Array<{ enabled: boolean, startMin: number, endMin: number }>
  *     }
  *   },
  *   runtime: Runtime,
@@ -97,7 +98,14 @@ export function createDefaultState(nowMs = Date.now()) {
 			},
 			theme: "system",
 			notifications: { enabled: false },
-			calendar: { weekStart: "mon", dayStartHour: 7, dayEndHour: 24, slotMinutes: 30, aiMaxBlockMin: 90 },
+			calendar: {
+				weekStart: "mon",
+				dayStartHour: 7,
+				dayEndHour: 24,
+				slotMinutes: 30,
+				aiMaxBlockMin: 90,
+				workHoursByDow: Array.from({ length: 7 }, () => ({ enabled: true, startMin: 7 * 60, endMin: 24 * 60 })),
+			},
 		},
 		runtime: {
 			mode: "focus",
@@ -153,7 +161,14 @@ function normalizeState(state) {
 
 	next.settings.notifications = next.settings.notifications || { enabled: false };
 	next.settings.notifications.enabled = Boolean(next.settings.notifications.enabled);
-	next.settings.calendar = next.settings.calendar || { weekStart: "mon", dayStartHour: 7, dayEndHour: 24, slotMinutes: 30, aiMaxBlockMin: 90 };
+	next.settings.calendar = next.settings.calendar || {
+		weekStart: "mon",
+		dayStartHour: 7,
+		dayEndHour: 24,
+		slotMinutes: 30,
+		aiMaxBlockMin: 90,
+		workHoursByDow: Array.from({ length: 7 }, () => ({ enabled: true, startMin: 7 * 60, endMin: 24 * 60 })),
+	};
 	if (next.settings.calendar.weekStart !== "sun" && next.settings.calendar.weekStart !== "sat" && next.settings.calendar.weekStart !== "mon") {
 		next.settings.calendar.weekStart = "mon";
 	}
@@ -172,6 +187,32 @@ function normalizeState(state) {
 		ai = Math.round(ai / slotMin) * slotMin;
 		ai = clampInt(ai, slotMin, 240);
 		next.settings.calendar.aiMaxBlockMin = ai;
+	}
+	{
+		const slotMin = next.settings.calendar.slotMinutes;
+		const defaultStart = next.settings.calendar.dayStartHour * 60;
+		const defaultEnd = next.settings.calendar.dayEndHour * 60;
+		const rawList = Array.isArray(next.settings.calendar.workHoursByDow) ? next.settings.calendar.workHoursByDow : [];
+		const normalized = [];
+		for (let i = 0; i < 7; i++) {
+			const raw = isObject(rawList[i]) ? rawList[i] : {};
+			const enabled = raw.enabled === undefined ? true : Boolean(raw.enabled);
+			const rawStart = Number(raw.startMin);
+			const rawEnd = Number(raw.endMin);
+			let startMin = Number.isFinite(rawStart) ? clampInt(rawStart, 0, 24 * 60) : defaultStart;
+			let endMin = Number.isFinite(rawEnd) ? clampInt(rawEnd, 0, 24 * 60) : defaultEnd;
+
+			startMin = Math.round(startMin / slotMin) * slotMin;
+			endMin = Math.round(endMin / slotMin) * slotMin;
+			startMin = clampInt(startMin, 0, 24 * 60);
+			endMin = clampInt(endMin, 0, 24 * 60);
+
+			if (enabled && endMin <= startMin) {
+				endMin = Math.min(24 * 60, startMin + slotMin);
+			}
+			normalized[i] = { enabled, startMin, endMin };
+		}
+		next.settings.calendar.workHoursByDow = normalized;
 	}
 
 	next.runtime.mode = next.runtime.mode === "focus" || next.runtime.mode === "shortBreak" || next.runtime.mode === "longBreak" ? next.runtime.mode : "focus";

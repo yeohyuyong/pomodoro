@@ -161,6 +161,16 @@
 							<label class="small text-muted" for="calendarEndTime">End</label>
 							<input type="time" class="form-control form-control-sm" id="calendarEndTime" step="3600" />
 						</div>
+						<div class="calendar-workhours">
+							<button
+								type="button"
+								class="btn btn-outline-secondary button-pressed-no-shadow shadow-none"
+								id="calendarWorkHoursButton"
+								aria-label="Set working hours"
+							>
+								Work hours
+							</button>
+						</div>
 						<div class="calendar-ai">
 							<button
 								type="button"
@@ -422,6 +432,39 @@
 									<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" id="aiPlanPreviewButton">Preview</button>
 									<button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="aiPlanApplyButton" disabled>Apply</button>
 								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Work Hours Modal -->
+			<div
+				class="modal fade"
+				data-bs-keyboard="true"
+				id="workHoursModal"
+				tabindex="-1"
+				role="dialog"
+				aria-labelledby="workHoursModalLabel"
+				aria-hidden="true"
+			>
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title ms-3" id="workHoursModalLabel">Work hours</h3>
+							<button type="button" class="btn-close button-pressed-no-shadow" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="small text-muted mb-3">
+								AI scheduling will only place tasks inside these hours (and only after the current time for today).
+							</div>
+							<div id="workHoursRows" class="d-flex flex-column gap-2"></div>
+							<div class="small text-muted mt-3">Tip: end time “00:00” means 24:00 (end of day).</div>
+						</div>
+						<div class="modal-footer">
+							<div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+								<button type="button" class="btn btn-outline-secondary button-pressed-no-shadow shadow-none" data-bs-dismiss="modal">Cancel</button>
+								<button type="button" class="btn btn-primary button-pressed-no-shadow shadow-none" id="workHoursSaveButton">Save</button>
 							</div>
 						</div>
 					</div>
